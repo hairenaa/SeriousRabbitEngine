@@ -1,0 +1,46 @@
+# Blender MTL File: 'Doguinho.blend'
+# Material Count: 4
+
+newmtl black
+Ns 20.925759
+Ka 1.000000 1.000000 1.000000
+Kd 0.009018 0.009018 0.009018
+Ks 0.280142 0.280142 0.280142
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl coleira
+Ns 56.250000
+Ka 1.000000 1.000000 1.000000
+Kd 0.173355 0.000000 0.001036
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl doguinho_texture
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Export sp\\Doguinho_low_poly_doguinho_uv_NormalOpenGl.png
+map_Kd Export sp\\Doguinho_low_poly_doguinho_uv_BaseColor.png
+map_Ns Export sp\\Doguinho_low_poly_doguinho_uv_Roughness.png
+refl Export sp\\Doguinho_low_poly_doguinho_uv_Metallic.png
+
+newmtl gold
+Ns 900.000000
+Ka 0.541667 0.541667 0.541667
+Kd 0.429226 0.216687 0.000000
+Ks 0.347222 0.347222 0.347222
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3

@@ -24,58 +24,58 @@
 using namespace std;
 
 
-
+int GameObject::id = 0;
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
 #pragma region Model Data
 
-
-
-float vertices[] = {
-	// positions          // normals           // texture coords
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
-};
+//
+//
+//float vertices[] = {
+//	// positions          // normals           // texture coords
+//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+//	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+//	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+//
+//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+//	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+//	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+//
+//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+//	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+//	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+//
+//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+//	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+//	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+//
+//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+//	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+//	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+//
+//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+//	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+//	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
+//};
 
 glm::vec3 cubePositions[] = {
   glm::vec3(0.0f,  0.0f,  0.0f),
@@ -104,25 +104,14 @@ bool isFirstMouse=true;
 
 #pragma endregion
 
-#pragma region Camera Declare
-Camera* camera = new Camera(glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
-#pragma endregion
 
-#pragma region Light Declare
-LightDirectional* lightDirectional = new LightDirectional(glm::vec3(9.2f, 3.0f, 40.0f),
-	glm::vec3(glm::radians(45.0f), glm::radians(45.0f),0));
-LightPoint* lightPoint0 = new LightPoint(glm::vec3(3.0f, 0.0f, 0.0f),
-	glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0),glm::vec3(1.0f,0.0f,0.0f));
-LightPoint* lightPoint1 = new LightPoint(glm::vec3(0.0f, 3.0f, 0.0f),
-	glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
-LightPoint* lightPoint2 = new LightPoint(glm::vec3(0.0f, 0.0f, 3.0f),
-	glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 0.0f, 1.0f));
-LightPoint* lightPoint3 = new LightPoint(glm::vec3(5.0f, 5.0f, 5.0f),
-	glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
-LightSpot* lightSpot = new LightSpot(glm::vec3(0, 0, 4.0f),
-	glm::vec3(glm::radians(0.0f), glm::radians(0.0f),0), glm::vec3(1.0f, 1.0f, 1.0f));
+#pragma region Init Shader Program
+
+
 
 #pragma endregion
+
+Camera* camera;
 
 
 #pragma region Input Declare
@@ -137,7 +126,7 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window,true);
 	}
 
-	camera->ClearSpeed();
+	//camera->ClearSpeed();
 	
 	if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -195,13 +184,10 @@ int main(int argc,char* argv[])
 		//"\\model\\Dog\\Doguinho.obj"
 		//"\\model\\erciyuan\\shaonv\\luomo.obj"
 
-
-	
 	std::string modelPath = exePath.substr(0, exePath.find_last_of('\\')) + "\\model\\Crysis\\nanosuit.obj";
 	std::cout <<modelPath << endl;
+
 	#pragma region Open a Window
-
-
 
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -235,25 +221,28 @@ int main(int argc,char* argv[])
 
 	#pragma endregion
 
-	#pragma region Init Shader Program
+#pragma region  Init GameObjects
+
 
 		Shader* shader = new Shader("vertexSource.vert", "fragmentSource.frag");
+		camera = new Camera("MainCamera", shader, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
 
-	#pragma endregion
+		LightDirectional* lightDirectional = new LightDirectional("lightDirectional", shader, glm::vec3(9.2f, 3.0f, 40.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
+		LightPoint* lightPoint0 = new LightPoint("lightP0", shader, glm::vec3(3.0f, 0.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
+		LightPoint* lightPoint1 = new LightPoint("lightP1", shader, glm::vec3(0.0f, 3.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
+		LightPoint* lightPoint2 = new LightPoint("lightP2", shader, glm::vec3(0.0f, 0.0f, 3.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 0.0f, 1.0f));
+		LightPoint* lightPoint3 = new LightPoint("lightP3", shader, glm::vec3(5.0f, 5.0f, 5.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
+		LightSpot* lightSpot = new LightSpot("lightSpot", shader, glm::vec3(0, 0, 4.0f),
+			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
+		Model* model = new Model("material", modelPath, shader);
+#pragma endregion
 
-	#pragma region Init Material
-		Material* material = new Material(shader);
-		material->ambient_ins = 0.2f;
-		material->diffuse_ins = 1.0f;
-		material->specular_ins = 1.0f;
-		material->shininess = material->SHININESS_32f;
-	#pragma endregion
 
-
-	#pragma region Init and load Models to VAO,VBO	
-		Model* model = new Model(modelPath, shader, material);
-	#pragma endregion
-	
 	#pragma region Prepare MVP matrices
 
 
@@ -262,6 +251,8 @@ int main(int argc,char* argv[])
 		glm::mat4 projectionMat;
 		float asp = (float)WIDTH / (float)HEIGHT;
 		projectionMat = glm::perspective(glm::radians(90.0f),asp, 0.1f, 1000.0f);
+		camera->ProjectionMat = projectionMat;
+
 
 	#pragma endregion
 
@@ -276,93 +267,31 @@ int main(int argc,char* argv[])
 		glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		
-		//get view matrix
-		viewMat = camera->GetViewMatrix();
-		
 		
 
 		for (size_t i = 0; i < 1; i++)
 		{
 			
-			// Set Model Matrix			
+			
 		
 			modelMat = glm::rotate(glm::mat4(1.0f), glm::radians(200.0f), glm::vec3(0.0f, 1.0f, 0));
 			modelMat = glm::translate(modelMat, cubePositions[i]);
+			camera->ModelMat = modelMat;
 			
-			//Use Shader Program
 			shader->use();
 			
-
-			////Set Material -> Textures 
-			//glActiveTexture(GL_TEXTURE0);
-			//glBindTexture(GL_TEXTURE_2D, TexBufferA);
-			//glActiveTexture(GL_TEXTURE1);
-			//glBindTexture(GL_TEXTURE_2D, TexBufferB);
-
-
-			//Set Matrial Uniform
-			//glUniform1i(glGetUniformLocation(shader->ID, "texture1"), 0);
-			//glUniform1i(glGetUniformLocation(shader->ID, "texture2"), 1);
-
-			//Set Matrix Uniform
-			shader->SetUniformMatrix4fv("modelMat", 1, GL_FALSE, modelMat);
-			shader->SetUniformMatrix4fv("viewMat", 1, GL_FALSE, viewMat);
-			shader->SetUniformMatrix4fv("projectionMat", 1, GL_FALSE, projectionMat);
-
-			shader->SetUniform3fByVec3("objColor", glm::vec3(1.0f, 1.0f, 1.0f));
-			shader->SetUniform3fByVec3("ambientColor", glm::vec3(0.2f, 0.2f, 0.2f));
-			/*shader->SetUniform3fByVec3("lightColor",lightDirectional->color);
-			shader->SetUniform3fByVec3("lightPos", lightDirectional->position);
-			shader->SetUniform3fByVec3("lightDirUniform", lightDirectional->direction); */
-			shader->SetUniform3fByVec3("cameraPos", camera->Postion);
-			
-
-			shader->SetUniform3fByVec3("lightP0.pos", lightPoint0->position);
-			shader->SetUniform3fByVec3("lightP0.color", lightPoint0->color);
-			shader->SetUniform3fByVec3("lightP0.dir", lightPoint0->direction);
-			shader->SetUniform1f("lightP0.constant", lightPoint0->constant);
-			shader->SetUniform1f("lightP0.linear", lightPoint0->linear);
-			shader->SetUniform1f("lightP0.quadratic", lightPoint0->quadratic);
-
-
-			shader->SetUniform3fByVec3("lightP1.pos", lightPoint1->position);
-			shader->SetUniform3fByVec3("lightP1.color", lightPoint1->color);
-			shader->SetUniform3fByVec3("lightP1.dir", lightPoint1->direction);
-			shader->SetUniform1f("lightP1.constant", lightPoint1->constant);
-			shader->SetUniform1f("lightP1.linear", lightPoint1->linear);
-			shader->SetUniform1f("lightP1.quadratic", lightPoint1->quadratic);
-
-
-			shader->SetUniform3fByVec3("lightP2.pos", lightPoint2->position);
-			shader->SetUniform3fByVec3("lightP2.color", lightPoint2->color);
-			shader->SetUniform3fByVec3("lightP2.dir", lightPoint2->direction);
-			shader->SetUniform1f("lightP2.constant", lightPoint2->constant);
-			shader->SetUniform1f("lightP2.linear", lightPoint2->linear);
-			shader->SetUniform1f("lightP2.quadratic", lightPoint2->quadratic);
-
-
-			shader->SetUniform3fByVec3("lightP3.pos", lightPoint3->position);
-			shader->SetUniform3fByVec3("lightP3.color", lightPoint3->color);
-			shader->SetUniform3fByVec3("lightP3.dir", lightPoint3->direction);
-			shader->SetUniform1f("lightP3.constant", lightPoint3->constant);
-			shader->SetUniform1f("lightP3.linear", lightPoint3->linear);
-			shader->SetUniform1f("lightP3.quadratic", lightPoint3->quadratic);
-
-
-			shader->SetUniform3fByVec3("lightSpotl.pos", lightSpot->position);
-			shader->SetUniform3fByVec3("lightSpot.color", lightSpot->color);
-			shader->SetUniform3fByVec3("lightSpot.dir", lightSpot->direction);
-			shader->SetUniform1f("lightSpot.cosInnerPhy", lightSpot->cosInnerPhy);
-			shader->SetUniform1f("lightSpot.cosOutterPhy", lightSpot->cosOutterPhy);
+			lightDirectional->Draw();
+			lightPoint0->Draw();
+			lightPoint1->Draw();
+			lightPoint2->Draw();
+			lightPoint3->Draw();
+			lightSpot->Draw();
 
 			
-			shader->SetUniform3fByVec3("lightDirectional.pos", lightDirectional->position);
-			shader->SetUniform3fByVec3("lightDirectional.color", lightDirectional->color);
-			shader->SetUniform3fByVec3("lightDirectional.dir", lightDirectional->direction);
-
 
 			model->Draw();
 
+			camera->Draw();
 		}
 
 
@@ -373,7 +302,7 @@ int main(int argc,char* argv[])
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 		//update camera postion
-		camera->UpdateCameraPos();
+		
 	}
 
 	//Exit Programe 
@@ -381,7 +310,6 @@ int main(int argc,char* argv[])
 
 	delete shader;
 	delete model;
-	delete material;
 	delete camera;
 	delete lightDirectional;
 	delete lightPoint0;

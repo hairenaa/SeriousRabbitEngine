@@ -22,9 +22,9 @@ public:
 	float SensX = 0.000013f;
 	float SensY = 0.000013f;
 	glm::vec3 movVector;
-	float speedMulZ = 0.1f;
-	float speedMulY = 0.1f;
-	float speedMulX = 0.05f;
+	float speedMulZ = 0.01f;
+	float speedMulY = 0.01f;
+	float speedMulX = 0.01f;
 	
 
 	Camera(std::string name, Shader* _shader, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
@@ -80,18 +80,18 @@ public:
 		movVector.y = 0;
 		movVector.z = 0;
 	};
-	void MovInZAxias(int direction)
+	void MovInZAxias(float speed)
 	{
-		movVector += direction * speedMulZ * Forward;
+		movVector += speed * speedMulZ * Forward;
 
 	};
-	void MovInXAxias(int direction)
+	void MovInXAxias(float speed)
 	{
-		movVector += direction * speedMulX *Right;
+		movVector += speed * speedMulX *Right;
 	};
-	void MovInYAxias(int direction)
+	void MovInYAxias(float speed)
 	{
-		movVector += direction * speedMulY * Up;
+		movVector += speed * speedMulY * Up;
 
 	};
 	void Draw() 

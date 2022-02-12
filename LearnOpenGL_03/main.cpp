@@ -130,21 +130,21 @@ void processInput(GLFWwindow* window)
 	
 	if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
 	{
-		camera->MovInZAxias(1);
+		camera->MovInZAxias(20.0f);
 	}
 	
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		camera->MovInZAxias(-1);
+		camera->MovInZAxias(-20.0f);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		camera->MovInXAxias(-1);
+		camera->MovInXAxias(-5.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		camera->MovInXAxias(1);
+		camera->MovInXAxias(5.0f);
 	}
 	
 }

@@ -43,48 +43,75 @@ public:
 	std::string specularPrefix =".texture_specular_";
 	std::string normalPrefix = ".texture_normal_";
 	std::string heightPrefix = ".texture_height_";
-	Shader* shader;
 	Material* material;
 	std::vector<Vertex> vertices;
+	std::vector<float> vertices_float;
 	std::vector<unsigned int>indices;
 	std::vector<Texture> textures;
+	int groupLen;
 
-	Mesh(std::string _name,Shader* _shader,std::vector<Vertex> _vertices, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
+	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array,int _groupLen, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
+		:GameObject(_name, _shader) 
 	{
+		this->groupLen = _groupLen;
 		this->textures = _textures;
 		this->indices = _indices;
-		this->name = _name;
 		this->diffusePrefix = _name + diffusePrefix;
 		this->specularPrefix = _name + specularPrefix;
 		this->normalPrefix = _name + normalPrefix;
 		this->heightPrefix = _name + heightPrefix;
-		this->shader = _shader;
+		this->vertices_float = _vertices_array;
+		this->material = _material;
+		setupMesh();
+	}
+
+	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array, int _groupLen, std::vector<unsigned int> _indices, Material* _material)
+		:GameObject(_name, _shader)
+	{
+		this->groupLen = _groupLen;
+		this->indices = _indices;
+		this->diffusePrefix = _name + diffusePrefix;
+		this->specularPrefix = _name + specularPrefix;
+		this->normalPrefix = _name + normalPrefix;
+		this->heightPrefix = _name + heightPrefix;
+		this->vertices_float = _vertices_array;
+		this->material = _material;
+		setupMesh();
+	}
+
+	Mesh(std::string _name,Shader* _shader,std::vector<Vertex> _vertices, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
+		:GameObject(_name,_shader)
+	{
+		this->textures = _textures;
+		this->indices = _indices;
+		this->diffusePrefix = _name + diffusePrefix;
+		this->specularPrefix = _name + specularPrefix;
+		this->normalPrefix = _name + normalPrefix;
+		this->heightPrefix = _name + heightPrefix;
 		this->vertices = _vertices;
 		this->material = _material;
 		setupMesh();
 	};
 	Mesh(std::string _name,Shader* _shader, std::vector<Vertex> _vertices, std::vector<unsigned int>_indices, Material* _material)
+		:GameObject(_name,_shader)
 	{
 		this->indices = _indices;
-		this->name = _name;
 		this->diffusePrefix = _name + diffusePrefix;
 		this->specularPrefix = _name + specularPrefix;
 		this->normalPrefix = _name + normalPrefix;
 		this->heightPrefix = _name + heightPrefix;
-		this->shader = _shader;
 		this->vertices = _vertices;
 		this->material = _material;
 		setupMesh();
 		
 	};
 	Mesh(std::string _name,Shader* _shader, std::vector<Vertex> _vertices, Material* _material)
+		:GameObject(_name,_shader)
 	{
-		this->name = _name;
 		this->diffusePrefix = _name + diffusePrefix;
 		this->specularPrefix = _name + specularPrefix;
 		this->normalPrefix = _name + normalPrefix;
 		this->heightPrefix = _name + heightPrefix;
-		this->shader = _shader;
 		this->vertices = _vertices;
 		this->material = _material;
 		setupMesh();
@@ -135,6 +162,7 @@ public:
 			}
 		}
 
+
 		glBindVertexArray(VAO);
 
 		if (!indices.empty())
@@ -143,7 +171,15 @@ public:
 		}
 		else
 		{
-			glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+			if (!vertices.empty()) 
+			{
+				glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+			}
+			else if(!vertices_float.empty())
+			{
+				glDrawArrays(GL_TRIANGLES, 0, vertices_float.size()/11);
+			}
+			
 		}
 		glBindVertexArray(0);
 		glActiveTexture(GL_TEXTURE0);
@@ -153,17 +189,28 @@ private:
 	unsigned int VAO, VBO, EBO;
 	void setupMesh()
 	{
-		if (vertices.empty())
+		if (vertices.empty()&&vertices_float.empty())
 		{
 			return;
 		}
+
+		
 
 		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
 
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), vertices.data(), GL_STATIC_DRAW);
+
+		if (!vertices.empty()) 
+		{
+			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), vertices.data(), GL_STATIC_DRAW);
+		}
+		else if(!vertices_float.empty())
+		{
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices_float.size(), vertices_float.data(), GL_STATIC_DRAW);
+		}
+		
 
 		if (!indices.empty())
 		{

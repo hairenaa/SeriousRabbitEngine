@@ -1,19 +1,28 @@
 #pragma once
+#include <iostream>
 #include<string>
-#define SOLE_BUILD_DEMO
 
+#include <glad/glad.h>
+#include<GLFW/glfw3.h>
 
-
+#include "Shader.h"
 
 class GameObject
 {
 public:
 	static int id;
 	std::string name;
-	GameObject() 
+	Shader* shader;
+	GameObject(std::string _name) 
 	{
 		this->id ++;
-		this->name = "";
+		this->name = _name;
+	};
+	GameObject(std::string _name,Shader* _shader)
+	{
+		this->id++;
+		this->name = _name;
+		this->shader = _shader;
 	};
 	virtual void Draw() =0;
 

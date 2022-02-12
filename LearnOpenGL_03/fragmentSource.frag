@@ -5,7 +5,7 @@
 in  vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoord;
-//in vec4 vertexColor;
+in vec4 vertexColor;
 
 struct Material{
 float ambient_ins;
@@ -146,6 +146,7 @@ void main()
 	finalResult+=CalcLightPoint(lightP3,uNormal,dirToCamera);
 	finalResult+=CalcLightSpot(lightSpot,uNormal,dirToCamera);
 	finalResult+=material.ambient_ins *material.ambientColor * GetDiffuseTextureRGB();
+	finalResult+=vertexColor.rgb;
 	FragColor=vec4(finalResult,1.0f);
 
 

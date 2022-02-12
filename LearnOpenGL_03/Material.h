@@ -19,7 +19,6 @@ public:
 	std::string diffuse_ins_name = ".diffuse_ins";
 	std::string specular_ins_name = ".specular_ins";
 	std::string ambientColor_name = ".ambientColor";
-	Shader* shader;
 	float ambient_ins = 0.2f;
 	float diffuse_ins=1.0f;
 	float specular_ins=1.0f;
@@ -27,14 +26,13 @@ public:
 	glm::vec3 ambientColor = glm::vec3(0.2f, 0.2f, 0.2f);
 
 	Material(std::string _name,Shader* _shader,glm::vec3 _ambientColor ,float _ambient_ins, float _diffuse_ins, float _specular_ins, float _shininess) 
-		:
+	    :GameObject(_name,_shader),
 		ambientColor(_ambientColor),
 		ambient_ins(_ambient_ins),
 		diffuse_ins(_diffuse_ins),
 		specular_ins(_specular_ins),
 		shininess(_shininess)
 	{
-		this->name = _name;
 		this->ambientColor_name = _name + ambientColor_name;
 		this->ambient_ins_name = _name + ambient_ins_name;
 		this->shininess_name = _name + shininess_name;
@@ -42,10 +40,8 @@ public:
 		this->specular_ins_name = _name + specular_ins_name;
 	};
 	Material(std::string _name, Shader* _shader)
-		:
-		shader(_shader)
+		: GameObject(_name,_shader)
 	{
-		this->name = _name;
 		this->ambientColor_name = _name + ambientColor_name;
 		this->ambient_ins_name = _name + ambient_ins_name;
 		this->shininess_name = _name + shininess_name;

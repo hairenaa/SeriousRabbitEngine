@@ -8,7 +8,6 @@
 class Camera:public GameObject
 {
 public:
-	Shader* shader;
 	glm::mat4 ModelMat;
 	glm::mat4 ViewMat;
 	glm::mat4 ProjectionMat;
@@ -27,10 +26,10 @@ public:
 	float speedMulX = 0.01f;
 	
 
-	Camera(std::string name, Shader* _shader, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
+	Camera(std::string _name, Shader* _shader, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
+		:GameObject(_name,_shader)
 	{
-		this->name = name;
-		this->shader = _shader;
+		
 		Postion = position;
 		WorldUp = worldup;
 		Forward = glm::normalize(target - position);
@@ -39,10 +38,10 @@ public:
 
 
 	};
-	Camera(std::string name, Shader* _shader, glm::vec3 position, float pitch, float yaw, glm::vec3 worldup)
+	Camera(std::string _name, Shader* _shader, glm::vec3 position, float pitch, float yaw, glm::vec3 worldup)
+		:GameObject(_name,_shader)
 	{
-		this->name = name;
-		this->shader = _shader;
+		
 		Postion = position;
 		WorldUp = worldup;
 		Pitch = pitch;

@@ -13,7 +13,7 @@ public:
 	std::string cosInnerPhy_name = ".cosInnerPhy";
 	std::string	cosOutterPhy_name = ".cosOutterPhy";
 	LightSpot(std::string _name,Shader* _shader,glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
-		:Light(_name,_shader,_position, _angles, _color = glm::vec3(1.0f, 1.0f, 1.0f))
+		:Light(_name,_shader,_position, _angles, _color)
 	{
 		UpdateDirection();
 		this->cosInnerPhy_name = this->name + cosInnerPhy_name;
@@ -28,8 +28,8 @@ public:
 	};
 	void Draw()
 	{
-		UpdateDirection();
 		Light::Draw();
+		UpdateDirection();
 		shader->SetUniform1f(cosInnerPhy_name.c_str(), cosInnerPhy);
 		shader->SetUniform1f(cosOutterPhy_name.c_str(), cosOutterPhy);
 	};

@@ -15,7 +15,7 @@ public:
 	std::string linear_name = ".linear";
 	std::string quadratic_name = ".quadratic";
 	LightPoint(std::string _name,Shader* _shader,glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
-		:Light(_name,_shader,_position,_angles,_color = glm::vec3(1.0f, 1.0f, 1.0f))
+		:Light(_name,_shader,_position,_angles,_color)
 	{
 		constant = 1.0f;
 		linear = 0.09f;

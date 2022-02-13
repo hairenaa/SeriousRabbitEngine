@@ -16,8 +16,8 @@ class TextureLoadUtil
 public:
 	static unsigned int LoadImageToGpu(const char* path)
 	{
-		unsigned int TexBuffer;
 		std::cout << "LoadImageToGpu path:" << path << std::endl;
+		unsigned int TexBuffer;
 		glGenTextures(1, &TexBuffer);
 		//glActiveTexture(GL_TEXTURE0 + textureSlot);
 		glBindTexture(GL_TEXTURE_2D, TexBuffer);
@@ -46,7 +46,7 @@ public:
 		}
 		else
 		{
-			std::cout << "load image failed TexBuffer" << std::endl;
+			std::cout << "load image failed TexBuffer: "<< path<< std::endl;
 		}
 
 		stbi_image_free(data);

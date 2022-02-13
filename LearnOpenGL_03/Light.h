@@ -16,7 +16,7 @@ public:
 	std::string pos_name = ".pos";
 	std::string color_name = ".color";
 	std::string dir_name = ".dir";
-	Light(std::string _name,Shader* _shader,glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f)) 
+	Light(std::string _name,Shader* _shader,glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color) 
 		:GameObject(_name,_shader)
 	{
 		this->position = _position;

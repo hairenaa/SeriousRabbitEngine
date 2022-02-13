@@ -65,6 +65,7 @@ public:
 		setupMesh();
 	}
 
+	/*
 	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array, int _groupLen, std::vector<unsigned int> _indices, Material* _material)
 		:GameObject(_name, _shader)
 	{
@@ -78,7 +79,7 @@ public:
 		this->material = _material;
 		setupMesh();
 	}
-
+	*/
 	Mesh(std::string _name,Shader* _shader,std::vector<Vertex> _vertices, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
 		:GameObject(_name,_shader)
 	{
@@ -92,6 +93,7 @@ public:
 		this->material = _material;
 		setupMesh();
 	};
+	/*
 	Mesh(std::string _name,Shader* _shader, std::vector<Vertex> _vertices, std::vector<unsigned int>_indices, Material* _material)
 		:GameObject(_name,_shader)
 	{
@@ -105,6 +107,8 @@ public:
 		setupMesh();
 		
 	};
+	*/
+	/*
 	Mesh(std::string _name,Shader* _shader, std::vector<Vertex> _vertices, Material* _material)
 		:GameObject(_name,_shader)
 	{
@@ -116,7 +120,7 @@ public:
 		this->material = _material;
 		setupMesh();
 	};
-	
+	*/
 	void Draw()
 	{
 		unsigned int diffuseNr = 1;
@@ -183,6 +187,7 @@ public:
 		}
 		glBindVertexArray(0);
 		glActiveTexture(GL_TEXTURE0);
+
 	};
 	//static unsigned int TextureIndex;
 private:

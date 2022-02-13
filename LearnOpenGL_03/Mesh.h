@@ -177,7 +177,7 @@ public:
 			}
 			else if(!vertices_float.empty())
 			{
-				glDrawArrays(GL_TRIANGLES, 0, vertices_float.size()/11);
+				glDrawArrays(GL_TRIANGLES, 0, vertices_float.size()/this->groupLen);
 			}
 			
 		}

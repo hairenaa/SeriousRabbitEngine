@@ -31,7 +31,20 @@ public:
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices,textureVec, this->material);
 	}
 
+	~Cube()
+	{
+		if (this->mesh!=NULL) 
+		{
+			delete this->mesh;
+			this->mesh = NULL;
+		}
 
+		if (this->material != NULL) 
+		{
+			delete this->material;
+			this->material = NULL;
+		}
+	}
 
 	void Draw() 
 	{

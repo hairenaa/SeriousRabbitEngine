@@ -165,7 +165,7 @@ private:
 			else
 			{
 				tempVertex.TexCoord = glm::vec2(0, 0);
-				std::cout << "no TexCoord in this mesh: " << aimesh->mName.C_Str() << std::endl;
+				
 			}
 
 			tempVertices.push_back(tempVertex);
@@ -206,25 +206,58 @@ private:
 
 		if (!hasDiffuseFlag)
 		{
+			std::string diff_path = "ProjectDir:texture_default_diffuse.png";
 			std::cout << "no Diffuse Texture in this mesh: " << aimesh->mName.C_Str() << std::endl;
-			Texture tex1;
-			tex1.id = TextureLoadUtil::LoadImageToGpu("texture_default_diffuse.png");
-			tex1.path = "ProjectDir:texture_default_diffuse.jpg";
-			tex1.type = TEXTURE_DIFFUSE;
-			tempTextures.push_back(tex1);
-			loadedTextures.push_back(tex1);
+			bool skip1 = false;
+			
+			for (unsigned int j = 0; loadedTextures.empty()==false && j < loadedTextures.size(); j++)
+			{
+				Texture tem_loaded= loadedTextures[j];
+				if (std::strcmp(tem_loaded.path.data(), diff_path.data()) == 0)
+				{
+					skip1 = true;
+					break;
+				}
 
+			}
+			
+
+			if (!skip1) 
+			{
+				Texture tex1;
+				tex1.id = TextureLoadUtil::LoadImageToGpu("texture_default_diffuse.png");
+				tex1.path = diff_path;
+				tex1.type = TEXTURE_DIFFUSE;
+				tempTextures.push_back(tex1);
+				loadedTextures.push_back(tex1);
+			}
+			
 		}
 
 		if (!hasSpecularFlag)
 		{
+			std::string spe_path = "ProjectDirtexture_default_specular.png";
+			std::cout << "no Specular Texture in this mesh: " << aimesh->mName.C_Str() << std::endl;
+			bool skip2 = false;
+			for (unsigned int j = 0; loadedTextures.empty() == false&&j < loadedTextures.size(); j++)
+			{
+				Texture tem_loaded = loadedTextures[j];
+				if (std::strcmp(tem_loaded.path.data(), spe_path.data()) == 0)
+				{
+					skip2 = true;
+					break;
+				}
+
+			}
+			if (!skip2) 
+			{
 			Texture tex2;
 			tex2.id = TextureLoadUtil::LoadImageToGpu("texture_default_specular.png");
-			tex2.path = "ProjectDir:texture_default_specular.png";
+			tex2.path = spe_path;
 			tex2.type = TEXTURE_SPECULAR;
 			tempTextures.push_back(tex2);
 			loadedTextures.push_back(tex2);
-			std::cout << "no Specular Texture in this mesh: " << aimesh->mName.C_Str() << std::endl;
+			}
 		}
 		Mesh mesh(this->name, shader, tempVertices, tempIndicies, tempTextures, this->material);
 		return mesh;

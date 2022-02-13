@@ -141,7 +141,7 @@ int main(int argc,char* argv[])
 		//"\\model\\Dog\\Doguinho.obj"
 		//"\\model\\erciyuan\\shaonv\\luomo.obj"
 
-	std::string modelPath = exePath.substr(0, exePath.find_last_of('\\')) + "\\model\\Crysis\\nanosuit.obj";
+	std::string modelPath = exePath.substr(0, exePath.find_last_of('\\')) +"\\model\\Crysis\\nanosuit.obj";
 	std::cout <<modelPath << endl;
 
 	#pragma region Open a Window
@@ -196,7 +196,7 @@ int main(int argc,char* argv[])
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
 		LightSpot* lightSpot = new LightSpot("lightSpot", shader, glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
-		Cube* cube = new Cube("material", shader, "awesomeface.png", TEXTURE_DIFFUSE);
+		Cube* cube = new Cube("material", shader,"wood.png","wood_specular.png");
 		Model* model = new Model("material", modelPath, shader);
 		
 
@@ -287,27 +287,13 @@ int main(int argc,char* argv[])
 	//Exit Programe 
 	glfwTerminate();
 
-	delete shader;
-	delete model;
-	delete cube;
-	delete camera;
-	delete lightDirectional;
-	delete lightPoint0;
-	delete lightPoint1;
-	delete lightPoint2;
-	delete lightPoint3;
-	delete lightSpot;
+	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
+	{
+		GameObject* obj = gameObjectVec[i];
+		delete obj;
+		obj = NULL;
+	}
 
-	shader = NULL;
-	model = NULL;
-	cube = NULL;
-	camera = NULL;
-	lightDirectional = NULL;
-	lightPoint0 = NULL;
-	lightPoint1 = NULL;
-	lightPoint2 = NULL;
-	lightPoint3 = NULL;
-	lightSpot = NULL;
 	return 0;
 
 }

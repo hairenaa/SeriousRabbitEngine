@@ -19,7 +19,7 @@ public:
 	std::string diffuse_ins_name = ".diffuse_ins";
 	std::string specular_ins_name = ".specular_ins";
 	std::string ambientColor_name = ".ambientColor";
-	float ambient_ins = 0.2f;
+	float ambient_ins = 1.0f;
 	float diffuse_ins=1.0f;
 	float specular_ins=1.0f;
 	float shininess=SHININESS_32f;
@@ -51,6 +51,7 @@ public:
 	void Draw()
 	{
 		shader->SetUniform1f(this->ambient_ins_name.c_str(), ambient_ins);
+		shader->SetUniform3fByVec3(this->ambientColor_name.c_str(), ambientColor);
 		shader->SetUniform1f(this->shininess_name.c_str() , shininess);
 		shader->SetUniform1f(this->diffuse_ins_name.c_str(), diffuse_ins);
 		shader->SetUniform1f(this->specular_ins_name.c_str(), specular_ins);

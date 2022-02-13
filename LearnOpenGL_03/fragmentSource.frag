@@ -100,7 +100,7 @@ vec3 CalcLightPoint(LightPoint light,vec3 uNormal,vec3 dirToCamera){
 	float dist=length(light.pos-FragPos);
 	float attenuation=1/(light.constant+light.linear*dist+light.quadratic*dist*dist);
 	float diffIntensity=max(dot(normalize(light.pos-FragPos),uNormal),0)*attenuation;
-	vec3 diffColor=diffIntensity* light.color* GetDiffuseTextureRGB()* material.diffuse_ins;
+	vec3 diffColor=diffIntensity* light.color * GetDiffuseTextureRGB()* material.diffuse_ins;
 	vec3 ref=reflect(normalize(FragPos-light.pos),uNormal);
 	float specIntensity=pow(max(dot(ref,dirToCamera),0),material.shininess)* attenuation;
 	vec3 specColor=specIntensity*light.color * GetSpecularTextureRGB()* material.specular_ins;

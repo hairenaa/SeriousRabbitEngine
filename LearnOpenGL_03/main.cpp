@@ -196,17 +196,19 @@ int main(int argc,char* argv[])
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
 		LightSpot* lightSpot = new LightSpot("lightSpot", shader, glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
-		Cube* cube = new Cube("material", shader,"wood.png","wood_specular.png");
+		Cube* cube = new Cube("material", shader);
+		
 		Model* model = new Model("material", modelPath, shader);
 		
 
-		gameObjectVec.push_back(cube);
+		
 		gameObjectVec.push_back(lightDirectional);
 		gameObjectVec.push_back(lightPoint0);
 		gameObjectVec.push_back(lightPoint1);
 		gameObjectVec.push_back(lightPoint2);
 		gameObjectVec.push_back(lightPoint3);
 		gameObjectVec.push_back(lightSpot);
+		gameObjectVec.push_back(cube);
 		gameObjectVec.push_back(model);
 		gameObjectVec.push_back(camera);
 
@@ -237,8 +239,11 @@ int main(int argc,char* argv[])
 		glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		
-		
+		for (unsigned int i = 0; i < gameObjectVec.size(); i++)
+		{
+			GameObject* obj = gameObjectVec[i];
 
+			//one draw call
 		for (size_t i = 0; i < 1; i++)
 		{
 			
@@ -249,14 +254,9 @@ int main(int argc,char* argv[])
 			camera->ModelMat = modelMat;
 			
 			shader->use();
+			obj->Draw();
+
 			
-
-			for (unsigned int i = 0; i < gameObjectVec.size(); i++)
-			{
-				GameObject* obj = gameObjectVec[i];
-				obj->Draw();
-			}
-
 
 		/*	
 			lightDirectional->Draw();
@@ -273,7 +273,7 @@ int main(int argc,char* argv[])
 		
 		}
 
-
+		}
 
 		//...render end
 		

@@ -15,7 +15,20 @@ public:
 	{
 		//this->vertices.push_back()
 		this->material = new Material(_name, _shader);
-		this->mesh = new Mesh(_name, _shader,this->vertices, GROUP_LEN,this->indices, this->material);
+		std::vector<Texture> textureVec;
+		Texture texture;
+		unsigned int id = TextureLoadUtil::LoadImageToGpu("texture_default_diffuse.png");
+		texture.id = id;
+		texture.path = "ProjectDir:texture_default_diffuse.png";
+		texture.type = TEXTURE_DIFFUSE;
+		textureVec.push_back(texture);
+		Texture texture1;
+		unsigned int id1 = TextureLoadUtil::LoadImageToGpu("texture_default_specular.png");
+		texture1.id = id1;
+		texture1.path = "ProjectDir:texture_default_specular.png";
+		texture1.type = TEXTURE_SPECULAR;
+		textureVec.push_back(texture1);
+		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
 	Cube(std::string _name, Shader* _shader,const std::string _texture_diffuse_path) :GameObject(_name, _shader)
@@ -53,6 +66,10 @@ public:
 		texture1.path = _texture_specular_path;
 		texture1.type = TEXTURE_SPECULAR;
 		textureVec.push_back(texture1);
+		/*for (unsigned int i = 0; i < this->vertices.size(); i++)
+		{
+			this->vertices[i] = vertices[i] * 1000;
+		}*/
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 

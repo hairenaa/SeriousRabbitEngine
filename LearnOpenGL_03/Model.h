@@ -29,6 +29,14 @@ public:
 		this->material = new Material(_name,_shader);
 		loadModel(path);
 	};
+	~Model()
+	{
+		if (this->material != NULL) 
+		{
+			delete this->material;
+			this->material = NULL;
+		}
+	}
 	
 	void Draw()
 	{

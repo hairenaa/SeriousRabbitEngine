@@ -182,7 +182,6 @@ int main(int argc,char* argv[])
 
 
 		Shader* shader = new Shader("vertexSource.vert", "fragmentSource.frag");
-		Shader* shader1 = new Shader("vertexSource.vert", "fragmentSource.frag");
 		camera = new Camera("MainCamera", shader, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
 
 		LightDirectional* lightDirectional = new LightDirectional("lightDirectional", shader, glm::vec3(9.2f, 3.0f, 40.0f),
@@ -197,7 +196,7 @@ int main(int argc,char* argv[])
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
 		LightSpot* lightSpot = new LightSpot("lightSpot", shader, glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
-		Cube* cube = new Cube("material", shader1, "awesomeface.png", TEXTURE_DIFFUSE);
+		Cube* cube = new Cube("material", shader, "awesomeface.png", TEXTURE_DIFFUSE);
 		Model* model = new Model("material", modelPath, shader);
 		
 
@@ -250,7 +249,7 @@ int main(int argc,char* argv[])
 			camera->ModelMat = modelMat;
 			
 			shader->use();
-			shader1->use();
+			
 
 			for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 			{
@@ -289,7 +288,6 @@ int main(int argc,char* argv[])
 	glfwTerminate();
 
 	delete shader;
-	delete shader1;
 	delete model;
 	delete cube;
 	delete camera;
@@ -299,6 +297,17 @@ int main(int argc,char* argv[])
 	delete lightPoint2;
 	delete lightPoint3;
 	delete lightSpot;
+
+	shader = NULL;
+	model = NULL;
+	cube = NULL;
+	camera = NULL;
+	lightDirectional = NULL;
+	lightPoint0 = NULL;
+	lightPoint1 = NULL;
+	lightPoint2 = NULL;
+	lightPoint3 = NULL;
+	lightSpot = NULL;
 	return 0;
 
 }

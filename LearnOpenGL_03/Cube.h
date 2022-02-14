@@ -4,6 +4,8 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "TextureLoadUtil.h"
+#include "TexturePoolSinglton.h"
+#include "ConstValues.h"
 
 class Cube : public GameObject
 {
@@ -11,23 +13,15 @@ public:
 	Mesh* mesh;
 	Material* material;
 	const int GROUP_LEN = 11;
+	const std::string DIFF_PATH = TEXTURE_DEFAULT_DIFFUSE_PATH;
+	const std::string SPE_PATH = TEXTURE_DEFAULT_SPECULAR_PATH;
 	Cube(std::string _name,Shader* _shader) :GameObject(_name,_shader)
 	{
 		//this->vertices.push_back()
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
-		Texture texture;
-		unsigned int id = TextureLoadUtil::LoadImageToGpu("texture_default_diffuse.png");
-		texture.id = id;
-		texture.path = "ProjectDir:texture_default_diffuse.png";
-		texture.type = TEXTURE_DIFFUSE;
-		textureVec.push_back(texture);
-		Texture texture1;
-		unsigned int id1 = TextureLoadUtil::LoadImageToGpu("texture_default_specular.png");
-		texture1.id = id1;
-		texture1.path = "ProjectDir:texture_default_specular.png";
-		texture1.type = TEXTURE_SPECULAR;
-		textureVec.push_back(texture1);
+		textureVec.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(DIFF_PATH,TEXTURE_DIFFUSE));
+		textureVec.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(SPE_PATH, TEXTURE_SPECULAR));
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
@@ -35,18 +29,8 @@ public:
 	{
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
-		Texture texture;
-		unsigned int id= TextureLoadUtil::LoadImageToGpu(_texture_diffuse_path.c_str());
-		texture.id = id;
-		texture.path = _texture_diffuse_path;
-		texture.type = TEXTURE_DIFFUSE;
-		textureVec.push_back(texture);
-		Texture texture1;
-		unsigned int id1 = TextureLoadUtil::LoadImageToGpu("texture_default_specular.png");
-		texture1.id = id1;
-		texture1.path = "ProjectDir:texture_default_specular.png";
-		texture1.type = TEXTURE_SPECULAR;
-		textureVec.push_back(texture1);
+		textureVec.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(_texture_diffuse_path, TEXTURE_DIFFUSE));
+		textureVec.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(SPE_PATH, TEXTURE_SPECULAR));
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices,textureVec, this->material);
 	}
 
@@ -54,18 +38,8 @@ public:
 	{
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
-		Texture texture;
-		unsigned int id = TextureLoadUtil::LoadImageToGpu(_texture_diffuse_path.c_str());
-		texture.id = id;
-		texture.path = _texture_diffuse_path;
-		texture.type = TEXTURE_DIFFUSE;
-		textureVec.push_back(texture);
-		Texture texture1;
-		unsigned int id1 = TextureLoadUtil::LoadImageToGpu(_texture_specular_path.c_str());
-		texture1.id = id1;
-		texture1.path = _texture_specular_path;
-		texture1.type = TEXTURE_SPECULAR;
-		textureVec.push_back(texture1);
+		textureVec.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(_texture_diffuse_path, TEXTURE_DIFFUSE));
+		textureVec.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(_texture_specular_path, TEXTURE_SPECULAR));
 		/*for (unsigned int i = 0; i < this->vertices.size(); i++)
 		{
 			this->vertices[i] = vertices[i] * 1000;

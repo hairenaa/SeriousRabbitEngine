@@ -39,10 +39,11 @@ struct Texture
 class Mesh:public GameObject
 {
 public:
-	std::string diffusePrefix = ".texture_diffuse_";
-	std::string specularPrefix =".texture_specular_";
-	std::string normalPrefix = ".texture_normal_";
-	std::string heightPrefix = ".texture_height_";
+	std::string diffusePrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_DIFFUSE;
+	std::string specularPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_SPECULAR;
+	std::string normalPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_NORMAL;
+	std::string heightPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_HEIGHT;
+	std::string materialName = FRAGMENT_SHADER_VAR_MATERIAL;
 	Material* material;
 	std::vector<Vertex> vertices;
 	std::vector<float> vertices_float;
@@ -56,10 +57,10 @@ public:
 		this->groupLen = _groupLen;
 		this->textures = _textures;
 		this->indices = _indices;
-		this->diffusePrefix = _name + diffusePrefix;
-		this->specularPrefix = _name + specularPrefix;
-		this->normalPrefix = _name + normalPrefix;
-		this->heightPrefix = _name + heightPrefix;
+		this->diffusePrefix = materialName + diffusePrefix;
+		this->specularPrefix = materialName + specularPrefix;
+		this->normalPrefix = materialName + normalPrefix;
+		this->heightPrefix = materialName + heightPrefix;
 		this->vertices_float = _vertices_array;
 		this->material = _material;
 		setupMesh();
@@ -85,10 +86,10 @@ public:
 	{
 		this->textures = _textures;
 		this->indices = _indices;
-		this->diffusePrefix = _name + diffusePrefix;
-		this->specularPrefix = _name + specularPrefix;
-		this->normalPrefix = _name + normalPrefix;
-		this->heightPrefix = _name + heightPrefix;
+		this->diffusePrefix = materialName + diffusePrefix;
+		this->specularPrefix = materialName + specularPrefix;
+		this->normalPrefix = materialName + normalPrefix;
+		this->heightPrefix = materialName + heightPrefix;
 		this->vertices = _vertices;
 		this->material = _material;
 		setupMesh();

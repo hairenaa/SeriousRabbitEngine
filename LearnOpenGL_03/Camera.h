@@ -4,6 +4,7 @@
 #include<glm/gtc/type_ptr.hpp>
 #include "GameObject.h"
 #include "Shader.h"
+#include "ConstValues.h"
 
 class Camera:public GameObject
 {
@@ -24,9 +25,12 @@ public:
 	float speedMulZ = 0.01f;
 	float speedMulY = 0.01f;
 	float speedMulX = 0.01f;
-	
+	float Asp;
+	float Fov=90.0f;
+	float MinDis=0.1f;
+	float MaxDis = 1000.0f;
 
-	Camera(std::string _name, Shader* _shader, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
+	Camera(std::string _name, Shader* _shader,float _screen_width,float _scree_height, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
 		:GameObject(_name,_shader)
 	{
 		
@@ -35,10 +39,11 @@ public:
 		Forward = glm::normalize(target - position);
 		Right = glm::normalize(glm::cross(Forward, worldup));
 		Up = glm::normalize(glm::cross(Right, Forward));
-
+		Asp = _screen_width / _scree_height;
+		ProjectionMat = glm::perspective(glm::radians(Fov), Asp, MinDis, MaxDis);
 
 	};
-	Camera(std::string _name, Shader* _shader, glm::vec3 position, float pitch, float yaw, glm::vec3 worldup)
+	Camera(std::string _name, Shader* _shader, float _screen_width, float _scree_height, glm::vec3 position, float pitch, float yaw, glm::vec3 worldup)
 		:GameObject(_name,_shader)
 	{
 		
@@ -51,6 +56,9 @@ public:
 		Forward.z = -glm::cos(Pitch)*glm::cos(Yaw);
 		Right = glm::normalize(glm::cross(Forward, WorldUp));
 		Up = glm::normalize(glm::cross(Right, Forward));
+		Asp = _screen_width / _scree_height;
+		ProjectionMat = glm::perspective(glm::radians(Fov), Asp, MinDis, MaxDis);
+
 	};
 	glm::mat4 GetViewMatrix()
 	{
@@ -96,10 +104,10 @@ public:
 	void Draw() 
 	{
 		ViewMat = this->GetViewMatrix();
-		shader->SetUniformMatrix4fv("modelMat", 1, GL_FALSE, ModelMat);
-		shader->SetUniformMatrix4fv("viewMat", 1, GL_FALSE, ViewMat);
-		shader->SetUniformMatrix4fv("projectionMat", 1, GL_FALSE, ProjectionMat);
-		shader->SetUniform3fByVec3("cameraPos",this->Postion);
+		shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_MODEL_MAT, 1, GL_FALSE, ModelMat);
+		shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_VIEW_MAT, 1, GL_FALSE, ViewMat);
+		shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_PROJECTION_MAT, 1, GL_FALSE, ProjectionMat);
+		shader->SetUniform3fByVec3(FRAGMENT_SHADER_VAR_CAMERA_POS,this->Postion);
 		this->UpdateCameraPos();
 		
 

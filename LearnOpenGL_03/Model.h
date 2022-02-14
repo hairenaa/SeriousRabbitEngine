@@ -14,13 +14,14 @@
 
 #include "GameObject.h"
 #include "TextureLoadUtil.h"
+#include "TexturePoolSinglton.h"
+#include "ConstValues.h"
 
 class Model:public GameObject
 {
 public:
 	std::vector<Mesh> meshes;
 	std::string directory;
-	std::vector<Texture> loadedTextures;
 	Material* material;
 
 	Model(std::string _name,std::string path, Shader* _shader)
@@ -55,33 +56,7 @@ public:
 			std::string path;
 			mat->GetTexture(type, i, &str);
 			path = directory + "\\" + str.C_Str();
-			bool skip = false;
-
-
-			for (unsigned int j = 0; j < loadedTextures.size(); j++)
-			{
-				Texture tem_loaded = loadedTextures[j];
-				if (std::strcmp(tem_loaded.path.data(), path.data()) == 0)
-				{
-					textures.push_back(tem_loaded);
-					skip = true;
-					break;
-				}
-
-			}
-
-
-			if (!skip)
-			{
-				Texture texture;
-				texture.id = TextureLoadUtil::LoadImageToGpu(path.c_str());
-				texture.type = textureType;
-				texture.path = path;
-				textures.push_back(texture);
-				loadedTextures.push_back(texture);
-				std::cout << "Load Texture path: " << path << std::endl;
-			}
-
+			textures.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(path, textureType));
 		}
 		return textures;
 
@@ -206,58 +181,16 @@ private:
 
 		if (!hasDiffuseFlag)
 		{
-			std::string diff_path = "ProjectDir:texture_default_diffuse.png";
+			std::string diff_path = TEXTURE_DEFAULT_DIFFUSE_PATH;
 			std::cout << "no Diffuse Texture in this mesh: " << aimesh->mName.C_Str() << std::endl;
-			bool skip1 = false;
-			
-			for (unsigned int j = 0; loadedTextures.empty()==false && j < loadedTextures.size(); j++)
-			{
-				Texture tem_loaded= loadedTextures[j];
-				if (std::strcmp(tem_loaded.path.data(), diff_path.data()) == 0)
-				{
-					skip1 = true;
-					break;
-				}
-
-			}
-			
-
-			if (!skip1) 
-			{
-				Texture tex1;
-				tex1.id = TextureLoadUtil::LoadImageToGpu("texture_default_diffuse.png");
-				tex1.path = diff_path;
-				tex1.type = TEXTURE_DIFFUSE;
-				tempTextures.push_back(tex1);
-				loadedTextures.push_back(tex1);
-			}
-			
+			tempTextures.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(diff_path, TEXTURE_DIFFUSE));
 		}
 
 		if (!hasSpecularFlag)
 		{
-			std::string spe_path = "ProjectDirtexture_default_specular.png";
+			std::string spe_path = TEXTURE_DEFAULT_SPECULAR_PATH;
 			std::cout << "no Specular Texture in this mesh: " << aimesh->mName.C_Str() << std::endl;
-			bool skip2 = false;
-			for (unsigned int j = 0; loadedTextures.empty() == false&&j < loadedTextures.size(); j++)
-			{
-				Texture tem_loaded = loadedTextures[j];
-				if (std::strcmp(tem_loaded.path.data(), spe_path.data()) == 0)
-				{
-					skip2 = true;
-					break;
-				}
-
-			}
-			if (!skip2) 
-			{
-			Texture tex2;
-			tex2.id = TextureLoadUtil::LoadImageToGpu("texture_default_specular.png");
-			tex2.path = spe_path;
-			tex2.type = TEXTURE_SPECULAR;
-			tempTextures.push_back(tex2);
-			loadedTextures.push_back(tex2);
-			}
+			tempTextures.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(spe_path, TEXTURE_SPECULAR));
 		}
 		Mesh mesh(this->name, shader, tempVertices, tempIndicies, tempTextures, this->material);
 		return mesh;

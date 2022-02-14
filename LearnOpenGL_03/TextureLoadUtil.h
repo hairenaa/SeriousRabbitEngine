@@ -16,7 +16,7 @@ class TextureLoadUtil
 public:
 	static unsigned int LoadImageToGpu(const char* path)
 	{
-		std::cout << "LoadImageToGpu path:" << path << std::endl;
+		std::cout << "LoadImageToGpu path: " << path << std::endl;
 		unsigned int TexBuffer;
 		glGenTextures(1, &TexBuffer);
 		//glActiveTexture(GL_TEXTURE0 + textureSlot);

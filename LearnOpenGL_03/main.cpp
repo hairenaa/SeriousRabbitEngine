@@ -24,6 +24,7 @@
 #include "stb_image.h"
 
 
+
 using namespace std;
 
 
@@ -62,9 +63,9 @@ bool isFirstMouse=true;
 #pragma endregion
 
 
-#pragma region Init GameObjectVector
+#pragma region Init VARS
 	std::vector<GameObject*> gameObjectVec;
-	Camera* camera;
+	Camera* camera=nullptr;
 #pragma endregion
 
 
@@ -182,7 +183,7 @@ int main(int argc,char* argv[])
 
 
 		Shader* shader = new Shader("vertexSource.vert", "fragmentSource.frag");
-		camera = new Camera("MainCamera", shader, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
+		camera = new Camera("MainCamera", shader ,WIDTH,HEIGHT,glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
 
 		LightDirectional* lightDirectional = new LightDirectional("lightDirectional", shader, glm::vec3(9.2f, 3.0f, 40.0f),
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
@@ -196,12 +197,15 @@ int main(int argc,char* argv[])
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
 		LightSpot* lightSpot = new LightSpot("lightSpot", shader, glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
-		Cube* cube = new Cube("material", shader);
+		Cube* cube = new Cube("cube1", shader);
 		
-		Model* model = new Model("material", modelPath, shader);
+		Model* model = new Model("model1", modelPath, shader);
 		
 
 		
+		//update model mat
+		gameObjectVec.push_back(camera);
+
 		gameObjectVec.push_back(lightDirectional);
 		gameObjectVec.push_back(lightPoint0);
 		gameObjectVec.push_back(lightPoint1);
@@ -209,24 +213,12 @@ int main(int argc,char* argv[])
 		gameObjectVec.push_back(lightPoint3);
 		gameObjectVec.push_back(lightSpot);
 		gameObjectVec.push_back(cube);
+		//reset model mat
 		gameObjectVec.push_back(model);
-		gameObjectVec.push_back(camera);
+		
 
 #pragma endregion
 
-
-	#pragma region Prepare MVP matrices
-
-
-		glm::mat4 modelMat;
-		glm::mat4 viewMat;
-		glm::mat4 projectionMat;
-		float asp = (float)WIDTH / (float)HEIGHT;
-		projectionMat = glm::perspective(glm::radians(90.0f),asp, 0.1f, 1000.0f);
-		camera->ProjectionMat = projectionMat;
-
-
-	#pragma endregion
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -241,18 +233,15 @@ int main(int argc,char* argv[])
 		
 		for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 		{
+			
+			camera->ModelMat = glm::rotate(camera->ModelMat, glm::radians(1.0f), glm::vec3(0, 1.0f, 0));
 			GameObject* obj = gameObjectVec[i];
 
+			
 			//one draw call
 		for (size_t i = 0; i < 1; i++)
 		{
-			
-			
-		
-			modelMat = glm::rotate(glm::mat4(1.0f), glm::radians(200.0f), glm::vec3(0.0f, 1.0f, 0));
-			modelMat = glm::translate(modelMat, cubePositions[i]);
-			camera->ModelMat = modelMat;
-			
+
 			shader->use();
 			obj->Draw();
 
@@ -276,7 +265,6 @@ int main(int argc,char* argv[])
 		}
 
 		//...render end
-		
 		//Clear up,prepare for next render loop
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -290,8 +278,9 @@ int main(int argc,char* argv[])
 	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 	{
 		GameObject* obj = gameObjectVec[i];
-		delete obj;
-		obj = NULL;
+		obj->Destroy(obj);
+		/*delete obj;
+		obj = NULL;*/
 	}
 
 	return 0;

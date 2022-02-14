@@ -62,6 +62,18 @@
     <ClInclude Include="TextureLoadUtil.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Single.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstValues.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturePoolSinglton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PythicsMoverSinglton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.frag" />

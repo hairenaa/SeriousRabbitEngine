@@ -10,8 +10,8 @@ class LightSpot :public Light
 public:
 	float cosInnerPhy = 0.65f;
 	float cosOutterPhy = 0.6f;
-	std::string cosInnerPhy_name = ".cosInnerPhy";
-	std::string	cosOutterPhy_name = ".cosOutterPhy";
+	std::string cosInnerPhy_name = FRAGMENT_SHADER_STRUCT_LIGHT_POINT_COS_INNER_PHY;
+	std::string	cosOutterPhy_name = FRAGMENT_SHADER_STRUCT_LIGHT_POINT_COS_OUTTER_PHY;
 	LightSpot(std::string _name,Shader* _shader,glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
 		:Light(_name,_shader,_position, _angles, _color)
 	{

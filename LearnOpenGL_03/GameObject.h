@@ -24,6 +24,13 @@ public:
 		this->name = _name;
 		this->shader = _shader;
 	};
+	virtual void Destroy(GameObject* obj_ptr) 
+	{
+		delete obj_ptr;
+		obj_ptr = NULL;
+	}
+
+	
 	virtual void Draw() =0;
 
 };

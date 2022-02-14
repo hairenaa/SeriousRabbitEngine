@@ -11,9 +11,9 @@ public:
 	float constant;
 	float linear;
 	float quadratic;
-	std::string constant_name = ".constant";
-	std::string linear_name = ".linear";
-	std::string quadratic_name = ".quadratic";
+	std::string constant_name = FRAGMENT_SHADER_STRUCT_LIGHT_POINT_CONSTANT;
+	std::string linear_name = FRAGMENT_SHADER_STRUCT_LIGHT_POINT_LINEAR;
+	std::string quadratic_name = FRAGMENT_SHADER_STRUCT_LIGHT_POINT_QUADRATIC;
 	LightPoint(std::string _name,Shader* _shader,glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
 		:Light(_name,_shader,_position,_angles,_color)
 	{
@@ -27,9 +27,9 @@ public:
 	void Draw() 
 	{
 		Light::Draw();
-		shader->SetUniform1f(constant_name.c_str(), constant);
-		shader->SetUniform1f(linear_name.c_str(), linear);
-		shader->SetUniform1f(quadratic_name.c_str(), quadratic);
+		shader->SetUniform1f(this->constant_name.c_str(), constant);
+		shader->SetUniform1f(this->linear_name.c_str(), linear);
+		shader->SetUniform1f(this->quadratic_name.c_str(), quadratic);
 	};
 };
 

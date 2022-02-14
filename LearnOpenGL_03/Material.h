@@ -14,11 +14,12 @@ public:
 	const float SHININESS_64f = 64.0f;
 	const float SHININESS_128f = 128.0f;
 	const float SHININESS_256f = 256.0f;
-	std::string ambient_ins_name = ".ambient_ins";
-	std::string shininess_name = ".shininess";
-	std::string diffuse_ins_name = ".diffuse_ins";
-	std::string specular_ins_name = ".specular_ins";
-	std::string ambientColor_name = ".ambientColor";
+	std::string materialName = FRAGMENT_SHADER_VAR_MATERIAL;
+	std::string ambient_ins_name = FRAGMENT_SHADER_STRUCT_MATERIAL_AMBIENT_INS;
+	std::string shininess_name = FRAGMENT_SHADER_STRUCT_MATERIAL_SHININESS;
+	std::string diffuse_ins_name = FRAGMENT_SHADER_STRUCT_MATERIAL_DIFFUSE_INS;
+	std::string specular_ins_name = FRAGMENT_SHADER_STRUCT_MATERIAL_SPECULAR_INS;
+	std::string ambientColor_name = FRAGMENT_SHADER_STRUCT_MATERIAL_AMBIENT_COLOR;
 	float ambient_ins = 1.0f;
 	float diffuse_ins=1.0f;
 	float specular_ins=1.0f;
@@ -33,20 +34,20 @@ public:
 		specular_ins(_specular_ins),
 		shininess(_shininess)
 	{
-		this->ambientColor_name = _name + ambientColor_name;
-		this->ambient_ins_name = _name + ambient_ins_name;
-		this->shininess_name = _name + shininess_name;
-		this->diffuse_ins_name = _name + diffuse_ins_name;
-		this->specular_ins_name = _name + specular_ins_name;
+		this->ambientColor_name = materialName + ambientColor_name;
+		this->ambient_ins_name = materialName + ambient_ins_name;
+		this->shininess_name = materialName + shininess_name;
+		this->diffuse_ins_name = materialName + diffuse_ins_name;
+		this->specular_ins_name = materialName + specular_ins_name;
 	};
 	Material(std::string _name, Shader* _shader)
 		: GameObject(_name,_shader)
 	{
-		this->ambientColor_name = _name + ambientColor_name;
-		this->ambient_ins_name = _name + ambient_ins_name;
-		this->shininess_name = _name + shininess_name;
-		this->diffuse_ins_name = _name + diffuse_ins_name;
-		this->specular_ins_name = _name + specular_ins_name;
+		this->ambientColor_name = materialName + ambientColor_name;
+		this->ambient_ins_name = materialName + ambient_ins_name;
+		this->shininess_name = materialName + shininess_name;
+		this->diffuse_ins_name = materialName + diffuse_ins_name;
+		this->specular_ins_name = materialName + specular_ins_name;
 	};
 	void Draw()
 	{

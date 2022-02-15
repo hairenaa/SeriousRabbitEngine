@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "Single.h"
-class PythicsMoverSinglton:public Single<PythicsMoverSinglton>
+class PhythicsMoverSinglton:public Single<PhythicsMoverSinglton>
 {
 public:
 	Camera* camera;
@@ -23,5 +23,5 @@ public:
 	};
 };
 
-PythicsMoverSinglton* PythicsMoverSinglton::instance = nullptr;
+PhythicsMoverSinglton* PhythicsMoverSinglton::instance = nullptr;
 

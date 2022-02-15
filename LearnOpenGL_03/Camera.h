@@ -9,7 +9,7 @@
 class Camera:public GameObject
 {
 public:
-	glm::mat4 ModelMat;
+	
 	glm::mat4 ViewMat;
 	glm::mat4 ProjectionMat;
 	glm::vec3 Postion;
@@ -60,11 +60,7 @@ public:
 		ProjectionMat = glm::perspective(glm::radians(Fov), Asp, MinDis, MaxDis);
 
 	};
-	glm::mat4 GetViewMatrix()
-	{
-		return glm::lookAt(Postion, Postion + Forward, WorldUp);
-	};
-
+	
 	void ProcessMouseMovement(float deltaX, float deltaY)
 	{
 
@@ -75,18 +71,8 @@ public:
 		updateCameraVectors();
 
 	};
-	void UpdateCameraPos()
-	{
-		//glm::vec3(speedX*speedMulX, 0, -speedZ*speedMulZ);
-		Postion += movVector;
-		ClearSpeed();
-	};
-	void ClearSpeed()
-	{
-		movVector.x = 0;
-		movVector.y = 0;
-		movVector.z = 0;
-	};
+
+	
 	void MovInZAxias(float speed)
 	{
 		movVector += speed * speedMulZ * Forward;
@@ -101,17 +87,16 @@ public:
 		movVector += speed * speedMulY * Up;
 
 	};
-	void Draw() 
+	void Draw()
 	{
 		ViewMat = this->GetViewMatrix();
-		shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_MODEL_MAT, 1, GL_FALSE, ModelMat);
 		shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_VIEW_MAT, 1, GL_FALSE, ViewMat);
+		//shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_MODEL_MAT, 1, GL_FALSE, ModelMat);
 		shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_PROJECTION_MAT, 1, GL_FALSE, ProjectionMat);
-		shader->SetUniform3fByVec3(FRAGMENT_SHADER_VAR_CAMERA_POS,this->Postion);
+		shader->SetUniform3fByVec3(FRAGMENT_SHADER_VAR_CAMERA_POS, this->Postion);
 		this->UpdateCameraPos();
-		
-
-	};
+	}
+	
 private:
 	void updateCameraVectors()
 	{
@@ -123,5 +108,23 @@ private:
 		Up = glm::normalize(glm::cross(Right, Forward));
 	};
 
+	glm::mat4 GetViewMatrix()
+	{
+		return glm::lookAt(Postion, Postion + Forward, WorldUp);
+	};
+
+
+	void UpdateCameraPos()
+	{
+		//glm::vec3(speedX*speedMulX, 0, -speedZ*speedMulZ);
+		Postion += movVector;
+		ClearSpeed();
+	};
+	void ClearSpeed()
+	{
+		movVector.x = 0;
+		movVector.y = 0;
+		movVector.z = 0;
+	};
 };
 

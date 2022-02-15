@@ -6,8 +6,10 @@
 #include "TextureLoadUtil.h"
 #include "TexturePoolSinglton.h"
 #include "ConstValues.h"
+#include "PhysicsObject.h"
+#include "Camera.h"
 
-class Cube : public GameObject
+class Cube : public GameObject , public PhysicsObject
 {
 public:
 	Mesh* mesh;
@@ -15,7 +17,7 @@ public:
 	const int GROUP_LEN = 11;
 	const std::string DIFF_PATH = TEXTURE_DEFAULT_DIFFUSE_PATH;
 	const std::string SPE_PATH = TEXTURE_DEFAULT_SPECULAR_PATH;
-	Cube(std::string _name,Shader* _shader) :GameObject(_name,_shader)
+	Cube(std::string _name,Shader* _shader,Camera* _camera) :GameObject(_name,_shader),PhysicsObject(_camera)
 	{
 		//this->vertices.push_back()
 		this->material = new Material(_name, _shader);
@@ -25,7 +27,7 @@ public:
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
-	Cube(std::string _name, Shader* _shader,const std::string _texture_diffuse_path) :GameObject(_name, _shader)
+	Cube(std::string _name, Shader* _shader, Camera* _camera,const std::string _texture_diffuse_path) :GameObject(_name, _shader), PhysicsObject(_camera)
 	{
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
@@ -34,7 +36,7 @@ public:
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices,textureVec, this->material);
 	}
 
-	Cube(std::string _name, Shader* _shader, const std::string _texture_diffuse_path, const std::string _texture_specular_path) :GameObject(_name, _shader)
+	Cube(std::string _name, Shader* _shader, Camera* _camera, const std::string _texture_diffuse_path, const std::string _texture_specular_path) :GameObject(_name, _shader), PhysicsObject(_camera)
 	{
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
@@ -64,7 +66,9 @@ public:
 
 	void Draw() 
 	{
+		PhysicsObject::UpdateBefore();
 		this->mesh->Draw();
+		
 	}
 private:
 	std::vector<float> vertices = 

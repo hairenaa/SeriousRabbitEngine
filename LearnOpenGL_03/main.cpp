@@ -65,7 +65,9 @@ bool isFirstMouse=true;
 
 #pragma region Init VARS
 	std::vector<GameObject*> gameObjectVec;
-	Camera* camera=nullptr;
+	Shader* mainShader = nullptr;
+	Camera* mainCamera=nullptr;
+	
 #pragma endregion
 
 
@@ -88,21 +90,21 @@ void processInput(GLFWwindow* window)
 	
 	if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
 	{
-		camera->MovInZAxias(20.0f);
+		mainCamera->MovInZAxias(20.0f);
 	}
 	
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		camera->MovInZAxias(-20.0f);
+		mainCamera->MovInZAxias(-20.0f);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		camera->MovInXAxias(-5.0f);
+		mainCamera->MovInXAxias(-5.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		camera->MovInXAxias(5.0f);
+		mainCamera->MovInXAxias(5.0f);
 	}
 	
 }
@@ -123,11 +125,10 @@ void mouse_callback(GLFWwindow* window,double xPos,double yPos)
 	lastX = xPos;
 	lastY = yPos;
 	double test = 1.44;
-	camera->ProcessMouseMovement(deltaX, deltaY);
+	mainCamera->ProcessMouseMovement(deltaX, deltaY);
 }
 
 #pragma endregion
-
 
 
 int main(int argc,char* argv[])
@@ -182,29 +183,30 @@ int main(int argc,char* argv[])
 #pragma region  Init GameObjects
 
 
-		Shader* shader = new Shader("vertexSource.vert", "fragmentSource.frag");
-		camera = new Camera("MainCamera", shader ,WIDTH,HEIGHT,glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
-
-		LightDirectional* lightDirectional = new LightDirectional("lightDirectional", shader, glm::vec3(9.2f, 3.0f, 40.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
-		LightPoint* lightPoint0 = new LightPoint("lightP0", shader, glm::vec3(3.0f, 0.0f, 0.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
-		LightPoint* lightPoint1 = new LightPoint("lightP1", shader, glm::vec3(0.0f, 3.0f, 0.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
-		LightPoint* lightPoint2 = new LightPoint("lightP2", shader, glm::vec3(0.0f, 0.0f, 3.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 0.0f, 1.0f));
-		LightPoint* lightPoint3 = new LightPoint("lightP3", shader, glm::vec3(5.0f, 5.0f, 5.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
-		LightSpot* lightSpot = new LightSpot("lightSpot", shader, glm::vec3(0, 0, 4.0f),
-			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
-		Cube* cube = new Cube("cube1", shader);
 		
-		Model* model = new Model("model1", modelPath, shader);
+		mainShader = new Shader("vertexSource.vert", "fragmentSource.frag");
+		mainCamera = new Camera("MainCamera", mainShader, WIDTH, HEIGHT, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
+
+		LightDirectional* lightDirectional = new LightDirectional("lightDirectional", mainShader, glm::vec3(9.2f, 3.0f, 40.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
+		LightPoint* lightPoint0 = new LightPoint("lightP0", mainShader, glm::vec3(3.0f, 0.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
+		LightPoint* lightPoint1 = new LightPoint("lightP1", mainShader, glm::vec3(0.0f, 3.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
+		LightPoint* lightPoint2 = new LightPoint("lightP2", mainShader, glm::vec3(0.0f, 0.0f, 3.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 0.0f, 1.0f));
+		LightPoint* lightPoint3 = new LightPoint("lightP3", mainShader, glm::vec3(5.0f, 5.0f, 5.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
+		LightSpot* lightSpot = new LightSpot("lightSpot", mainShader, glm::vec3(0, 0, 4.0f),
+			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
+		Cube* cube = new Cube("cube1", mainShader,mainCamera);
+		
+		Model* model = new Model("model1", modelPath, mainShader,mainCamera);
 		
 
 		
 		//update model mat
-		gameObjectVec.push_back(camera);
+		gameObjectVec.push_back(mainCamera);
 
 		gameObjectVec.push_back(lightDirectional);
 		gameObjectVec.push_back(lightPoint0);
@@ -231,36 +233,22 @@ int main(int argc,char* argv[])
 		glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		
+		//****
+		//update mode mat
+		//****
+		cube->Rotate(1.0f, glm::vec3(1.0f, 1.0f, 0));
+		model->Rotate(1.0f, glm::vec3(0, 1.0f, 0));
+		
+		
 		for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 		{
+
 			
-			camera->ModelMat = glm::rotate(camera->ModelMat, glm::radians(1.0f), glm::vec3(0, 1.0f, 0));
 			GameObject* obj = gameObjectVec[i];
-
-			
-			//one draw call
-		for (size_t i = 0; i < 1; i++)
-		{
-
-			shader->use();
+			mainShader->use();
 			obj->Draw();
 
-			
-
-		/*	
-			lightDirectional->Draw();
-			lightPoint0->Draw();
-			lightPoint1->Draw();
-			lightPoint2->Draw();
-			lightPoint3->Draw();
-			lightSpot->Draw();
-
-			model->Draw();
-
-			camera->Draw();*/
 		
-		
-		}
 
 		}
 

@@ -71,7 +71,7 @@
     <ClInclude Include="TexturePoolSinglton.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PythicsMoverSinglton.h">
+    <ClInclude Include="PhysicsObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

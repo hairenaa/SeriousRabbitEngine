@@ -16,16 +16,18 @@
 #include "TextureLoadUtil.h"
 #include "TexturePoolSinglton.h"
 #include "ConstValues.h"
+#include "PhysicsObject.h"
+#include "Camera.h"
 
-class Model:public GameObject
+class Model:public GameObject,public PhysicsObject
 {
 public:
 	std::vector<Mesh> meshes;
 	std::string directory;
 	Material* material;
 
-	Model(std::string _name,std::string path, Shader* _shader)
-		:GameObject(_name,_shader)
+	Model(std::string _name,std::string path, Shader* _shader,Camera* _camera)
+		:GameObject(_name,_shader),PhysicsObject(_camera)
 	{
 		this->material = new Material(_name,_shader);
 		loadModel(path);
@@ -41,11 +43,12 @@ public:
 	
 	void Draw()
 	{
+		PhysicsObject::UpdateBefore();
 		for (unsigned int i = 0; i < meshes.size(); i++)
 		{
 			meshes[i].Draw();
 		}
-
+		
 	};
 	std::vector<Texture> AiMaterialToTexture(aiMaterial *mat, aiTextureType type, TextureType textureType)
 	{

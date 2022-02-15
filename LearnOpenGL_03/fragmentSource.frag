@@ -89,7 +89,7 @@ vec3 CalcLightDirectional(LightDirectional light,vec3 uNormal,vec3 dirToCamera){
 	 float specIntensity=pow(max(dot(ref,dirToCamera),0),material.shininess);
 	 vec3 specColor=specIntensity*light.color * GetSpecularTextureRGB() * material.specular_ins ;
 	 vec3 result=diffColor+specColor;
-	 return result;
+	 return max(result,vec3(0,0,0));
 }
 
 
@@ -105,7 +105,7 @@ vec3 CalcLightPoint(LightPoint light,vec3 uNormal,vec3 dirToCamera){
 	float specIntensity=pow(max(dot(ref,dirToCamera),0),material.shininess)* attenuation;
 	vec3 specColor=specIntensity*light.color * GetSpecularTextureRGB()* material.specular_ins;
 	vec3 result=diffColor+specColor;
-	return result;
+	return max(result,vec3(0,0,0));
 }
 
 
@@ -129,10 +129,14 @@ vec3 CalcLightSpot(LightSpot light,vec3 uNormal,vec3 dirToCamera){
 	float specIntensity=pow(max(dot(ref,dirToCamera),0),material.shininess);
 	vec3 specColor=specIntensity*light.color * GetSpecularTextureRGB() *material.specular_ins;
 	vec3 result=(diffColor+specColor)*spotRadio;
-	return result;
+	return max(result,vec3(0,0,0));
 }
 
-
+vec3 CalcAmbient()
+{
+ vec3 result= material.ambient_ins *material.ambientColor * GetDiffuseTextureRGB();
+ return max(result,vec3(0,0,0));
+}
 
 void main()                      
 {
@@ -145,7 +149,7 @@ void main()
 	finalResult+=CalcLightPoint(lightP2,uNormal,dirToCamera);
 	finalResult+=CalcLightPoint(lightP3,uNormal,dirToCamera);
 	finalResult+=CalcLightSpot(lightSpot,uNormal,dirToCamera);
-	finalResult+=material.ambient_ins *material.ambientColor * GetDiffuseTextureRGB();
+	finalResult+=CalcAmbient();
 	finalResult+=vertexColor.rgb;
 	FragColor=vec4(finalResult,1.0f);
 

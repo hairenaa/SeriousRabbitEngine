@@ -137,13 +137,16 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightDirectional.h" />
+    <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="LightSpot.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderFileUtil.h" />
     <ClInclude Include="Single.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TextureLoadUtil.h" />

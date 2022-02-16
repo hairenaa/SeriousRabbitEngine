@@ -1,7 +1,5 @@
 #version 330 core        
-//in vec4 vertexColor;			
-//uniform vec4 timeColor;			
-//in vec2 TexCoord;
+
 in  vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoord;
@@ -48,21 +46,15 @@ struct LightSpot{
 };
 
 uniform Material material;
-//uniform sampler2D texture1;
-//uniform sampler2D texture2;
-//uniform vec3 objColor;
-//uniform vec3 ambientColor;
-//uniform vec3 lightPos;
-//uniform vec3 lightDirUniform;
-//uniform vec3 lightColor;
+
 uniform vec3 cameraPos;
-//uniform LightPoint lightPoint;
-uniform LightPoint lightP0;
-uniform LightPoint lightP1;
-uniform LightPoint lightP2;
-uniform LightPoint lightP3;
-uniform LightSpot lightSpot;
+
+
+//#LightAreaBegin
 uniform LightDirectional lightDirectional;
+uniform LightPoint lightP0;
+uniform LightPoint lightP1;//#LightAreaEnd
+
 out vec4 FragColor;
 
 
@@ -81,7 +73,7 @@ vec3 GetSpecularTextureRGB()
 	//return vec3(0.5f,0.5f,0.5f);
 }
 
-vec3 CalcLightDirectional(LightDirectional light,vec3 uNormal,vec3 dirToCamera){
+vec3 CalcLightDirectional(vec3 uNormal,vec3 dirToCamera,LightDirectional light){
 	 
 	 float diffIntensity=max(dot(light.dir,uNormal),0);
 	 vec3 diffColor=diffIntensity* light.color*GetDiffuseTextureRGB()* material.diffuse_ins;
@@ -95,7 +87,7 @@ vec3 CalcLightDirectional(LightDirectional light,vec3 uNormal,vec3 dirToCamera){
 
 
 
-vec3 CalcLightPoint(LightPoint light,vec3 uNormal,vec3 dirToCamera){
+vec3 CalcLightPoint(vec3 uNormal,vec3 dirToCamera,LightPoint light){
 
 	float dist=length(light.pos-FragPos);
 	float attenuation=1/(light.constant+light.linear*dist+light.quadratic*dist*dist);
@@ -111,7 +103,7 @@ vec3 CalcLightPoint(LightPoint light,vec3 uNormal,vec3 dirToCamera){
 
 
 
-vec3 CalcLightSpot(LightSpot light,vec3 uNormal,vec3 dirToCamera){
+vec3 CalcLightSpot(vec3 uNormal,vec3 dirToCamera,LightSpot light){
 
 	float spotRadio=1.0f;
 	float cosTheta= dot(normalize(FragPos-light.pos),-light.dir);
@@ -143,12 +135,10 @@ void main()
 	vec3 finalResult=vec3(0,0,0);
 	vec3 uNormal=normalize(Normal);
 	vec3 dirToCamera=normalize(cameraPos-FragPos);
-	finalResult+=CalcLightDirectional(lightDirectional,uNormal,dirToCamera);
-	finalResult+=CalcLightPoint(lightP0,uNormal,dirToCamera);
-	finalResult+=CalcLightPoint(lightP1,uNormal,dirToCamera);
-	finalResult+=CalcLightPoint(lightP2,uNormal,dirToCamera);
-	finalResult+=CalcLightPoint(lightP3,uNormal,dirToCamera);
-	finalResult+=CalcLightSpot(lightSpot,uNormal,dirToCamera);
+	//#LightCalcBegin
+	finalResult+=CalcLightDirectional(uNormal,dirToCamera,lightDirectional);
+	finalResult+=CalcLightPoint(uNormal,dirToCamera,lightP0);
+	finalResult+=CalcLightPoint(uNormal,dirToCamera,lightP1);//#LightCalcEnd
 	finalResult+=CalcAmbient();
 	finalResult+=vertexColor.rgb;
 	FragColor=vec4(finalResult,1.0f);

@@ -4,6 +4,8 @@ static const char* TEXTURE_DEFAULT_DIFFUSE_PATH ="texture_default_diffuse.png";
 static const char* TEXTURE_DEFAULT_SPECULAR_PATH ="texture_default_specular.png";
 
 
+static const char* SHADER_DEFAULT_FILE_FRAGMENT = "fragmentSource.frag";
+static const char* SHADER_DEFAULT_FILE_VERTEX = "vertexSource.vert";
 
 static const char* FRAGMENT_SHADER_VAR_MATERIAL ="material";
 static const char* FRAGMENT_SHADER_VAR_CAMERA_POS ="cameraPos";
@@ -26,7 +28,20 @@ static const char* FRAGMENT_SHADER_STRUCT_LIGHT_POINT_COS_INNER_PHY = ".cosInner
 static const char* FRAGMENT_SHADER_STRUCT_LIGHT_POINT_COS_OUTTER_PHY = ".cosOutterPhy";
 
 
+static const char* FRAGMENT_SHADER_CALL_LIGHT_PREFIX_DIRECTIONAL="finalResult+=CalcLightDirectional(uNormal,dirToCamera,";
+static const char* FRAGMENT_SHADER_CALL_LIGHT_PREFIX_POINT = "finalResult+=CalcLightPoint(uNormal,dirToCamera,";
+static const char* FRAGMENT_SHADER_CALL_LIGHT_PREFIX_SPOT = "finalResult+=CalcLightSpot(uNormal,dirToCamera,";
 
+static const char* FRAGMENT_SHADER_CALL_LIGHT_AFFIX = ");";
+static const char* FRAGMENT_SHADER_DECLARE_LIGHT_DIRECTIONAL = "uniform LightDirectional ";
+static const char* FRAGMENT_SHADER_DECLARE_LIGHT_POINT = "uniform LightPoint ";
+static const char* FRAGMENT_SHADER_DECLARE_LIGHT_SPOT = "uniform LightSpot ";
+
+static const char* FRAGMENT_SHADER_LIGHT_TAG_AREA_BEGIN = "//#LightAreaBegin";
+static const char* FRAGMENT_SHADER_LIGHT_TAG_CALC_BEGIN = "//#LightCalcBegin";
+
+static const char* FRAGMENT_SHADER_LIGHT_TAG_AREA_END = "//#LightAreaEnd";
+static const char* FRAGMENT_SHADER_LIGHT_TAG_CALC_END = "//#LightCalcEnd";
 
 
 

@@ -12,6 +12,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
+#include "ShaderFileUtil.h"
 
 
 
@@ -21,39 +23,40 @@ using namespace std;
 class Shader
 {
 public:
+	
+	vector<Manager*>  managerVec;
+
 	Shader(const char* vertexPath, const char* fragmentPath)
 	{
-		ifstream vertexFile;
-		ifstream fragmentFile;
-
-		stringstream vertexSStream;
-		stringstream fragmentSStream;
-
-		vertexFile.open(vertexPath);
-		fragmentFile.open(fragmentPath);
-		vertexFile.exceptions(ifstream::failbit || ifstream::badbit);
-		fragmentFile.exceptions(ifstream::failbit || ifstream::badbit);
-
+		
 		try
 		{
-			if (!vertexFile.is_open() || !fragmentFile.is_open())
+			std::string v_str  = ShaderFileUtil::ReadAllText(vertexPath).c_str();
+			std::string f_str= ShaderFileUtil::ReadAllText(fragmentPath);
+
+			for (unsigned int i = 0; i < managerVec.size(); i++)
 			{
-				throw new exception("open file error");
+				Manager* manager = managerVec[i];
+				if (manager->handleType == Manager::HANDLE_FRAGMENT) 
+				{
+					manager->HandleShaderSource(f_str);
+				}
+				else if(manager->handleType == Manager::HANDLE_VERTEX)
+				{
+					manager->HandleShaderSource(v_str);
+				}
+				
 			}
 
-			vertexSStream << vertexFile.rdbuf();
-			fragmentSStream << fragmentFile.rdbuf();
+			const char* vertexSource=v_str.c_str();
+			const char* fragmentSource=f_str.c_str();
 
-			vertexString = vertexSStream.str();
-			fragmentString = fragmentSStream.str();
-
-			vertexSource = vertexString.c_str();
-			fragmentSource = fragmentString.c_str();
+		
 
 			cout << "vertex shader source code: \n" << vertexSource << endl;
 			cout << "-------------------------------------------------------" << endl;
 			cout << "fragment shader source code: \n" << fragmentSource << endl;
-
+		
 			unsigned int vertexShader, fragmentShader;
 
 			vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -74,6 +77,13 @@ public:
 
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
+
+			for (unsigned int i = 0; i < managerVec.size(); i++)
+			{
+				
+				managerVec[i]->Bind(this);
+			}
+
 		}
 		catch (const std::exception& ex)
 		{

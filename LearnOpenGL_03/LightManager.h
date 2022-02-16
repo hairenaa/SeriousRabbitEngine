@@ -27,14 +27,12 @@ public:
 	};
 
 
-
-
 	LightManager()
 	{
 		this->handleType = Manager::HANDLE_FRAGMENT;
 	}
 
-	Light* Build(LightType type, std::string _name, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
+	Light* Build(LightType type, std::string _name,Shader* _shader, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
 	{
 		this->name = _name;
 		switch (type)
@@ -43,21 +41,21 @@ public:
 			case LIGHT_DIRECTIONAL: 
 			{
 				AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_DIRECTIONAL, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_DIRECTIONAL);
-				Light* lightDir = new LightDirectional(_name, _position, _angles, _color);
+				Light* lightDir = new LightDirectional(_name,_shader, _position, _angles, _color);
 				Vec.push_back(lightDir);
 				return lightDir;
 			}
 			case LIGHT_POINT: 
 			{
 				AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_POINT, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_POINT);
-				Light* lightP= new LightPoint(_name, _position, _angles, _color);
+				Light* lightP= new LightPoint(_name, _shader, _position, _angles, _color);
 				Vec.push_back(lightP);
 				return lightP;
 			}
 			case LIGHT_SPOT: 
 			{
 				AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_SPOT, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_SPOT);
-				Light* lightS = new LightSpot(_name, _position, _angles, _color);
+				Light* lightS = new LightSpot(_name, _shader, _position, _angles, _color);
 				Vec.push_back(lightS);
 				return lightS;
 			}
@@ -71,20 +69,20 @@ public:
 	std::string HandleShaderSource(std::string source)
 	{
 		
-		ShaderFileUtil::HandleShaderSourceStr(source,
+		source= ShaderFileUtil::HandleShaderSourceStr(source,
 			FRAGMENT_SHADER_LIGHT_TAG_AREA_BEGIN, FRAGMENT_SHADER_LIGHT_TAG_AREA_END, content_dec);
-		ShaderFileUtil::HandleShaderSourceStr(source,
+		source= ShaderFileUtil::HandleShaderSourceStr(source,
 			FRAGMENT_SHADER_LIGHT_TAG_CALC_BEGIN, FRAGMENT_SHADER_LIGHT_TAG_CALC_END, content_calc);
 		return source;
 	}
 
-	void Bind(Shader* shader) 
+	/*void Bind(Shader* shader) 
 	{
 		for (unsigned int i = 0; i < Vec.size(); i++)
 		{
 			Vec[i]->shader=shader;
 		}
-	}
+	}*/
 
 
 private :

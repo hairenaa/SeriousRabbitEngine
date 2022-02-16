@@ -51,9 +51,8 @@ uniform vec3 cameraPos;
 
 
 //#LightAreaBegin
-uniform LightDirectional lightDirectional;
-uniform LightPoint lightP0;
-uniform LightPoint lightP1;//#LightAreaEnd
+ 
+//#LightAreaEnd
 
 out vec4 FragColor;
 
@@ -136,9 +135,8 @@ void main()
 	vec3 uNormal=normalize(Normal);
 	vec3 dirToCamera=normalize(cameraPos-FragPos);
 	//#LightCalcBegin
-	finalResult+=CalcLightDirectional(uNormal,dirToCamera,lightDirectional);
-	finalResult+=CalcLightPoint(uNormal,dirToCamera,lightP0);
-	finalResult+=CalcLightPoint(uNormal,dirToCamera,lightP1);//#LightCalcEnd
+	 
+    //#LightCalcEnd
 	finalResult+=CalcAmbient();
 	finalResult+=vertexColor.rgb;
 	FragColor=vec4(finalResult,1.0f);

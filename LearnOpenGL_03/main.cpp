@@ -20,6 +20,7 @@
 #include "GameObject.h"
 #include "Cube.h"
 #include "LightManager.h"
+#include "Manager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -184,24 +185,50 @@ int main(int argc,char* argv[])
 #pragma region  Init GameObjects
 
 		
-		Light* lightDirectional = LightManager::Instance()->Build(LightManager::LIGHT_DIRECTIONAL, "lightDirectional", glm::vec3(9.2f, 3.0f, 40.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
-		Light* lightPoint0 = LightManager::Instance()->Build(LightManager::LIGHT_POINT, "lightP0", glm::vec3(3.0f, 0.0f, 0.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
-		Light* lightPoint1 = LightManager::Instance()->Build(LightManager::LIGHT_POINT, "lightP1", glm::vec3(0.0f, 3.0f, 0.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		
+		//init mainShader
 		mainShader = new Shader(SHADER_DEFAULT_FILE_VERTEX, SHADER_DEFAULT_FILE_FRAGMENT);
-		mainCamera = new Camera("MainCamera", mainShader, WIDTH, HEIGHT, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
 
+		//init managers to handle the shader source code
+		std::vector<Manager*> managers;
+		managers.push_back(LightManager::Instance());
+
+		//manager build something 
+		Light* lightDirectional = LightManager::Instance()->Build(LightManager::LIGHT_DIRECTIONAL, "lightDirectional", mainShader, glm::vec3(9.2f, 3.0f, 40.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
+		Light* lightPoint0 = LightManager::Instance()->Build(LightManager::LIGHT_POINT, "lightP0", mainShader, glm::vec3(3.0f, 0.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
+		Light* lightPoint1 = LightManager::Instance()->Build(LightManager::LIGHT_POINT, "lightP1", mainShader, glm::vec3(0.0f, 3.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
+		Light* lightPoint2 = LightManager::Instance()->Build(LightManager::LIGHT_POINT, "lightP2", mainShader, glm::vec3(3.0f, 0.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.3f, 0.5f, 0.5f));
+
+		for (unsigned int i = 0; i < managers.size(); i++)
+		{
+			Manager* manager = managers[i];
+			if (manager->handleType == Manager::HANDLE_FRAGMENT)
+			{
+				mainShader->Unhandled_fragment_source= manager->HandleShaderSource(mainShader->Unhandled_fragment_source);
+			}
+			else if (manager->handleType == Manager::HANDLE_VERTEX)
+			{
+				mainShader->Unhandled_vertext_source = manager->HandleShaderSource(mainShader->Unhandled_vertext_source);
+			}
+
+		}
+
+		//init shader
+		mainShader->InitShader();
+
+		mainCamera = new Camera("MainCamera", mainShader, WIDTH, HEIGHT, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
+		
+		
 		
 		/*LightPoint* lightPoint2 = new LightPoint("lightP2", mainShader, glm::vec3(0.0f, 0.0f, 3.0f),
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 0.0f, 1.0f));
 		LightPoint* lightPoint3 = new LightPoint("lightP3", mainShader, glm::vec3(5.0f, 5.0f, 5.0f),
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));*/
 
-		Light* lightSpot = LightManager::Instance()->Build(LightManager::LIGHT_SPOT, "lightSpot", glm::vec3(0, 0, 4.0f),
+		Light* lightSpot = LightManager::Instance()->Build(LightManager::LIGHT_SPOT, "lightSpot", mainShader,glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
 		Cube* cube = new Cube("cube1", mainShader,mainCamera);
 		

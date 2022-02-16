@@ -24,66 +24,18 @@ class Shader
 {
 public:
 	
-	vector<Manager*>  managerVec;
-
+//	vector<Manager*>  managerVec;
+	std::string Unhandled_vertext_source;
+	std::string Unhandled_fragment_source;
 	Shader(const char* vertexPath, const char* fragmentPath)
 	{
 		
 		try
 		{
-			std::string v_str  = ShaderFileUtil::ReadAllText(vertexPath).c_str();
-			std::string f_str= ShaderFileUtil::ReadAllText(fragmentPath);
+			Unhandled_vertext_source  = ShaderFileUtil::ReadAllText(vertexPath).c_str();
+			Unhandled_fragment_source= ShaderFileUtil::ReadAllText(fragmentPath);
 
-			for (unsigned int i = 0; i < managerVec.size(); i++)
-			{
-				Manager* manager = managerVec[i];
-				if (manager->handleType == Manager::HANDLE_FRAGMENT) 
-				{
-					manager->HandleShaderSource(f_str);
-				}
-				else if(manager->handleType == Manager::HANDLE_VERTEX)
-				{
-					manager->HandleShaderSource(v_str);
-				}
-				
-			}
-
-			const char* vertexSource=v_str.c_str();
-			const char* fragmentSource=f_str.c_str();
-
-		
-
-			cout << "vertex shader source code: \n" << vertexSource << endl;
-			cout << "-------------------------------------------------------" << endl;
-			cout << "fragment shader source code: \n" << fragmentSource << endl;
-		
-			unsigned int vertexShader, fragmentShader;
-
-			vertexShader = glCreateShader(GL_VERTEX_SHADER);
-			glShaderSource(vertexShader, 1, &vertexSource, NULL);
-			glCompileShader(vertexShader);
-			checkCompileErrors(vertexShader, TYPE_VERTEX_SHDER);
-
-			fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-			glCompileShader(fragmentShader);
-			checkCompileErrors(fragmentShader, TYPE_FRAMENT_SHDER);
-
-			ID = glCreateProgram();
-			glAttachShader(ID, vertexShader);
-			glAttachShader(ID, fragmentShader);
-			glLinkProgram(ID);
-			checkCompileErrors(ID, TYPE_PROGRAM);
-
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-
-			for (unsigned int i = 0; i < managerVec.size(); i++)
-			{
-				
-				managerVec[i]->Bind(this);
-			}
-
+			
 		}
 		catch (const std::exception& ex)
 		{
@@ -93,6 +45,45 @@ public:
 
 
 	};
+
+
+	void InitShader() 
+	{
+		
+
+		const char* vertexSource = this->Unhandled_vertext_source.c_str();
+		const char* fragmentSource = this->Unhandled_fragment_source.c_str();
+
+
+
+		cout << "vertex shader source code: \n" << vertexSource << endl;
+		cout << "-------------------------------------------------------" << endl;
+		cout << "fragment shader source code: \n" << fragmentSource << endl;
+
+		unsigned int vertexShader, fragmentShader;
+
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertexShader, 1, &vertexSource, NULL);
+		glCompileShader(vertexShader);
+		checkCompileErrors(vertexShader, TYPE_VERTEX_SHDER);
+
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
+		glCompileShader(fragmentShader);
+		checkCompileErrors(fragmentShader, TYPE_FRAMENT_SHDER);
+
+		ID = glCreateProgram();
+		glAttachShader(ID, vertexShader);
+		glAttachShader(ID, fragmentShader);
+		glLinkProgram(ID);
+		checkCompileErrors(ID, TYPE_PROGRAM);
+
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+
+		
+	}
+
 	enum SlotType
 	{
 		DIFFUSE,

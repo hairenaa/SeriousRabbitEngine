@@ -18,7 +18,7 @@ public:
 	std::string color_name = FRAGMENT_SHADER_STRUCT_LIGHT_COLOR;
 	std::string dir_name = FRAGMENT_SHADER_STRUCT_LIGHT_DIR;
 	
-	Light(std::string _name, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color)
+	/*Light(std::string _name, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color)
 		:GameObject(_name)
 	{
 
@@ -29,7 +29,7 @@ public:
 		this->color_name = _name + color_name;
 		this->dir_name = _name + dir_name;
 
-	}
+	}*/
 
 	Light(std::string _name,Shader* _shader,glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color) 
 		:GameObject(_name,_shader)

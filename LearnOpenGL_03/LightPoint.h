@@ -4,6 +4,7 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include "Light.h"
 #include "Shader.h"
+#include "ShaderFileUtil.h"
 
 class LightPoint : public Light
 {
@@ -20,6 +21,19 @@ public:
 		constant = 1.0f;
 		linear = 0.09f;
 		quadratic = 0.032f;
+
+		this->constant_name = this->name + constant_name;
+		this->linear_name = this->name + linear_name;
+		this->quadratic_name = this->name + quadratic_name;
+	};
+
+	LightPoint(std::string _name, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
+		:Light(_name,_position, _angles, _color)
+	{
+		constant = 1.0f;
+		linear = 0.09f;
+		quadratic = 0.032f;
+
 		this->constant_name = this->name + constant_name;
 		this->linear_name = this->name + linear_name;
 		this->quadratic_name = this->name + quadratic_name;

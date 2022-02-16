@@ -19,6 +19,7 @@
 #include "Model.h"
 #include "GameObject.h"
 #include "Cube.h"
+#include "LightManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -182,28 +183,31 @@ int main(int argc,char* argv[])
 
 #pragma region  Init GameObjects
 
+		
+		Light* lightDirectional = LightManager::Instance()->Build(LightManager::LIGHT_DIRECTIONAL, "lightDirectional", glm::vec3(9.2f, 3.0f, 40.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
+		Light* lightPoint0 = LightManager::Instance()->Build(LightManager::LIGHT_POINT, "lightP0", glm::vec3(3.0f, 0.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
+		Light* lightPoint1 = LightManager::Instance()->Build(LightManager::LIGHT_POINT, "lightP1", glm::vec3(0.0f, 3.0f, 0.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		
-		mainShader = new Shader("vertexSource.vert", "fragmentSource.frag");
+		mainShader = new Shader(SHADER_DEFAULT_FILE_VERTEX, SHADER_DEFAULT_FILE_FRAGMENT);
 		mainCamera = new Camera("MainCamera", mainShader, WIDTH, HEIGHT, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
 
-		LightDirectional* lightDirectional = new LightDirectional("lightDirectional", mainShader, glm::vec3(9.2f, 3.0f, 40.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
-		LightPoint* lightPoint0 = new LightPoint("lightP0", mainShader, glm::vec3(3.0f, 0.0f, 0.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
-		LightPoint* lightPoint1 = new LightPoint("lightP1", mainShader, glm::vec3(0.0f, 3.0f, 0.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
-		LightPoint* lightPoint2 = new LightPoint("lightP2", mainShader, glm::vec3(0.0f, 0.0f, 3.0f),
+		
+		/*LightPoint* lightPoint2 = new LightPoint("lightP2", mainShader, glm::vec3(0.0f, 0.0f, 3.0f),
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 0.0f, 1.0f));
 		LightPoint* lightPoint3 = new LightPoint("lightP3", mainShader, glm::vec3(5.0f, 5.0f, 5.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
-		LightSpot* lightSpot = new LightSpot("lightSpot", mainShader, glm::vec3(0, 0, 4.0f),
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));*/
+
+		Light* lightSpot = LightManager::Instance()->Build(LightManager::LIGHT_SPOT, "lightSpot", glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
 		Cube* cube = new Cube("cube1", mainShader,mainCamera);
 		
 		Model* model = new Model("model1", modelPath, mainShader,mainCamera);
 		
-
+		
 		
 		//update model mat
 		gameObjectVec.push_back(mainCamera);
@@ -211,8 +215,8 @@ int main(int argc,char* argv[])
 		gameObjectVec.push_back(lightDirectional);
 		gameObjectVec.push_back(lightPoint0);
 		gameObjectVec.push_back(lightPoint1);
-		gameObjectVec.push_back(lightPoint2);
-		gameObjectVec.push_back(lightPoint3);
+		/*gameObjectVec.push_back(lightPoint2);
+		gameObjectVec.push_back(lightPoint3);*/
 		gameObjectVec.push_back(lightSpot);
 		gameObjectVec.push_back(cube);
 		//reset model mat

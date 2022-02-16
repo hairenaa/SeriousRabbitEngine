@@ -12,7 +12,7 @@ class GameObject
 public:
 	static int id;
 	std::string name;
-	Shader* shader;
+	Shader* shader=nullptr;
 	GameObject(std::string _name) 
 	{
 		this->id ++;

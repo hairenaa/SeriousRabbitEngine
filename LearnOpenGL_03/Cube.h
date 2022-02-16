@@ -17,9 +17,16 @@ public:
 	const int GROUP_LEN = 11;
 	const std::string DIFF_PATH = TEXTURE_DEFAULT_DIFFUSE_PATH;
 	const std::string SPE_PATH = TEXTURE_DEFAULT_SPECULAR_PATH;
+
+
+	Cube(std::string _name, Shader* _shader, std::vector<Texture> textureVec) :GameObject(_name, _shader), PhysicsObject()
+	{
+		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN,this->indices,textureVec);
+	}
+
 	Cube(std::string _name,Shader* _shader,Camera* _camera) :GameObject(_name,_shader),PhysicsObject(_camera)
 	{
-		//this->vertices.push_back()
+		
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
 		textureVec.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(DIFF_PATH,TEXTURE_DIFFUSE));
@@ -66,6 +73,7 @@ public:
 
 	void Draw() 
 	{
+		GameObject::Draw();
 		PhysicsObject::UpdateBefore();
 		this->mesh->Draw();
 		

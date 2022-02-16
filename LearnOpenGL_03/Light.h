@@ -45,6 +45,7 @@ public:
 	}
 	virtual void Draw() 
 	{
+		GameObject::Draw();
 		this->shader->SetUniform3fByVec3(pos_name.c_str(), position);
 		this->shader->SetUniform3fByVec3(color_name.c_str(), color);
 		this->shader->SetUniform3fByVec3(dir_name.c_str(), direction);

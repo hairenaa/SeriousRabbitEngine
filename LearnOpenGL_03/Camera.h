@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Shader.h"
 #include "ConstValues.h"
-
+#include <vector>
 class Camera:public GameObject
 {
 public:
@@ -29,11 +29,11 @@ public:
 	float Fov=90.0f;
 	float MinDis=0.1f;
 	float MaxDis = 1000.0f;
-
+	std::vector<Shader*> shaders;
 	Camera(std::string _name, Shader* _shader,float _screen_width,float _scree_height, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
 		:GameObject(_name,_shader)
 	{
-		
+		shaders.push_back(_shader);
 		Postion = position;
 		WorldUp = worldup;
 		Forward = glm::normalize(target - position);
@@ -46,7 +46,7 @@ public:
 	Camera(std::string _name, Shader* _shader, float _screen_width, float _scree_height, glm::vec3 position, float pitch, float yaw, glm::vec3 worldup)
 		:GameObject(_name,_shader)
 	{
-		
+		shaders.push_back(_shader);
 		Postion = position;
 		WorldUp = worldup;
 		Pitch = pitch;
@@ -89,11 +89,24 @@ public:
 	};
 	void Draw()
 	{
-		ViewMat = this->GetViewMatrix();
-		shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_VIEW_MAT, 1, GL_FALSE, ViewMat);
-		//shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_MODEL_MAT, 1, GL_FALSE, ModelMat);
-		shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_PROJECTION_MAT, 1, GL_FALSE, ProjectionMat);
-		shader->SetUniform3fByVec3(FRAGMENT_SHADER_VAR_CAMERA_POS, this->Postion);
+		for (unsigned int i = 0; i < shaders.size(); i++)
+		{
+			shaders[i]->use();
+			ViewMat = this->GetViewMatrix();
+			if (shader->shaderType == Shader::SKYBOX_SHADER) 
+			{
+				shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_VIEW_MAT, 1, GL_FALSE,glm::mat4( glm::mat3(ViewMat)));
+			}
+			else
+			{
+				shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_VIEW_MAT, 1, GL_FALSE, ViewMat);
+				shader->SetUniform3fByVec3(FRAGMENT_SHADER_VAR_CAMERA_POS, this->Postion);
+			}
+			//shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_MODEL_MAT, 1, GL_FALSE, ModelMat);
+			shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_PROJECTION_MAT, 1, GL_FALSE, ProjectionMat);
+			
+		}
+		
 		this->UpdateCameraPos();
 	}
 	

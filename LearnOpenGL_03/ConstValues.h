@@ -43,6 +43,7 @@ static const char* FRAGMENT_SHADER_LIGHT_TAG_CALC_BEGIN = "//#LightCalcBegin";
 static const char* FRAGMENT_SHADER_LIGHT_TAG_AREA_END = "//#LightAreaEnd";
 static const char* FRAGMENT_SHADER_LIGHT_TAG_CALC_END = "//#LightCalcEnd";
 
+static const char* FRAGMENT_SHADER_VAR_SKYBOX = "sky";
 
 
 static const char* VERTEX_SHADER_VAR_MODEL_MAT ="modelMat";

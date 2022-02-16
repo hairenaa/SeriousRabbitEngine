@@ -24,6 +24,7 @@ enum TextureType
 	TEXTURE_SPECULAR,
 	TEXTURE_NORMAL,
 	TEXTURE_HEIGHT,
+	TEXTURE_SKYBOX
 };
 
 
@@ -43,6 +44,7 @@ public:
 	std::string specularPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_SPECULAR;
 	std::string normalPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_NORMAL;
 	std::string heightPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_HEIGHT;
+	std::string SkyBoxName=FRAGMENT_SHADER_VAR_SKYBOX;
 	std::string materialName = FRAGMENT_SHADER_VAR_MATERIAL;
 	Material* material;
 	std::vector<Vertex> vertices;
@@ -66,21 +68,21 @@ public:
 		setupMesh();
 	}
 
-	/*
-	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array, int _groupLen, std::vector<unsigned int> _indices, Material* _material)
+	
+	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array, int _groupLen, std::vector<unsigned int> _indices,std::vector<Texture> _textures)
 		:GameObject(_name, _shader)
 	{
 		this->groupLen = _groupLen;
 		this->indices = _indices;
+		this->textures = textures;
 		this->diffusePrefix = _name + diffusePrefix;
 		this->specularPrefix = _name + specularPrefix;
 		this->normalPrefix = _name + normalPrefix;
 		this->heightPrefix = _name + heightPrefix;
 		this->vertices_float = _vertices_array;
-		this->material = _material;
 		setupMesh();
 	}
-	*/
+	
 	Mesh(std::string _name,Shader* _shader,std::vector<Vertex> _vertices, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
 		:GameObject(_name,_shader)
 	{
@@ -129,8 +131,11 @@ public:
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
 
-
-		this->material->Draw();
+		if (material != nullptr) 
+		{
+			this->material->Draw();
+		}
+		
 		if (!textures.empty())
 		{
 			for (unsigned int i = 0; i < textures.size(); i++)
@@ -161,6 +166,12 @@ public:
 				{
 					re_name = heightPrefix + std::to_string(heightNr++);
 					glBindTexture(GL_TEXTURE_2D, curTexture.id);
+					shader->SetUniform1i(re_name.c_str(), slot);
+				}
+				else if(curTexture.type==TEXTURE_SKYBOX)
+				{
+					re_name = SkyBoxName;
+					glBindTexture(GL_TEXTURE_CUBE_MAP, curTexture.id);
 					shader->SetUniform1i(re_name.c_str(), slot);
 				}
 				//std::cout << name << std::endl;

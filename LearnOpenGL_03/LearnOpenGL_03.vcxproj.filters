@@ -83,6 +83,9 @@
     <ClInclude Include="LightManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.frag" />
@@ -122,5 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="SkyboxFragment.frag" />
+    <None Include="SkyBoxVertex.vert" />
   </ItemGroup>
 </Project>

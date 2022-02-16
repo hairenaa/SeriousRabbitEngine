@@ -23,6 +23,7 @@ sampler2D texture_height_1;
 
 };
 
+
 struct LightDirectional{
 	vec3 pos;
 	vec3 color;

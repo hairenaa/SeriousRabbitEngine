@@ -41,6 +41,31 @@ public:
 
 	}
 
+	Texture CheckAndLoadSkyTexture(std::vector<std::string> pathes, TextureType type)
+	{
+		
+		std::string name="";
+		for (unsigned int i = 0; i < pathes.size(); i++) 
+		{
+			std::string path = pathes[i];
+			name += (" & "+path);
+		}
+
+
+		if (!ExistTexture(name))
+		{
+			Texture tex1;
+			tex1.id = TextureLoadUtil::LoadCubeImageToGpu(pathes);
+			tex1.path = name;
+			tex1.type = type;
+			texturePool.insert(std::pair<std::string, Texture>(name, tex1));
+			return tex1;
+		}
+		else
+		{
+			return texturePool[name];
+		}
+	}
 };
 TexturePoolSinglton* TexturePoolSinglton::instance = nullptr;
 

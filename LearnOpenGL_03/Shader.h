@@ -24,14 +24,21 @@ class Shader
 {
 public:
 	
+	enum ShaderType
+	{
+		MAIN_SHADER,
+		SKYBOX_SHADER
+	};
+	ShaderType shaderType;
 //	vector<Manager*>  managerVec;
 	std::string Unhandled_vertext_source;
 	std::string Unhandled_fragment_source;
-	Shader(const char* vertexPath, const char* fragmentPath)
+	Shader(const char* vertexPath, const char* fragmentPath,ShaderType type)
 	{
 		
 		try
 		{
+			this->shaderType = type;
 			Unhandled_vertext_source  = ShaderFileUtil::ReadAllText(vertexPath).c_str();
 			Unhandled_fragment_source= ShaderFileUtil::ReadAllText(fragmentPath);
 

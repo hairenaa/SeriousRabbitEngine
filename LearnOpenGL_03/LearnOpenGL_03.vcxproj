@@ -148,6 +148,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderFileUtil.h" />
     <ClInclude Include="Single.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TextureLoadUtil.h" />
     <ClInclude Include="TexturePoolSinglton.h" />
@@ -170,6 +171,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="SkyboxFragment.frag" />
+    <None Include="SkyBoxVertex.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

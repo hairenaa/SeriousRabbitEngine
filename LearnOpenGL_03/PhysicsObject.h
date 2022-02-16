@@ -13,7 +13,10 @@ public:
 	{
 		this->camera = _camera;
 	}
-
+	PhysicsObject()
+	{
+		this->camera = nullptr;
+	}
 	virtual void Rotate(float angle,glm::vec3 axis)
 	{
 		ModelMat = glm::rotate(ModelMat, glm::radians(angle), axis);
@@ -32,8 +35,11 @@ public:
 
 	virtual void UpdateBefore() 
 	{
+		if (camera != nullptr) 
+		{
+			camera->shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_MODEL_MAT, 1, GL_FALSE, ModelMat);
+		}
 		
-		camera->shader->SetUniformMatrix4fv(VERTEX_SHADER_VAR_MODEL_MAT, 1, GL_FALSE, ModelMat);
 	}
 
 	

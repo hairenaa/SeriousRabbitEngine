@@ -76,13 +76,6 @@ public:
 		return source;
 	}
 
-	/*void Bind(Shader* shader) 
-	{
-		for (unsigned int i = 0; i < Vec.size(); i++)
-		{
-			Vec[i]->shader=shader;
-		}
-	}*/
 
 
 private :

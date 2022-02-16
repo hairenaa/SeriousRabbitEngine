@@ -21,6 +21,7 @@
 #include "Cube.h"
 #include "LightManager.h"
 #include "Manager.h"
+#include "SkyBox.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -186,7 +187,9 @@ int main(int argc,char* argv[])
 
 		
 		//init mainShader
-		mainShader = new Shader(SHADER_DEFAULT_FILE_VERTEX, SHADER_DEFAULT_FILE_FRAGMENT);
+		mainShader = new Shader(SHADER_DEFAULT_FILE_VERTEX, SHADER_DEFAULT_FILE_FRAGMENT,Shader::MAIN_SHADER);
+
+		Shader* skyShader = new Shader("SkyBoxVertex.vert", "SkyboxFragment.frag",Shader::SKYBOX_SHADER);
 
 		//init managers to handle the shader source code
 		std::vector<Manager*> managers;
@@ -220,20 +223,15 @@ int main(int argc,char* argv[])
 		mainShader->InitShader();
 
 		mainCamera = new Camera("MainCamera", mainShader, WIDTH, HEIGHT, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
-		
-		
-		
-		/*LightPoint* lightPoint2 = new LightPoint("lightP2", mainShader, glm::vec3(0.0f, 0.0f, 3.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 0.0f, 1.0f));
-		LightPoint* lightPoint3 = new LightPoint("lightP3", mainShader, glm::vec3(5.0f, 5.0f, 5.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));*/
+		mainCamera->shaders.push_back(skyShader);
 
 		Light* lightSpot = LightManager::Instance()->Build(LightManager::LIGHT_SPOT, "lightSpot", mainShader,glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
-		Cube* cube = new Cube("cube1", mainShader,mainCamera);
-		
+		Cube* cube = new Cube("cube1", mainShader,mainCamera,"awesomeface.png");
+		//cube->Scale(glm::vec3(600.0f, 600.0f, 600.0f));
 		Model* model = new Model("model1", modelPath, mainShader,mainCamera);
-		
+		SkyBox* skybox = new SkyBox("mainSkybox", skyShader, {"awesomeface.png","awesomeface.png",
+			"awesomeface.png","awesomeface.png","awesomeface.png","awesomeface.png"});
 		
 		
 		//update model mat
@@ -248,6 +246,7 @@ int main(int argc,char* argv[])
 		gameObjectVec.push_back(cube);
 		//reset model mat
 		gameObjectVec.push_back(model);
+		gameObjectVec.push_back(skybox);
 		
 
 #pragma endregion
@@ -267,7 +266,7 @@ int main(int argc,char* argv[])
 		//****
 		//update mode mat
 		//****
-		cube->Rotate(1.0f, glm::vec3(1.0f, 1.0f, 0));
+		//cube->Rotate(1.0f, glm::vec3(1.0f, 1.0f, 0));
 		model->Rotate(1.0f, glm::vec3(0, 1.0f, 0));
 		
 		
@@ -276,9 +275,9 @@ int main(int argc,char* argv[])
 
 			
 			GameObject* obj = gameObjectVec[i];
-			mainShader->use();
+			
 			obj->Draw();
-
+			glDepthFunc(GL_LESS);
 		
 
 		}

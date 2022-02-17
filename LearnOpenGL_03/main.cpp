@@ -9,8 +9,8 @@
 #include<glm/gtc/type_ptr.hpp>
 
 #include "SceneLoader.h"
-
-
+#include "Scene.h"
+#include "MyTestScript.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -24,84 +24,49 @@ using namespace std;
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
-#pragma region Model Data
-
-
-glm::vec3 cubePositions[] = {
-  glm::vec3(0.0f,  0.0f,  0.0f),
-  glm::vec3(1.0f,  2.0f, -15.0f),
-  glm::vec3(-1.5f, -2.2f, -2.5f),
-  glm::vec3(-3.8f, -2.0f, -12.3f),
-  glm::vec3(2.4f, -0.4f, -3.5f),
-  glm::vec3(-1.7f,  3.0f, -7.5f),
-  glm::vec3(1.3f, -2.0f, -2.5f),
-  glm::vec3(1.5f,  2.0f, -2.5f),
-  glm::vec3(1.5f,  0.2f, -1.5f),
-  glm::vec3(-1.3f,  1.0f, -1.5f)
-};
-
-
-
-unsigned int indecies[] = {
-	2,1,0,
-	0,3,2
-};
-
-
-double lastX;
-double lastY;
-bool isFirstMouse=true;
-
-#pragma endregion
-
-
-#pragma region Init VARS
-	
-	
-#pragma endregion
-
-
-
-
+SceneLoader* sceneLoader;
 
 #pragma region Input Declare
 
 
+double lastX;
+double lastY;
+bool isFirstMouse = true;
 
 
-void processInput(GLFWwindow* window) 
+void processInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) 
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
-		glfwSetWindowShouldClose(window,true);
+		glfwSetWindowShouldClose(window, true);
 	}
 
 	//camera->ClearSpeed();
-	
-	if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		mainCamera->MovInZAxias(20.0f);
+		sceneLoader->GetCurrentScene()->mainCamera->MovInZAxias(20.0f);
 	}
-	
+
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		mainCamera->MovInZAxias(-20.0f);
+		sceneLoader->GetCurrentScene()->mainCamera->MovInZAxias(-20.0f);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		mainCamera->MovInXAxias(-15.0f);
+		sceneLoader->GetCurrentScene()->mainCamera->MovInXAxias(-15.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		mainCamera->MovInXAxias(15.0f);
+		sceneLoader->GetCurrentScene()->mainCamera->MovInXAxias(15.0f);
 	}
-	
+
 }
 
-void mouse_callback(GLFWwindow* window,double xPos,double yPos) 
+void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 {
-	if (isFirstMouse) 
+	if (isFirstMouse)
 	{
 		lastX = xPos;
 		lastY = yPos;
@@ -115,17 +80,16 @@ void mouse_callback(GLFWwindow* window,double xPos,double yPos)
 	lastX = xPos;
 	lastY = yPos;
 	double test = 1.44;
-	mainCamera->ProcessMouseMovement(deltaX, deltaY);
+	sceneLoader->GetCurrentScene()->mainCamera->ProcessMouseMovement(deltaX, deltaY);
 }
 
 
-void SetInputMode(GLFWwindow* window) 
+void SetInputMode(GLFWwindow* window)
 {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 #pragma endregion
-
 
 int main(int argc,char* argv[])
 {
@@ -171,7 +135,19 @@ int main(int argc,char* argv[])
 
 #pragma region  Init SceneLoader
 
-		SceneLoader* sceneLoader = new SceneLoader(window, WIDTH, HEIGHT);
+		 sceneLoader = new SceneLoader(window, WIDTH, HEIGHT,debugPath);
+		
+		
+#pragma endregion
+
+#pragma region SomeThing Init
+
+		GameScript* myTestScript = new MyTestScript();
+
+		sceneLoader->GetCurrentScene()->Init();
+		sceneLoader->GetCurrentScene()->Awake();
+		sceneLoader->GetCurrentScene()->OnEnable();
+
 
 #pragma endregion
 
@@ -181,9 +157,9 @@ int main(int argc,char* argv[])
 		//processInput
 		/*processInput(window);*/
 		
-		input->UpdateInput();
+		sceneLoader->GetCurrentScene()->input->UpdateInput();
 
-
+		
 		//...render begin
 
 		//clear screen
@@ -194,20 +170,9 @@ int main(int argc,char* argv[])
 		//update mode mat
 		//****
 		//cube->Rotate(1.0f, glm::vec3(1.0f, 1.0f, 0));
-		model->Rotate(0.5f, glm::vec3(0, 1.0f, 0));
-		cube->Rotate(0.5f, glm::vec3(1.0f, 1.0f, 0));
-		cube->Translate(glm::vec3(0.01f, 0, 0));
 		
-		for (unsigned int i = 0; i < gameObjectVec.size(); i++)
-		{
-
-			
-			GameObject* obj = gameObjectVec[i];
-			obj->Draw();
-			glDepthFunc(GL_LESS);
+		sceneLoader->GetCurrentScene()->Update();
 		
-
-		}
 
 		//...render end
 		//Clear up,prepare for next render loop
@@ -217,21 +182,12 @@ int main(int argc,char* argv[])
 		
 	}
 
+	sceneLoader->GetCurrentScene()->OnDisable();
+
 	//Exit Programe 
 	glfwTerminate();
-
-	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
-	{
-		DestroyBase* obj = gameObjectVec[i];
-		obj->Destroy(obj);
-	}
-
-	for (unsigned int i = 0; i < managers.size(); i++) 
-	{
-		DestroyBase* mana = managers[i];
-		mana->Destroy(mana);
-	}
-
+	
+	sceneLoader->Destroy(sceneLoader);
 	return 0;
 
 }

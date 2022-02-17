@@ -1,11 +1,21 @@
 #pragma once
 #include "GameScript.h"
 #include "SceneLoader.h"
+#include "Scene.h"
+
 class GameScriptAdapter:public GameScript
 {
+public:
+	Scene* scene;
+	GameScriptAdapter() 
+	{
+		scene = SceneLoader::Instance()->GetCurrentScene();
+		scene->PushScript(this);
+	}
+
 	virtual void Init() 
 	{
-	
+		
 	};
 	virtual  void Awake() 
 	{
@@ -27,5 +37,11 @@ class GameScriptAdapter:public GameScript
 	{
 	
 	};
+
+
+
+
+
+
 };
 

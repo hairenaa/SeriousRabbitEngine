@@ -1,5 +1,6 @@
 #pragma once
-class GameScript
+#include "DestroyBase.h"
+class GameScript: public DestroyBase
 {
 public:
 	virtual void Init() = 0;

@@ -2,6 +2,9 @@
 
 #include "InputBase.h"
 #include "Single.h"
+#include <glad/glad.h>
+#include<GLFW/glfw3.h>
+#include "GameScriptAdapter.h"
 
 class InputInWindows:public InputBase
 {

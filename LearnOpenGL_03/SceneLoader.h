@@ -5,18 +5,32 @@
 #include "Scene.h"
 #include <string>
 #include "Object.h"
-class SceneLoader
+#include "DestroyBase.h"
+class SceneLoader:public DestroyBase
 {
 private:
 	
 	GLFWwindow* window;
 	unsigned int Width;
 	unsigned int Height;
+	static SceneLoader* instance;
 public:
 	std::vector<Scene*> scenes;
 	std::string TargetPath="";
 	
 	unsigned int Index = 0;
+
+	static SceneLoader*  Instance() 
+	{
+		if (instance != nullptr) 
+		{
+			return instance;
+		}
+		else
+		{
+			throw new exception("no instance of SceneLoader!!");
+		}
+	}
 
 	SceneLoader(GLFWwindow* window, unsigned int width, unsigned int height,std::string targetPath)
 	{
@@ -25,7 +39,17 @@ public:
 		this->Width = width;
 		this->TargetPath = targetPath;
 		NewSceneInstance("DefaultScene");
+		instance = this;
 	}
+	~SceneLoader()
+	{
+		for (unsigned int i = 0; i < scenes.size(); i++)
+		{
+			Scene* scene = scenes[i];
+			scene->Destroy(scene);
+		}
+	}
+
 	Scene* NewSceneInstance(std::string _name) 
 	{
 		Scene* scene;

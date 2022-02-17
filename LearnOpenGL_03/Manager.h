@@ -2,8 +2,9 @@
 #include<iostream>
 #include <string>
 #include "Shader.h"
+#include "DestroyBase.h";
 
-class Manager
+class Manager:public DestroyBase
 {
 public:
 	enum HandleType

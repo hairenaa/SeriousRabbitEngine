@@ -4,10 +4,10 @@
 
 #include <glad/glad.h>
 #include<GLFW/glfw3.h>
-
+#include "DestroyBase.h"
 #include "Shader.h"
 
-class GameObject
+class GameObject:public DestroyBase
 {
 public:
 	static int id;
@@ -24,11 +24,7 @@ public:
 		this->name = _name;
 		this->shader = _shader;
 	};
-	virtual void Destroy(GameObject* obj_ptr) 
-	{
-		delete obj_ptr;
-		obj_ptr = NULL;
-	}
+	
 
 	
 	virtual void Draw() 

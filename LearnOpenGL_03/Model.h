@@ -34,11 +34,12 @@ public:
 	};
 	~Model()
 	{
-		if (this->material != NULL) 
+		if (this->material != nullptr) 
 		{
 			delete this->material;
-			this->material = NULL;
+			this->material = nullptr;
 		}
+		
 	}
 	
 	void Draw()

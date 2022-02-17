@@ -74,7 +74,7 @@ public:
 	{
 		this->groupLen = _groupLen;
 		this->indices = _indices;
-		this->textures = textures;
+		this->textures = _textures;
 		this->diffusePrefix = _name + diffusePrefix;
 		this->specularPrefix = _name + specularPrefix;
 		this->normalPrefix = _name + normalPrefix;

@@ -137,7 +137,7 @@
     <ClInclude Include="DestroyBase.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputBase.h" />
-    <ClInclude Include="InputHelper.h" />
+    <ClInclude Include="InputInWindows.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightDirectional.h" />
     <ClInclude Include="LightManager.h" />

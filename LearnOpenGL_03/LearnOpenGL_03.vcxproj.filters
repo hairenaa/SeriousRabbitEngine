@@ -86,13 +86,13 @@
     <ClInclude Include="SkyBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="InputHelper.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="DestroyBase.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="InputBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputInWindows.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

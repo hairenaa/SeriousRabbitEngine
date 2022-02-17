@@ -19,8 +19,9 @@ public:
 	const std::string SPE_PATH = TEXTURE_DEFAULT_SPECULAR_PATH;
 
 
-	Cube(std::string _name, Shader* _shader, std::vector<Texture> textureVec) :GameObject(_name, _shader), PhysicsObject()
+	Cube(std::string _name, Shader* _shader, Camera* _camera,std::vector<Texture> textureVec) :GameObject(_name, _shader), PhysicsObject(_camera)
 	{
+		
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN,this->indices,textureVec);
 	}
 
@@ -58,16 +59,16 @@ public:
 
 	~Cube()
 	{
-		if (this->mesh!=NULL) 
+		if (this->mesh!=nullptr) 
 		{
 			delete this->mesh;
-			this->mesh = NULL;
+			this->mesh = nullptr;
 		}
 
-		if (this->material != NULL) 
+		if (this->material != nullptr) 
 		{
 			delete this->material;
-			this->material = NULL;
+			this->material = nullptr;
 		}
 	}
 

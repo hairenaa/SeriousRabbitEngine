@@ -134,7 +134,10 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConstValues.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="DestroyBase.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputBase.h" />
+    <ClInclude Include="InputHelper.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightDirectional.h" />
     <ClInclude Include="LightManager.h" />
@@ -159,11 +162,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png" />
+    <Image Include="back.jpg" />
+    <Image Include="bottom.jpg" />
     <Image Include="demon.jpg" />
     <Image Include="doom.jpg" />
+    <Image Include="down.png" />
+    <Image Include="front.jpg" />
+    <Image Include="left.jpg" />
+    <Image Include="right.jpg" />
     <Image Include="t.png" />
     <Image Include="texture_default_diffuse.png" />
     <Image Include="texture_default_specular.png" />
+    <Image Include="top.jpg" />
     <Image Include="wall.jpg" />
     <Image Include="wood.png" />
     <Image Include="wood_specular.png" />

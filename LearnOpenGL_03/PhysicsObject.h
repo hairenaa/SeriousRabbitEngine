@@ -3,7 +3,8 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 #include "Camera.h"
-class PhysicsObject
+#include "DestroyBase.h"
+class PhysicsObject:public DestroyBase
 {
 public:
 	glm::mat4 ModelMat;
@@ -19,7 +20,7 @@ public:
 	}
 	virtual void Rotate(float angle,glm::vec3 axis)
 	{
-		ModelMat = glm::rotate(ModelMat, glm::radians(angle), axis);
+		ModelMat = glm::rotate(ModelMat, angle, axis);
 		
 	};
 	virtual void Translate(glm::vec3 vec)

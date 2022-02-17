@@ -86,6 +86,15 @@
     <ClInclude Include="SkyBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="InputHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DestroyBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.frag" />
@@ -120,6 +129,27 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="texture_default_specular.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="down.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="back.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="bottom.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="front.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="left.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="right.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="top.jpg">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

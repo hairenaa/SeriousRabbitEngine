@@ -2,8 +2,7 @@
 #include<vector>
 #include<string>
 #include<iostream>
-
-
+#include <io.h>
 #include <glad/glad.h>
 #include<GLFW/glfw3.h>
 
@@ -66,11 +65,7 @@ public:
 		glGenTextures(1, &TexBuffer);
 		//glActiveTexture(GL_TEXTURE0 + textureSlot);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, TexBuffer);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		
 		
 
 		for (unsigned int i = 0; i < pathes.size(); i++)
@@ -96,7 +91,36 @@ public:
 					format = GL_RGBA;
 
 				}
-				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+				unsigned int start = path.find_last_of("\\") + 1;
+				unsigned int end = path.find_last_of(".");
+				std::string name = path.substr(start, end-start);
+				unsigned int cueb_map_index = GL_TEXTURE_CUBE_MAP_POSITIVE_X ;
+
+				if (name == "right") 
+				{
+					cueb_map_index+=0;
+				}
+				else if (name == "left")
+				{
+					cueb_map_index+=1;
+				}
+				else if (name == "bottom")
+				{
+					cueb_map_index += 2;
+				}
+				else if (name == "top")
+				{
+					cueb_map_index += 3;
+				}
+				else if (name == "front")
+				{
+					cueb_map_index += 4;
+				}
+				else if (name == "back")
+				{
+					cueb_map_index += 5;
+				}
+				glTexImage2D(cueb_map_index, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 				//glGenerateMipmap(GL_TEXTURE_2D);
 			}
 			else
@@ -106,9 +130,40 @@ public:
 
 			stbi_image_free(data);
 		}
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 		
 
 		return TexBuffer;
 	};
+
+
+	static void GetDirFilesPathes(std::string dir,std::vector<string>& files)
+	{
+		intptr_t hFile = 0;
+		struct _finddata_t fileinfo;
+		string p;
+		if ((hFile = _findfirst(p.assign(dir).append("\\*").c_str(), &fileinfo)) != -1)
+		{
+			do
+			{
+
+				if ((fileinfo.attrib & _A_SUBDIR))
+				{
+					if (strcmp(fileinfo.name, ".") != 0 && strcmp(fileinfo.name, "..") != 0)
+						GetDirFilesPathes(p.assign(dir).append("\\").append(fileinfo.name), files);
+				}
+				else
+				{
+					files.push_back(p.assign(dir).append("\\").append(fileinfo.name));
+				}
+			} while (_findnext(hFile, &fileinfo) == 0);
+			_findclose(hFile);
+		}
+		
+	}
 };
 

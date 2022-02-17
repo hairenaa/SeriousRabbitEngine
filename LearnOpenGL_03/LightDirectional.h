@@ -9,14 +9,16 @@
 #include "ConstValues.h"
 class LightDirectional:public Light
 {
+
+	
 public:
-	LightDirectional(std::string _name,Shader* _shader,glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
-		:Light(_name,_shader,_position, _angles, _color)
+	
+	LightDirectional(std::string _name, Shader* _shader, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
+		:Light(_name, _shader, _position, _angles, _color)
 	{
-		
+
 		UpdateDirection();
 	}
-
 	/*LightDirectional(std::string _name, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
 		:Light(_name,_position, _angles, _color)
 	{

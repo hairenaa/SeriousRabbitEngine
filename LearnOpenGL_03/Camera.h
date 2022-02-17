@@ -8,8 +8,14 @@
 #include <vector>
 class Camera:public GameObject
 {
+protected:
+	float Asp;
+	float Fov = 30.0f;
+	float MinDis = 0.1f;
+	float MaxDis = 1000.0f;
+	float MaxPitch = 1.553343f;
+	float MinPitch = -1.553343f;
 public:
-	
 	glm::mat4 ViewMat;
 	glm::mat4 ProjectionMat;
 	glm::vec3 Postion;
@@ -19,16 +25,13 @@ public:
 	glm::vec3 WorldUp;
 	float Pitch;
 	float Yaw;
-	float SensX = 0.000013f;
-	float SensY = 0.000013f;
+	float SensX = 0.00013f;
+	float SensY = 0.00013f;
 	glm::vec3 movVector;
 	float speedMulZ = 0.01f;
 	float speedMulY = 0.01f;
 	float speedMulX = 0.01f;
-	float Asp;
-	float Fov=90.0f;
-	float MinDis=0.1f;
-	float MaxDis = 1000.0f;
+	
 	std::vector<Shader*> shaders;
 	Camera(std::string _name, Shader* _shader,float _screen_width,float _scree_height, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
 		:GameObject(_name,_shader)
@@ -40,7 +43,7 @@ public:
 		Right = glm::normalize(glm::cross(Forward, worldup));
 		Up = glm::normalize(glm::cross(Right, Forward));
 		Asp = _screen_width / _scree_height;
-		ProjectionMat = glm::perspective(glm::radians(Fov), Asp, MinDis, MaxDis);
+		ProjectionMat = glm::perspective(Fov, Asp, MinDis, MaxDis);
 
 	};
 	Camera(std::string _name, Shader* _shader, float _screen_width, float _scree_height, glm::vec3 position, float pitch, float yaw, glm::vec3 worldup)
@@ -57,17 +60,47 @@ public:
 		Right = glm::normalize(glm::cross(Forward, WorldUp));
 		Up = glm::normalize(glm::cross(Right, Forward));
 		Asp = _screen_width / _scree_height;
-		ProjectionMat = glm::perspective(glm::radians(Fov), Asp, MinDis, MaxDis);
+		ProjectionMat = glm::perspective(Fov, Asp, MinDis, MaxDis);
 
 	};
 	
+	void SetMaxDis(float maxDis) 
+	{
+		this->MaxDis = maxDis;
+		ProjectionMat = glm::perspective(Fov, Asp, MinDis, MaxDis);
+	}
+
+	void SetMinDis(float minDis)
+	{
+		this->MinDis = minDis;
+		ProjectionMat = glm::perspective(Fov, Asp, MinDis, MaxDis);
+	}
+
+
+	void SetFov(float fov) 
+	{
+		this->Fov = fov;
+		ProjectionMat = glm::perspective(Fov, Asp, MinDis, MaxDis);
+	}
+
+	void SetMaxPitch(float top_pitch_angle) 
+	{
+		this->MaxPitch= glm::radians(top_pitch_angle);
+	}
+
+	void SetMinPitch(float bottom_pitch_angle)
+	{
+		this->MinPitch= glm::radians(bottom_pitch_angle);
+	}
+
 	void ProcessMouseMovement(float deltaX, float deltaY)
 	{
 
 		Pitch -= deltaY * SensY;
+		//std::cout << Pitch << endl;
 		Yaw += deltaX * SensX;
-		Pitch = Pitch > 89.0f ? 89.0f : Pitch;
-		Pitch = Pitch < -89.0f ? -89.0f : Pitch;
+		Pitch = Pitch > MaxPitch ? MaxPitch : Pitch;
+		Pitch = Pitch < MinPitch ? MinPitch : Pitch;
 		updateCameraVectors();
 
 	};
@@ -91,7 +124,8 @@ public:
 	{
 		for (unsigned int i = 0; i < shaders.size(); i++)
 		{
-			shaders[i]->use();
+			Shader* shader= shaders[i];
+			shader->use();
 			ViewMat = this->GetViewMatrix();
 			if (shader->shaderType == Shader::SKYBOX_SHADER) 
 			{

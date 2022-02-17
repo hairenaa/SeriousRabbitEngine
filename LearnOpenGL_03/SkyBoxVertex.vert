@@ -6,13 +6,14 @@ layout (location = 3) in vec2 aTexCoord;
 
 //uniform mat4 transform;
 
+uniform mat4 modelMat;
 uniform mat4 viewMat;
 uniform mat4 projectionMat;
 out vec3 TexCoord;
 
 void main()											   	
 {				
-	vec4 pos=projectionMat * viewMat * vec4(aPos,1.0f);	   	
-	gl_Position =pos.xyww;
+	vec4 pos=projectionMat * viewMat* modelMat  * vec4(aPos,1.0f);	   	
+	gl_Position= pos.xyww;
 	TexCoord=aPos;
 }															

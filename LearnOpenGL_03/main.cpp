@@ -22,6 +22,7 @@
 #include "LightManager.h"
 #include "Manager.h"
 #include "SkyBox.h"
+#include "DestroyBase.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -103,11 +104,11 @@ void processInput(GLFWwindow* window)
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		mainCamera->MovInXAxias(-5.0f);
+		mainCamera->MovInXAxias(-15.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		mainCamera->MovInXAxias(5.0f);
+		mainCamera->MovInXAxias(15.0f);
 	}
 	
 }
@@ -139,15 +140,9 @@ int main(int argc,char* argv[])
 	cout << argv[0]<<endl;
 	std::string exePath = argv[0];
 
-		//"\\model\\Crysis\\nanosuit.obj"
-		// "\\model\\aigei\\pearl\\pearl.obj"
-		//"\\model\\test\\test2.obj"
-		//"\\model\\backpack\\backpack.obj"
-		//"\\model\\Dog\\Doguinho.obj"
-		//"\\model\\erciyuan\\shaonv\\luomo.obj"
+	
+	std::string debugPath = exePath.substr(0, exePath.find_last_of('\\'));
 
-	std::string modelPath = exePath.substr(0, exePath.find_last_of('\\')) +"\\model\\Crysis\\nanosuit.obj";
-	std::cout <<modelPath << endl;
 
 	#pragma region Open a Window
 
@@ -221,6 +216,7 @@ int main(int argc,char* argv[])
 
 		//init shader
 		mainShader->InitShader();
+		skyShader->InitShader();
 
 		mainCamera = new Camera("MainCamera", mainShader, WIDTH, HEIGHT, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
 		mainCamera->shaders.push_back(skyShader);
@@ -228,11 +224,22 @@ int main(int argc,char* argv[])
 		Light* lightSpot = LightManager::Instance()->Build(LightManager::LIGHT_SPOT, "lightSpot", mainShader,glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
 		Cube* cube = new Cube("cube1", mainShader,mainCamera,"awesomeface.png");
-		//cube->Scale(glm::vec3(600.0f, 600.0f, 600.0f));
-		Model* model = new Model("model1", modelPath, mainShader,mainCamera);
-		SkyBox* skybox = new SkyBox("mainSkybox", skyShader, {"awesomeface.png","awesomeface.png",
-			"awesomeface.png","awesomeface.png","awesomeface.png","awesomeface.png"});
 		
+
+		//"\\model\\Crysis\\nanosuit.obj"
+	// "\\model\\aigei\\pearl\\pearl.obj"
+	//"\\model\\test\\test2.obj"
+	//"\\model\\backpack\\backpack.obj"
+	//"\\model\\Dog\\Doguinho.obj"
+	//"\\model\\erciyuan\\shaonv\\luomo.obj"
+		std::string modelPath = debugPath + "\\model\\Crysis\\nanosuit.obj";
+		std::string texturePath = debugPath + "\\texture\\skybox\\default";
+		std::cout << "modelPath is :" << modelPath << endl;
+		std::cout << "texturePath is :" << texturePath << endl;
+
+		Model* model = new Model("model1", modelPath, mainShader,mainCamera);
+		SkyBox* skybox = new SkyBox("skybox", skyShader, mainCamera, texturePath);
+		//skybox->cube->Scale(glm::vec3(1900.0f, 1900.0f, 1900.0f));
 		
 		//update model mat
 		gameObjectVec.push_back(mainCamera);
@@ -267,15 +274,15 @@ int main(int argc,char* argv[])
 		//update mode mat
 		//****
 		//cube->Rotate(1.0f, glm::vec3(1.0f, 1.0f, 0));
-		model->Rotate(1.0f, glm::vec3(0, 1.0f, 0));
-		
+		model->Rotate(0.5f, glm::vec3(0, 1.0f, 0));
+		cube->Rotate(0.5f, glm::vec3(1.0f, 1.0f, 0));
+		cube->Translate(glm::vec3(0.01f, 0, 0));
 		
 		for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 		{
 
 			
 			GameObject* obj = gameObjectVec[i];
-			
 			obj->Draw();
 			glDepthFunc(GL_LESS);
 		
@@ -295,10 +302,14 @@ int main(int argc,char* argv[])
 
 	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 	{
-		GameObject* obj = gameObjectVec[i];
+		DestroyBase* obj = gameObjectVec[i];
 		obj->Destroy(obj);
-		/*delete obj;
-		obj = NULL;*/
+	}
+
+	for (unsigned int i = 0; i < managers.size(); i++) 
+	{
+		DestroyBase* mana = managers[i];
+		mana->Destroy(mana);
 	}
 
 	return 0;

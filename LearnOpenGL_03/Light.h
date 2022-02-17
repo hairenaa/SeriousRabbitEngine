@@ -12,15 +12,7 @@
 class Light:public GameObject
 {
 
-public:
-	glm::vec3 position;
-	glm::vec3 angles;
-	glm::vec3 color;
-	glm::vec3 direction = glm::vec3(0, 0, 1.0f);
-	std::string pos_name = FRAGMENT_SHADER_STRUCT_LIGHT_POS;
-	std::string color_name = FRAGMENT_SHADER_STRUCT_LIGHT_COLOR;
-	std::string dir_name = FRAGMENT_SHADER_STRUCT_LIGHT_DIR;
-	
+protected:
 	Light(std::string _name, Shader* _shader, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color)
 		:GameObject(_name, _shader)
 	{
@@ -33,9 +25,16 @@ public:
 		this->dir_name = _name + dir_name;
 
 	}
-	
 
-	
+public:
+	glm::vec3 position;
+	glm::vec3 angles;
+	glm::vec3 color;
+	glm::vec3 direction = glm::vec3(0, 0, 1.0f);
+	std::string pos_name = FRAGMENT_SHADER_STRUCT_LIGHT_POS;
+	std::string color_name = FRAGMENT_SHADER_STRUCT_LIGHT_COLOR;
+	std::string dir_name = FRAGMENT_SHADER_STRUCT_LIGHT_DIR;
+		
 	virtual void Draw() 
 	{
 		GameObject::Draw();

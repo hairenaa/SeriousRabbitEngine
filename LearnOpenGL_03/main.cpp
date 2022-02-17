@@ -23,6 +23,8 @@
 #include "Manager.h"
 #include "SkyBox.h"
 #include "DestroyBase.h"
+#include "InputInWindows.h"
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -132,6 +134,12 @@ void mouse_callback(GLFWwindow* window,double xPos,double yPos)
 	mainCamera->ProcessMouseMovement(deltaX, deltaY);
 }
 
+
+void SetInputMode(GLFWwindow* window) 
+{
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
 #pragma endregion
 
 
@@ -161,9 +169,14 @@ int main(int argc,char* argv[])
 			return -1;
 		}
 		glfwMakeContextCurrent(window);
+		
+/*
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		glfwSetCursorPosCallback(window, mouse_callback);
-
+		glfwSetMouseButtonCallback();
+		glfwSetKeyCallback();
+*/
+		
 		//init glew
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -180,7 +193,13 @@ int main(int argc,char* argv[])
 
 #pragma region  Init GameObjects
 
-		
+		InputInWindows* input = new InputInWindows(window);
+		input->RegisterInputModeGroup(SetInputMode);
+		input->RegisterCursorPosCallBack(mouse_callback);
+		input->RegisterToUpdate(processInput);
+
+
+
 		//init mainShader
 		mainShader = new Shader(SHADER_DEFAULT_FILE_VERTEX, SHADER_DEFAULT_FILE_FRAGMENT,Shader::MAIN_SHADER);
 
@@ -262,8 +281,11 @@ int main(int argc,char* argv[])
 	while (!glfwWindowShouldClose(window))
 	{
 		//processInput
-		processInput(window);
+		/*processInput(window);*/
 		
+		input->UpdateInput();
+
+
 		//...render begin
 
 		//clear screen

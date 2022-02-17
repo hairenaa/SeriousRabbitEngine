@@ -6,19 +6,19 @@
 #include<GLFW/glfw3.h>
 #include "DestroyBase.h"
 #include "Shader.h"
+#include "Object.h"
 
-class GameObject:public DestroyBase
+class GameObject:public Object,public DestroyBase
 {
 public:
-	static int id;
-	std::string name;
+	
 	Shader* shader=nullptr;
-	GameObject(std::string _name) 
+	GameObject(std::string _name) :Object(_name)
 	{
 		this->id ++;
 		this->name = _name;
 	};
-	GameObject(std::string _name,Shader* _shader)
+	GameObject(std::string _name,Shader* _shader) :Object(_name)
 	{
 		this->id++;
 		this->name = _name;

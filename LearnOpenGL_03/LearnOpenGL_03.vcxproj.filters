@@ -95,6 +95,27 @@
     <ClInclude Include="InputInWindows.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WinApiUtil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTestScript.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScript.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScriptAdapter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.frag" />

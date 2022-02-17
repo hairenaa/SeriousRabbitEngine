@@ -136,6 +136,8 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DestroyBase.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameScript.h" />
+    <ClInclude Include="GameScriptAdapter.h" />
     <ClInclude Include="InputBase.h" />
     <ClInclude Include="InputInWindows.h" />
     <ClInclude Include="Light.h" />
@@ -147,7 +149,11 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MyTestScript.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="PhysicsObject.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneLoader.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderFileUtil.h" />
     <ClInclude Include="Single.h" />
@@ -155,6 +161,7 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TextureLoadUtil.h" />
     <ClInclude Include="TexturePoolSinglton.h" />
+    <ClInclude Include="WinApiUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.frag" />

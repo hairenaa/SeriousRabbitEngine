@@ -15,12 +15,13 @@
 #include <vector>
 #include "ShaderFileUtil.h"
 #include "Object.h"
+#include "DestroyBase.h"
 
 
 using namespace std;
 
 
-class Shader:public Object
+class Shader:public Object,public DestroyBase
 {
 public:
 	

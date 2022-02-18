@@ -49,8 +49,7 @@ public:
 	{
 		if (cube != nullptr) 
 		{
-			delete cube;
-			cube = nullptr;
+			cube->Destroy(cube);
 		}
 	}
 

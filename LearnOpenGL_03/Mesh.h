@@ -53,6 +53,8 @@ public:
 	std::vector<Texture> textures;
 	int groupLen;
 
+	
+
 	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array,int _groupLen, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
 		:GameObject(_name, _shader) 
 	{
@@ -69,6 +71,8 @@ public:
 	}
 
 	
+
+
 	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array, int _groupLen, std::vector<unsigned int> _indices,std::vector<Texture> _textures)
 		:GameObject(_name, _shader)
 	{
@@ -96,6 +100,15 @@ public:
 		this->material = _material;
 		setupMesh();
 	};
+
+	/*~Mesh()
+	{
+		if (this->material != nullptr)
+		{
+			material->Destroy(material);
+		}
+	}*/
+
 	/*
 	Mesh(std::string _name,Shader* _shader, std::vector<Vertex> _vertices, std::vector<unsigned int>_indices, Material* _material)
 		:GameObject(_name,_shader)

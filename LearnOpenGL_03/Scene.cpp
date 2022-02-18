@@ -29,13 +29,27 @@ Scene::~Scene()
 		GameScript* script = gameScriptVec[i];
 		script->OnDestroy();
 		script->Destroy(script);
+		
 	}
 
 	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 	{
 		GameObject* obj = gameObjectVec[i];
 		obj->Destroy(obj);
+		
 	}
+
+	for (unsigned int i = 0; i < shaderVec.size(); i++)
+	{
+		Shader* obj = shaderVec[i];
+		obj->Destroy(obj);
+
+	}
+
+
+
+
+
 
 
 

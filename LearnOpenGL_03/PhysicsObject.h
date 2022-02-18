@@ -6,7 +6,7 @@
 #include "DestroyBase.h"
 #include "GameFinder.h"
 
-class PhysicsObject:public DestroyBase
+class PhysicsObject
 {
 public:
 	glm::mat4 ModelMat;

@@ -3,6 +3,8 @@
 static const char* TEXTURE_DEFAULT_DIFFUSE_PATH ="texture_default_diffuse.png";
 static const char* TEXTURE_DEFAULT_SPECULAR_PATH ="texture_default_specular.png";
 
+static const char* MAIN_SHADER_DEFAULT_NAME = "mainShader";
+static const char* SKYBOX_SHADER_DEFAULT_NAME = "skyBoxShader";
 
 static const char* SHADER_DEFAULT_FILE_FRAGMENT = "fragmentSource.frag";
 static const char* SHADER_DEFAULT_FILE_VERTEX = "vertexSource.vert";

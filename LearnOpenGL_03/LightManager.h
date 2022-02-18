@@ -2,14 +2,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Light.h"
-#include "LightDirectional.h"
-#include "LightPoint.h"
-#include "LightSpot.h"
+
 #include "Manager.h"
 #include "Single.h"
 #include  "Shader.h"
-
+#include "ConstValues.h"
 
 class LightManager :public Single<LightManager>,public Manager
 {
@@ -17,7 +14,6 @@ public:
 	std::string content_dec="";
 	std::string content_calc="";
 	std::string name;
-	std::vector<Light*> Vec;
 
 	enum LightType
 	{
@@ -32,7 +28,7 @@ public:
 		this->handleType = Manager::HANDLE_FRAGMENT;
 	}
 
-	Light* Build(LightType type, std::string _name,Shader* _shader, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
+	/*Light* Build(LightType type, std::string _name, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
 	{
 		this->name = _name;
 		switch (type)
@@ -41,28 +37,28 @@ public:
 			case LIGHT_DIRECTIONAL: 
 			{
 				AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_DIRECTIONAL, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_DIRECTIONAL);
-				Light* lightDir = new LightDirectional(_name,_shader, _position, _angles, _color);
+				Light* lightDir = new LightDirectional(_name, _position, _angles, _color);
 				Vec.push_back(lightDir);
 				return lightDir;
 			}
 			case LIGHT_POINT: 
 			{
 				AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_POINT, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_POINT);
-				Light* lightP= new LightPoint(_name, _shader, _position, _angles, _color);
+				Light* lightP= new LightPoint(_name,  _position, _angles, _color);
 				Vec.push_back(lightP);
 				return lightP;
 			}
 			case LIGHT_SPOT: 
 			{
 				AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_SPOT, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_SPOT);
-				Light* lightS = new LightSpot(_name, _shader, _position, _angles, _color);
+				Light* lightS = new LightSpot(_name,  _position, _angles, _color);
 				Vec.push_back(lightS);
 				return lightS;
 			}
 		
 			}
 			return nullptr;
-	};
+	};*/
 
 	
 

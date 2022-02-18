@@ -7,8 +7,10 @@ public:
 	std::string name;
 	Object(std::string _name)
 	{
-		this->id++;
+		id++;
 		this->name = _name;
 	};
 };
+
+
 

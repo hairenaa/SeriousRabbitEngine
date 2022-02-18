@@ -128,13 +128,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\OpenGL\glad\src\glad.c" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DefaultGameObject.cpp" />
+    <ClCompile Include="GameFinder.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DefaultGameObject.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConstValues.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DestroyBase.h" />
+    <ClInclude Include="GameFinder.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScript.h" />
     <ClInclude Include="GameScriptAdapter.h" />
@@ -142,10 +149,9 @@
     <ClInclude Include="InputInWindows.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightDirectional.h" />
-    <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="LightSpot.h" />
-    <ClInclude Include="Manager.h" />
+    <ClInclude Include="ManagerGameObject.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />

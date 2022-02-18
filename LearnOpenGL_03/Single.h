@@ -9,9 +9,13 @@ public:
 		if (instance == nullptr)
 		{
 			instance = new T();
+			
 		}
 		return instance;
 	}
+
+	
+
 protected:
 	static T* instance;
 };

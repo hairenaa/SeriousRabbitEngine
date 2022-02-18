@@ -19,7 +19,8 @@
 
 using namespace std;
 
-
+int Object::id = 0;
+SceneLoader* SceneLoader::instance = nullptr;
 
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
@@ -136,14 +137,16 @@ int main(int argc,char* argv[])
 #pragma region  Init SceneLoader
 
 		 sceneLoader = new SceneLoader(window, WIDTH, HEIGHT,debugPath);
-		
+		 sceneLoader->GetCurrentScene()->input->RegisterCursorPosCallBack(mouse_callback);
+		 sceneLoader->GetCurrentScene()->input->RegisterInputModeGroup(SetInputMode);
+		 sceneLoader->GetCurrentScene()->input->RegisterToUpdate(processInput);
 		
 #pragma endregion
 
 #pragma region SomeThing Init
 
 		GameScript* myTestScript = new MyTestScript();
-
+		sceneLoader->GetCurrentScene()->PushScript(myTestScript);
 		sceneLoader->GetCurrentScene()->Init();
 		sceneLoader->GetCurrentScene()->Awake();
 		sceneLoader->GetCurrentScene()->OnEnable();

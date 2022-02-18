@@ -33,6 +33,40 @@ public:
 	float speedMulX = 0.01f;
 	
 	std::vector<Shader*> shaders;
+
+
+	//Camera(std::string _name, float _screen_width, float _scree_height, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
+	//	:DefaultGameObject(_name)
+	//{
+	//	shaders.push_back(this->shader);
+	//	Postion = position;
+	//	WorldUp = worldup;
+	//	Forward = glm::normalize(target - position);
+	//	Right = glm::normalize(glm::cross(Forward, worldup));
+	//	Up = glm::normalize(glm::cross(Right, Forward));
+	//	Asp = _screen_width / _scree_height;
+	//	ProjectionMat = glm::perspective(Fov, Asp, MinDis, MaxDis);
+
+	//};
+	//Camera(std::string _name,  float _screen_width, float _scree_height, glm::vec3 position, float pitch, float yaw, glm::vec3 worldup)
+	//	:DefaultGameObject(_name)
+	//{
+	//	shaders.push_back(this->shader);
+	//	Postion = position;
+	//	WorldUp = worldup;
+	//	Pitch = pitch;
+	//	Yaw = yaw;
+	//	Forward.x = glm::cos(Pitch)*glm::sin(Yaw);
+	//	Forward.y = glm::sin(Pitch);
+	//	Forward.z = -glm::cos(Pitch)*glm::cos(Yaw);
+	//	Right = glm::normalize(glm::cross(Forward, WorldUp));
+	//	Up = glm::normalize(glm::cross(Right, Forward));
+	//	Asp = _screen_width / _scree_height;
+	//	ProjectionMat = glm::perspective(Fov, Asp, MinDis, MaxDis);
+
+	//};
+
+	//******************************************************************************
 	Camera(std::string _name, Shader* _shader,float _screen_width,float _scree_height, glm::vec3 position, glm::vec3 target, glm::vec3 worldup)
 		:GameObject(_name,_shader)
 	{

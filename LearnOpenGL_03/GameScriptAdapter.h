@@ -6,12 +6,7 @@
 class GameScriptAdapter:public GameScript
 {
 public:
-	Scene* scene;
-	GameScriptAdapter() 
-	{
-		scene = SceneLoader::Instance()->GetCurrentScene();
-		scene->PushScript(this);
-	}
+	
 
 	virtual void Init() 
 	{
@@ -37,11 +32,6 @@ public:
 	{
 	
 	};
-
-
-
-
-
 
 };
 

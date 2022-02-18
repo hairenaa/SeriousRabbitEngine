@@ -11,22 +11,37 @@
 #include "Shader.h"
 #include "Material.h"
 
-#include "GameObject.h"
+#include "DefaultGameObject.h"
 #include "TextureLoadUtil.h"
 #include "TexturePoolSinglton.h"
 #include "ConstValues.h"
 #include "PhysicsObject.h"
 #include "Camera.h"
 
-class Model:public GameObject,public PhysicsObject
+class Model:public DefaultGameObject,public PhysicsObject
 {
 public:
 	std::vector<Mesh> meshes;
 	std::string directory;
 	Material* material;
 
+	Model(std::string _name, std::string path, Shader* _shader)
+		:DefaultGameObject(_name, _shader), PhysicsObject()
+	{
+		this->material = new Material(_name, _shader);
+		loadModel(path);
+	};
+
+	//**********************************************************************
+	Model(std::string _name, std::string path)
+		:DefaultGameObject(_name), PhysicsObject()
+	{
+		this->material = new Material(_name, this->shader);
+		loadModel(path);
+	};
+	//****************************************************
 	Model(std::string _name,std::string path, Shader* _shader,Camera* _camera)
-		:GameObject(_name,_shader),PhysicsObject(_camera)
+		:DefaultGameObject(_name,_shader),PhysicsObject(_camera)
 	{
 		this->material = new Material(_name,_shader);
 		loadModel(path);

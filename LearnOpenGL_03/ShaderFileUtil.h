@@ -71,7 +71,7 @@ public:
 		int index_header = str_buffer.find(headerName);
 		if (index_header < 0)
 		{
-			std::cerr << "fail  Handle index_header is negetive,in source text"  << std::endl;
+			std::cout << "warn Handle index_header is negetive,in source text,return source"  << std::endl;
 			return source;
 		}
 		index_header += headerName.length();
@@ -79,7 +79,7 @@ public:
 		int index_tailer = str_buffer.find(tailerName);
 		if (index_tailer < 0)
 		{
-			std::cerr << "fail  Handle index_tailer is negetive,in source text" << std::endl;
+			std::cout << "warn Handle index_tailer is negetive,in source text,return source" << std::endl;
 			return source;
 		}
 

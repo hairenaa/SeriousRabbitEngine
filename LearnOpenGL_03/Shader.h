@@ -14,26 +14,27 @@
 #include <sstream>
 #include <vector>
 #include "ShaderFileUtil.h"
-
+#include "Object.h"
 
 
 using namespace std;
 
 
-class Shader
+class Shader:public Object
 {
 public:
 	
 	enum ShaderType
 	{
 		MAIN_SHADER,
-		SKYBOX_SHADER
+		SKYBOX_SHADER,
+		SHADER_CUSTOM
 	};
 	ShaderType shaderType;
 //	vector<Manager*>  managerVec;
 	std::string Unhandled_vertext_source;
 	std::string Unhandled_fragment_source;
-	Shader(const char* vertexPath, const char* fragmentPath,ShaderType type)
+	Shader(const char* vertexPath, const char* fragmentPath,std::string _name,ShaderType type):Object(_name)
 	{
 		
 		try

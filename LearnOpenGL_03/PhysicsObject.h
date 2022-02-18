@@ -4,6 +4,8 @@
 #include<glm/gtc/type_ptr.hpp>
 #include "Camera.h"
 #include "DestroyBase.h"
+#include "GameFinder.h"
+
 class PhysicsObject:public DestroyBase
 {
 public:
@@ -14,10 +16,13 @@ public:
 	{
 		this->camera = _camera;
 	}
+
 	PhysicsObject()
 	{
-		this->camera = nullptr;
+		this->camera = GameFinder::GetMainCamera();
 	}
+
+	
 	virtual void Rotate(float angle,glm::vec3 axis)
 	{
 		ModelMat = glm::rotate(ModelMat, angle, axis);

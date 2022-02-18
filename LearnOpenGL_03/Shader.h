@@ -34,6 +34,18 @@ public:
 //	vector<Manager*>  managerVec;
 	std::string Unhandled_vertext_source;
 	std::string Unhandled_fragment_source;
+	enum SlotType
+	{
+		DIFFUSE,
+		SPECULAR,
+	};
+	
+	const std::string TYPE_VERTEX_SHDER = "VERTEX_SHDER";
+	const std::string TYPE_FRAMENT_SHDER = "FRAGMENT_SHDER";
+	const std::string TYPE_PROGRAM = "PROGRAM";
+	unsigned int ID;   //shader program ID
+
+
 	Shader(const char* vertexPath, const char* fragmentPath,std::string _name,ShaderType type):Object(_name)
 	{
 		
@@ -92,21 +104,10 @@ public:
 		
 	}
 
-	enum SlotType
-	{
-		DIFFUSE,
-		SPECULAR,
-	};
-	std::string vertexString;
-	std::string fragmentString;
-	const char* vertexSource;
-	const char* fragmentSource;
-	const std::string TYPE_VERTEX_SHDER= "VERTEX_SHDER";
-	const std::string TYPE_FRAMENT_SHDER = "FRAGMENT_SHDER";
-	const std::string TYPE_PROGRAM = "PROGRAM";
-	unsigned int ID;   //shader program ID
+	
 	void use()
 	{
+		Shader* test = this;
 		glUseProgram(ID);
 	};
 	void SetUniform3fByVec3(const char* paramNameString, glm::vec3 param)

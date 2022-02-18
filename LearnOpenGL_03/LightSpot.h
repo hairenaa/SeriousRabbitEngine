@@ -17,7 +17,7 @@ public:
 	LightSpot(std::string _name,  glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f))
 		:Light(_name,  _position, _angles, _color)
 	{
-		AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_POINT, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_POINT);
+		AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_SPOT, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_SPOT);
 		this->cosInnerPhy_name = this->name + cosInnerPhy_name;
 		this->cosOutterPhy_name = this->name + cosOutterPhy_name;
 		UpdateDirection();
@@ -27,7 +27,7 @@ public:
 		:Light(_name,_shader,_position, _angles, _color)
 	{
 		
-		AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_POINT, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_POINT);
+		AddContent(FRAGMENT_SHADER_DECLARE_LIGHT_SPOT, FRAGMENT_SHADER_CALL_LIGHT_PREFIX_SPOT);
 		this->cosInnerPhy_name = this->name + cosInnerPhy_name;
 		this->cosOutterPhy_name = this->name + cosOutterPhy_name;
 		UpdateDirection();

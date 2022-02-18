@@ -74,7 +74,7 @@ public:
 		this->mesh = new Mesh(_name, this->shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
-	Cube(std::string _name,  const std::string _texture_diffuse_path) :DefaultGameObject(_name, this->shader), PhysicsObject()
+	Cube(std::string _name,  const std::string _texture_diffuse_path) :DefaultGameObject(_name), PhysicsObject()
 	{
 		this->material = new Material(_name, this->shader);
 		std::vector<Texture> textureVec;

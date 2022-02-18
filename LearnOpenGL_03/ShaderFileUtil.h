@@ -76,7 +76,8 @@ public:
 		}
 		index_header += headerName.length();
 
-		int index_tailer = str_buffer.find(tailerName);
+		
+		/*int index_tailer = str_buffer.find(tailerName);
 		if (index_tailer < 0)
 		{
 			std::cout << "warn Handle index_tailer is negetive,in source text,return source" << std::endl;
@@ -85,7 +86,9 @@ public:
 
 
 		str_buffer = str_buffer.substr(0, index_header) + content + str_buffer.substr(index_tailer);
+*/
 
+		str_buffer= str_buffer.insert(index_header, content);
 		return str_buffer;
 
 	}

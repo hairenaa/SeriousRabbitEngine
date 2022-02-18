@@ -13,6 +13,7 @@ class GameObject:public Object,public DestroyBase
 public:
 	
 	Shader* shader=nullptr;
+
 	GameObject(std::string _name) :Object(_name)
 	{
 		this->id ++;
@@ -29,6 +30,7 @@ public:
 	
 	virtual void Draw() 
 	{
+		std::string s = this->name;
 		shader->use();
 	};
 

@@ -31,7 +31,7 @@ public:
 		TextureLoadUtil::GetDirFilesPathes(dir, skyPathes);
 		Texture tex = TexturePoolSinglton::Instance()->CheckAndLoadSkyTexture(skyPathes, TEXTURE_SKYBOX);
 		textureVec.push_back(tex);
-		cube = new Cube(name,textureVec);
+		cube = new Cube(name,this->shader,textureVec);
 	}
 
 	//************************************************************************************

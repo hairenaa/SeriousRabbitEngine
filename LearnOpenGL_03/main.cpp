@@ -20,7 +20,9 @@
 using namespace std;
 
 int Object::id = 0;
-SceneLoader* SceneLoader::instance = nullptr;
+
+
+
 
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;

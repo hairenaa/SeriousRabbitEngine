@@ -17,8 +17,8 @@ public:
 	};
 	HandleType handleType;
 
-	std::string content_dec = "";
-	std::string content_calc = "";
+	std::string content_dec ="" ;
+	std::string content_calc="" ;
 
 
 	ManagerGameObject(std::string _name, Shader* _shader) :DefaultGameObject(_name, _shader)

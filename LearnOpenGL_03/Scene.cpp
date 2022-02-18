@@ -53,7 +53,7 @@ void Scene::Init()
 
 	Shader* skyShader = new Shader("SkyBoxVertex.vert", "SkyboxFragment.frag", SKYBOX_SHADER_DEFAULT_NAME, Shader::SKYBOX_SHADER);
 	PushShader(skyShader);
-
+	
 
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
@@ -93,6 +93,9 @@ void Scene::Init()
 				sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
 				sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
 			}
+			std::cout << "////////////////////////////////////////"<<std::endl;
+			std:: cout << sha->Unhandled_fragment_source << endl;
+			std::cout << "////////////////////////////////////////"<<std::endl;
 		}
 
 	}

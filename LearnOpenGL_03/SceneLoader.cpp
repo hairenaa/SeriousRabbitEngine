@@ -1,6 +1,6 @@
 #include "SceneLoader.h"
 
-
+SceneLoader* SceneLoader::instance = nullptr;
 SceneLoader*  SceneLoader::Instance()
 {
 	if (instance != nullptr)

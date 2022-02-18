@@ -37,14 +37,14 @@ public:
 		//manager build something 
 		
 		Light* lightDirectional = new LightDirectional("lightDirectional", glm::vec3(9.2f, 3.0f, 40.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0),glm::vec3(1.0f,1.0f,1.0f));
 		Light* lightPoint0 = new LightPoint("lightP0", glm::vec3(3.0f, 0.0f, 0.0f),
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
 		Light* lightPoint1 = new LightPoint("lightP1", glm::vec3(0.0f, 3.0f, 0.0f),
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
 		
 		Light* lightSpot = new LightSpot("lightSpot", glm::vec3(0, 0, 4.0f),
-			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
+			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
 
 
 		std::string modelPath = GameFinder::GetTargetPath() + "\\model\\Crysis\\nanosuit.obj";
@@ -54,7 +54,7 @@ public:
 
 		cube = new Cube("cube1", "awesomeface.png");
 		model = new Model("model1", modelPath);
-		SkyBox* skybox = new SkyBox("skybox", GameFinder::FindShader("skyShader"), texturePath);
+		SkyBox* skybox = new SkyBox("skybox", GameFinder::FindShader(SKYBOX_SHADER_DEFAULT_NAME), texturePath);
 
 	
 	};
@@ -67,7 +67,7 @@ public:
 		model->Rotate(0.5f, glm::vec3(0, 1.0f, 0));
 		cube->Rotate(0.5f, glm::vec3(1.0f, 1.0f, 0));
 		cube->Translate(glm::vec3(0.01f, 0, 0));
-		std::cout << "Update()" << endl;
+		//std::cout << "Update()" << endl;
 	};
 	virtual void OnDisable() 
 	{

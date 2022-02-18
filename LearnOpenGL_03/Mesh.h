@@ -24,6 +24,7 @@ enum TextureType
 	TEXTURE_SPECULAR,
 	TEXTURE_NORMAL,
 	TEXTURE_HEIGHT,
+	TEXTURE_SKYBOX
 };
 
 
@@ -39,57 +40,103 @@ struct Texture
 class Mesh:public GameObject
 {
 public:
-	std::string diffusePrefix = ".texture_diffuse_";
-	std::string specularPrefix =".texture_specular_";
-	std::string normalPrefix = ".texture_normal_";
-	std::string heightPrefix = ".texture_height_";
-	Shader* shader;
+	std::string diffusePrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_DIFFUSE;
+	std::string specularPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_SPECULAR;
+	std::string normalPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_NORMAL;
+	std::string heightPrefix = FRAGMENT_SHADER_STRUCT_MATERIAL_TEXTURE_HEIGHT;
+	std::string SkyBoxName=FRAGMENT_SHADER_VAR_SKYBOX;
+	std::string materialName = FRAGMENT_SHADER_VAR_MATERIAL;
 	Material* material;
 	std::vector<Vertex> vertices;
+	std::vector<float> vertices_float;
 	std::vector<unsigned int>indices;
 	std::vector<Texture> textures;
+	int groupLen;
 
-	Mesh(std::string _name,Shader* _shader,std::vector<Vertex> _vertices, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
+	
+
+	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array,int _groupLen, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
+		:GameObject(_name, _shader) 
 	{
+		this->groupLen = _groupLen;
 		this->textures = _textures;
 		this->indices = _indices;
-		this->name = _name;
+		this->diffusePrefix = materialName + diffusePrefix;
+		this->specularPrefix = materialName + specularPrefix;
+		this->normalPrefix = materialName + normalPrefix;
+		this->heightPrefix = materialName + heightPrefix;
+		this->vertices_float = _vertices_array;
+		this->material = _material;
+		setupMesh();
+	}
+
+	
+
+
+	Mesh(std::string _name, Shader* _shader, std::vector<float> _vertices_array, int _groupLen, std::vector<unsigned int> _indices,std::vector<Texture> _textures)
+		:GameObject(_name, _shader)
+	{
+		this->groupLen = _groupLen;
+		this->indices = _indices;
+		this->textures = _textures;
 		this->diffusePrefix = _name + diffusePrefix;
 		this->specularPrefix = _name + specularPrefix;
 		this->normalPrefix = _name + normalPrefix;
 		this->heightPrefix = _name + heightPrefix;
-		this->shader = _shader;
+		this->vertices_float = _vertices_array;
+		setupMesh();
+	}
+	
+	Mesh(std::string _name,Shader* _shader,std::vector<Vertex> _vertices, std::vector<unsigned int> _indices, std::vector<Texture> _textures, Material* _material)
+		:GameObject(_name,_shader)
+	{
+		this->textures = _textures;
+		this->indices = _indices;
+		this->diffusePrefix = materialName + diffusePrefix;
+		this->specularPrefix = materialName + specularPrefix;
+		this->normalPrefix = materialName + normalPrefix;
+		this->heightPrefix = materialName + heightPrefix;
 		this->vertices = _vertices;
 		this->material = _material;
 		setupMesh();
 	};
+
+	/*~Mesh()
+	{
+		if (this->material != nullptr)
+		{
+			material->Destroy(material);
+		}
+	}*/
+
+	/*
 	Mesh(std::string _name,Shader* _shader, std::vector<Vertex> _vertices, std::vector<unsigned int>_indices, Material* _material)
+		:GameObject(_name,_shader)
 	{
 		this->indices = _indices;
-		this->name = _name;
 		this->diffusePrefix = _name + diffusePrefix;
 		this->specularPrefix = _name + specularPrefix;
 		this->normalPrefix = _name + normalPrefix;
 		this->heightPrefix = _name + heightPrefix;
-		this->shader = _shader;
 		this->vertices = _vertices;
 		this->material = _material;
 		setupMesh();
 		
 	};
+	*/
+	/*
 	Mesh(std::string _name,Shader* _shader, std::vector<Vertex> _vertices, Material* _material)
+		:GameObject(_name,_shader)
 	{
-		this->name = _name;
 		this->diffusePrefix = _name + diffusePrefix;
 		this->specularPrefix = _name + specularPrefix;
 		this->normalPrefix = _name + normalPrefix;
 		this->heightPrefix = _name + heightPrefix;
-		this->shader = _shader;
 		this->vertices = _vertices;
 		this->material = _material;
 		setupMesh();
 	};
-	
+	*/
 	void Draw()
 	{
 		unsigned int diffuseNr = 1;
@@ -97,8 +144,11 @@ public:
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
 
-
-		this->material->Draw();
+		if (material != nullptr) 
+		{
+			this->material->Draw();
+		}
+		
 		if (!textures.empty())
 		{
 			for (unsigned int i = 0; i < textures.size(); i++)
@@ -131,9 +181,16 @@ public:
 					glBindTexture(GL_TEXTURE_2D, curTexture.id);
 					shader->SetUniform1i(re_name.c_str(), slot);
 				}
+				else if(curTexture.type==TEXTURE_SKYBOX)
+				{
+					re_name = SkyBoxName;
+					glBindTexture(GL_TEXTURE_CUBE_MAP, curTexture.id);
+					shader->SetUniform1i(re_name.c_str(), slot);
+				}
 				//std::cout << name << std::endl;
 			}
 		}
+
 
 		glBindVertexArray(VAO);
 
@@ -143,27 +200,47 @@ public:
 		}
 		else
 		{
-			glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+			if (!vertices.empty()) 
+			{
+				glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+			}
+			else if(!vertices_float.empty())
+			{
+				glDrawArrays(GL_TRIANGLES, 0, vertices_float.size()/this->groupLen);
+			}
+			
 		}
 		glBindVertexArray(0);
 		glActiveTexture(GL_TEXTURE0);
+
 	};
 	//static unsigned int TextureIndex;
 private:
 	unsigned int VAO, VBO, EBO;
 	void setupMesh()
 	{
-		if (vertices.empty())
+		if (vertices.empty()&&vertices_float.empty())
 		{
 			return;
 		}
+
+		
 
 		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
 
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), vertices.data(), GL_STATIC_DRAW);
+
+		if (!vertices.empty()) 
+		{
+			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), vertices.data(), GL_STATIC_DRAW);
+		}
+		else if(!vertices_float.empty())
+		{
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices_float.size(), vertices_float.data(), GL_STATIC_DRAW);
+		}
+		
 
 		if (!indices.empty())
 		{

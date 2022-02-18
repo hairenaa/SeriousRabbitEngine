@@ -1,7 +1,6 @@
 #pragma once
 
 
-
 #include<vector>
 #include<string>
 #include "Mesh.h"
@@ -11,35 +10,60 @@
 #include <assimp/postprocess.h>
 #include "Shader.h"
 #include "Material.h"
-#include "stb_image.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "GameObject.h"
 
+#include "DefaultGameObject.h"
+#include "TextureLoadUtil.h"
+#include "TexturePoolSinglton.h"
+#include "ConstValues.h"
+#include "PhysicsObject.h"
+#include "Camera.h"
 
-class Model:public GameObject
+class Model:public DefaultGameObject,public PhysicsObject
 {
 public:
 	std::vector<Mesh> meshes;
-	Shader* shader;
 	std::string directory;
-	std::vector<Texture> loadedTextures;
 	Material* material;
 
-	Model(std::string _name,std::string path, Shader* _shader)
+	Model(std::string _name, std::string path, Shader* _shader)
+		:DefaultGameObject(_name, _shader), PhysicsObject()
 	{
-		this->name = _name;
-		this->shader = _shader;
-		this->material = new Material(_name,shader);
+		this->material = new Material(_name, _shader);
 		loadModel(path);
 	};
+
+	//**********************************************************************
+	Model(std::string _name, std::string path)
+		:DefaultGameObject(_name), PhysicsObject()
+	{
+		this->material = new Material(_name, this->shader);
+		loadModel(path);
+	};
+	//****************************************************
+	Model(std::string _name,std::string path, Shader* _shader,Camera* _camera)
+		:DefaultGameObject(_name,_shader),PhysicsObject(_camera)
+	{
+		this->material = new Material(_name,_shader);
+		loadModel(path);
+	};
+	~Model()
+	{
+		if (this->material != nullptr) 
+		{
+			material->Destroy(material);
+		}
+		
+	}
 	
 	void Draw()
 	{
+		GameObject::Draw();
+		PhysicsObject::UpdateBefore();
 		for (unsigned int i = 0; i < meshes.size(); i++)
 		{
 			meshes[i].Draw();
 		}
-
+		
 	};
 	std::vector<Texture> AiMaterialToTexture(aiMaterial *mat, aiTextureType type, TextureType textureType)
 	{
@@ -50,76 +74,12 @@ public:
 			std::string path;
 			mat->GetTexture(type, i, &str);
 			path = directory + "\\" + str.C_Str();
-			bool skip = false;
-
-
-			for (unsigned int j = 0; j < loadedTextures.size(); j++)
-			{
-				Texture tem_loaded = loadedTextures[j];
-				if (std::strcmp(tem_loaded.path.data(), path.data()) == 0)
-				{
-					textures.push_back(tem_loaded);
-					skip = true;
-					break;
-				}
-
-			}
-
-
-			if (!skip)
-			{
-				Texture texture;
-				texture.id = LoadImageToGpu(path.c_str());
-				texture.type = textureType;
-				texture.path = path;
-				textures.push_back(texture);
-				loadedTextures.push_back(texture);
-				std::cout << "Load Texture path: " << path << std::endl;
-			}
-
+			textures.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(path, textureType));
 		}
 		return textures;
 
 	};
-	unsigned int LoadImageToGpu(const char* path)
-	{
-		unsigned int TexBuffer;
-		std::cout << "LoadImageToGpu path:" << path << std::endl;
-		glGenTextures(1, &TexBuffer);
-		//glActiveTexture(GL_TEXTURE0 + textureSlot);
-		glBindTexture(GL_TEXTURE_2D, TexBuffer);
-
-		int width, height, nrChannels;
-		unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
-
-		if (data)
-		{
-			GLenum format;
-			if (nrChannels == 1)
-			{
-				format = GL_RED;
-			}
-			else if (nrChannels == 3)
-			{
-				format = GL_RGB;
-			}
-			else if (nrChannels == 4)
-			{
-				format = GL_RGBA;
-
-			}
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-		}
-		else
-		{
-			std::cout << "load image failed TexBuffer" << std::endl;
-		}
-
-		stbi_image_free(data);
-
-		return TexBuffer;
-	};
+	
 private:
 	void loadModel(std::string path)
 	{
@@ -173,7 +133,7 @@ private:
 			}
 			else
 			{
-				tempVertex.Color = glm::vec3(1.0f, 1.0f, 1.0f);
+				tempVertex.Color = glm::vec3(0.0f, 0.0f, 0.0f);
 				//std::cout << "no vertexColor in this mesh: " << aimesh->mName.C_Str() << std::endl;
 			}
 
@@ -198,7 +158,7 @@ private:
 			else
 			{
 				tempVertex.TexCoord = glm::vec2(0, 0);
-				std::cout << "no TexCoord in this mesh: " << aimesh->mName.C_Str() << std::endl;
+				
 			}
 
 			tempVertices.push_back(tempVertex);
@@ -239,25 +199,16 @@ private:
 
 		if (!hasDiffuseFlag)
 		{
+			std::string diff_path = TEXTURE_DEFAULT_DIFFUSE_PATH;
 			std::cout << "no Diffuse Texture in this mesh: " << aimesh->mName.C_Str() << std::endl;
-			Texture tex1;
-			tex1.id = LoadImageToGpu("texture_default_diffuse.png");
-			tex1.path = "ProjectDir:texture_default_diffuse.jpg";
-			tex1.type = TEXTURE_DIFFUSE;
-			tempTextures.push_back(tex1);
-			loadedTextures.push_back(tex1);
-
+			tempTextures.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(diff_path, TEXTURE_DIFFUSE));
 		}
 
 		if (!hasSpecularFlag)
 		{
-			Texture tex2;
-			tex2.id = LoadImageToGpu("texture_default_specular.png");
-			tex2.path = "ProjectDir:texture_default_specular.png";
-			tex2.type = TEXTURE_SPECULAR;
-			tempTextures.push_back(tex2);
-			loadedTextures.push_back(tex2);
+			std::string spe_path = TEXTURE_DEFAULT_SPECULAR_PATH;
 			std::cout << "no Specular Texture in this mesh: " << aimesh->mName.C_Str() << std::endl;
+			tempTextures.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(spe_path, TEXTURE_SPECULAR));
 		}
 		Mesh mesh(this->name, shader, tempVertices, tempIndicies, tempTextures, this->material);
 		return mesh;

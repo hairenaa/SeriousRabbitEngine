@@ -128,20 +128,46 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\OpenGL\glad\src\glad.c" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DefaultGameObject.cpp" />
+    <ClCompile Include="GameFinder.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DefaultGameObject.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ConstValues.h" />
+    <ClInclude Include="Cube.h" />
+    <ClInclude Include="DestroyBase.h" />
+    <ClInclude Include="GameFinder.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameScript.h" />
+    <ClInclude Include="GameScriptAdapter.h" />
+    <ClInclude Include="InputBase.h" />
+    <ClInclude Include="InputInWindows.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightDirectional.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="LightSpot.h" />
+    <ClInclude Include="ManagerGameObject.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MyTestScript.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="PhysicsObject.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneLoader.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderFileUtil.h" />
+    <ClInclude Include="Single.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="TextureLoadUtil.h" />
+    <ClInclude Include="TexturePoolSinglton.h" />
+    <ClInclude Include="WinApiUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.frag" />
@@ -149,11 +175,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png" />
+    <Image Include="back.jpg" />
+    <Image Include="bottom.jpg" />
     <Image Include="demon.jpg" />
     <Image Include="doom.jpg" />
+    <Image Include="down.png" />
+    <Image Include="front.jpg" />
+    <Image Include="left.jpg" />
+    <Image Include="right.jpg" />
     <Image Include="t.png" />
     <Image Include="texture_default_diffuse.png" />
     <Image Include="texture_default_specular.png" />
+    <Image Include="top.jpg" />
     <Image Include="wall.jpg" />
     <Image Include="wood.png" />
     <Image Include="wood_specular.png" />
@@ -161,6 +194,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="SkyboxFragment.frag" />
+    <None Include="SkyBoxVertex.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

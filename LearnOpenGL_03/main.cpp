@@ -2,156 +2,74 @@
 #include<GLFW/glfw3.h>
 
 #include<iostream>
+#include <vector>
 
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
-//
 
-#include "Shader.h"
-#include "Camera.h"
-#include "Material.h"
-#include "LightDirectional.h"
-#include "LightPoint.h"
-#include "LightSpot.h"
-#include "Mesh.h"
-#include "Model.h"
+#include "SceneLoader.h"
+#include "Scene.h"
+#include "MyTestScript.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 
+
 using namespace std;
 
+int Object::id = 0;
 
-int GameObject::id = 0;
+
+
+
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
-#pragma region Model Data
-
-//
-//
-//float vertices[] = {
-//	// positions          // normals           // texture coords
-//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-//	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
-//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-//	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-//
-//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-//	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
-//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-//	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-//
-//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-//	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-//	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-//
-//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-//	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-//	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-//
-//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-//	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
-//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-//	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-//
-//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
-//	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
-//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-//	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
-//};
-
-glm::vec3 cubePositions[] = {
-  glm::vec3(0.0f,  0.0f,  0.0f),
-  glm::vec3(1.0f,  2.0f, -15.0f),
-  glm::vec3(-1.5f, -2.2f, -2.5f),
-  glm::vec3(-3.8f, -2.0f, -12.3f),
-  glm::vec3(2.4f, -0.4f, -3.5f),
-  glm::vec3(-1.7f,  3.0f, -7.5f),
-  glm::vec3(1.3f, -2.0f, -2.5f),
-  glm::vec3(1.5f,  2.0f, -2.5f),
-  glm::vec3(1.5f,  0.2f, -1.5f),
-  glm::vec3(-1.3f,  1.0f, -1.5f)
-};
-
-
-
-unsigned int indecies[] = {
-	2,1,0,
-	0,3,2
-};
-
-
-double lastX;
-double lastY;
-bool isFirstMouse=true;
-
-#pragma endregion
-
-
-#pragma region Init Shader Program
-
-
-
-#pragma endregion
-
-Camera* camera;
-
+SceneLoader* sceneLoader;
 
 #pragma region Input Declare
 
 
+double lastX;
+double lastY;
+bool isFirstMouse = true;
 
 
-void processInput(GLFWwindow* window) 
+void processInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) 
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
-		glfwSetWindowShouldClose(window,true);
+		glfwSetWindowShouldClose(window, true);
 	}
 
 	//camera->ClearSpeed();
-	
-	if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		camera->MovInZAxias(1);
+		sceneLoader->GetCurrentScene()->mainCamera->MovInZAxias(20.0f);
 	}
-	
+
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		camera->MovInZAxias(-1);
+		sceneLoader->GetCurrentScene()->mainCamera->MovInZAxias(-20.0f);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		camera->MovInXAxias(-1);
+		sceneLoader->GetCurrentScene()->mainCamera->MovInXAxias(-15.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		camera->MovInXAxias(1);
+		sceneLoader->GetCurrentScene()->mainCamera->MovInXAxias(15.0f);
 	}
-	
+
 }
 
-void mouse_callback(GLFWwindow* window,double xPos,double yPos) 
+void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 {
-	if (isFirstMouse) 
+	if (isFirstMouse)
 	{
 		lastX = xPos;
 		lastY = yPos;
@@ -165,27 +83,25 @@ void mouse_callback(GLFWwindow* window,double xPos,double yPos)
 	lastX = xPos;
 	lastY = yPos;
 	double test = 1.44;
-	camera->ProcessMouseMovement(deltaX, deltaY);
+	sceneLoader->GetCurrentScene()->mainCamera->ProcessMouseMovement(deltaX, deltaY);
+}
+
+
+void SetInputMode(GLFWwindow* window)
+{
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 #pragma endregion
-
-
 
 int main(int argc,char* argv[])
 {
 	cout << argv[0]<<endl;
 	std::string exePath = argv[0];
 
-		//"\\model\\Crysis\\nanosuit.obj"
-		// "\\model\\aigei\\pearl\\pearl.obj"
-		//"\\model\\test\\test2.obj"
-		//"\\model\\backpack\\backpack.obj"
-		//"\\model\\Dog\\Doguinho.obj"
-		//"\\model\\erciyuan\\shaonv\\luomo.obj"
+	
+	std::string debugPath = exePath.substr(0, exePath.find_last_of('\\'));
 
-	std::string modelPath = exePath.substr(0, exePath.find_last_of('\\')) + "\\model\\Crysis\\nanosuit.obj";
-	std::cout <<modelPath << endl;
 
 	#pragma region Open a Window
 
@@ -204,9 +120,8 @@ int main(int argc,char* argv[])
 			return -1;
 		}
 		glfwMakeContextCurrent(window);
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		glfwSetCursorPosCallback(window, mouse_callback);
 
+		
 		//init glew
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -221,45 +136,34 @@ int main(int argc,char* argv[])
 
 	#pragma endregion
 
-#pragma region  Init GameObjects
+#pragma region  Init SceneLoader
 
-
-		Shader* shader = new Shader("vertexSource.vert", "fragmentSource.frag");
-		camera = new Camera("MainCamera", shader, glm::vec3(0, 10, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
-
-		LightDirectional* lightDirectional = new LightDirectional("lightDirectional", shader, glm::vec3(9.2f, 3.0f, 40.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0));
-		LightPoint* lightPoint0 = new LightPoint("lightP0", shader, glm::vec3(3.0f, 0.0f, 0.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
-		LightPoint* lightPoint1 = new LightPoint("lightP1", shader, glm::vec3(0.0f, 3.0f, 0.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
-		LightPoint* lightPoint2 = new LightPoint("lightP2", shader, glm::vec3(0.0f, 0.0f, 3.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 0.0f, 1.0f));
-		LightPoint* lightPoint3 = new LightPoint("lightP3", shader, glm::vec3(5.0f, 5.0f, 5.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
-		LightSpot* lightSpot = new LightSpot("lightSpot", shader, glm::vec3(0, 0, 4.0f),
-			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(1.0f, 1.0f, 1.0f));
-		Model* model = new Model("material", modelPath, shader);
+		 sceneLoader = new SceneLoader(window, WIDTH, HEIGHT,debugPath);
+		 sceneLoader->GetCurrentScene()->input->RegisterCursorPosCallBack(mouse_callback);
+		 sceneLoader->GetCurrentScene()->input->RegisterInputModeGroup(SetInputMode);
+		 sceneLoader->GetCurrentScene()->input->RegisterToUpdate(processInput);
+		
 #pragma endregion
 
+#pragma region SomeThing Init
 
-	#pragma region Prepare MVP matrices
-
-
-		glm::mat4 modelMat;
-		glm::mat4 viewMat;
-		glm::mat4 projectionMat;
-		float asp = (float)WIDTH / (float)HEIGHT;
-		projectionMat = glm::perspective(glm::radians(90.0f),asp, 0.1f, 1000.0f);
-		camera->ProjectionMat = projectionMat;
+		GameScript* myTestScript = new MyTestScript();
+		sceneLoader->GetCurrentScene()->PushScript(myTestScript);
+		sceneLoader->GetCurrentScene()->Init();
+		sceneLoader->GetCurrentScene()->Awake();
+		sceneLoader->GetCurrentScene()->OnEnable();
 
 
-	#pragma endregion
+#pragma endregion
+
 
 	while (!glfwWindowShouldClose(window))
 	{
 		//processInput
-		processInput(window);
+		/*processInput(window);*/
+		
+		sceneLoader->GetCurrentScene()->input->UpdateInput();
+
 		
 		//...render begin
 
@@ -267,37 +171,15 @@ int main(int argc,char* argv[])
 		glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		
+		//****
+		//update mode mat
+		//****
+		//cube->Rotate(1.0f, glm::vec3(1.0f, 1.0f, 0));
 		
-
-		for (size_t i = 0; i < 1; i++)
-		{
-			
-			
+		sceneLoader->GetCurrentScene()->Update();
 		
-			modelMat = glm::rotate(glm::mat4(1.0f), glm::radians(200.0f), glm::vec3(0.0f, 1.0f, 0));
-			modelMat = glm::translate(modelMat, cubePositions[i]);
-			camera->ModelMat = modelMat;
-			
-			shader->use();
-			
-			lightDirectional->Draw();
-			lightPoint0->Draw();
-			lightPoint1->Draw();
-			lightPoint2->Draw();
-			lightPoint3->Draw();
-			lightSpot->Draw();
-
-			
-
-			model->Draw();
-
-			camera->Draw();
-		}
-
-
 
 		//...render end
-		
 		//Clear up,prepare for next render loop
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -305,18 +187,12 @@ int main(int argc,char* argv[])
 		
 	}
 
+	sceneLoader->GetCurrentScene()->OnDisable();
+
 	//Exit Programe 
 	glfwTerminate();
-
-	delete shader;
-	delete model;
-	delete camera;
-	delete lightDirectional;
-	delete lightPoint0;
-	delete lightPoint1;
-	delete lightPoint2;
-	delete lightPoint3;
-	delete lightSpot;
+	
+	sceneLoader->Destroy(sceneLoader);
 	return 0;
 
 }

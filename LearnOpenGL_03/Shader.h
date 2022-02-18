@@ -12,68 +12,51 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "GameObject.h"
+#include <vector>
+#include "ShaderFileUtil.h"
+#include "Object.h"
+#include "DestroyBase.h"
 
 
 using namespace std;
 
 
-class Shader
+class Shader:public Object,public DestroyBase
 {
 public:
-	Shader(const char* vertexPath, const char* fragmentPath)
+	
+	enum ShaderType
 	{
-		ifstream vertexFile;
-		ifstream fragmentFile;
+		MAIN_SHADER,
+		SKYBOX_SHADER,
+		SHADER_CUSTOM
+	};
+	ShaderType shaderType;
+//	vector<Manager*>  managerVec;
+	std::string Unhandled_vertext_source;
+	std::string Unhandled_fragment_source;
+	enum SlotType
+	{
+		DIFFUSE,
+		SPECULAR,
+	};
+	
+	const std::string TYPE_VERTEX_SHDER = "VERTEX_SHDER";
+	const std::string TYPE_FRAMENT_SHDER = "FRAGMENT_SHDER";
+	const std::string TYPE_PROGRAM = "PROGRAM";
+	unsigned int ID;   //shader program ID
 
-		stringstream vertexSStream;
-		stringstream fragmentSStream;
 
-		vertexFile.open(vertexPath);
-		fragmentFile.open(fragmentPath);
-		vertexFile.exceptions(ifstream::failbit || ifstream::badbit);
-		fragmentFile.exceptions(ifstream::failbit || ifstream::badbit);
-
+	Shader(const char* vertexPath, const char* fragmentPath,std::string _name,ShaderType type):Object(_name)
+	{
+		
 		try
 		{
-			if (!vertexFile.is_open() || !fragmentFile.is_open())
-			{
-				throw new exception("open file error");
-			}
+			this->shaderType = type;
+			Unhandled_vertext_source  = ShaderFileUtil::ReadAllText(vertexPath).c_str();
+			Unhandled_fragment_source= ShaderFileUtil::ReadAllText(fragmentPath);
 
-			vertexSStream << vertexFile.rdbuf();
-			fragmentSStream << fragmentFile.rdbuf();
-
-			vertexString = vertexSStream.str();
-			fragmentString = fragmentSStream.str();
-
-			vertexSource = vertexString.c_str();
-			fragmentSource = fragmentString.c_str();
-
-			cout << "vertex shader source code: \n" << vertexSource << endl;
-			cout << "-------------------------------------------------------" << endl;
-			cout << "fragment shader source code: \n" << fragmentSource << endl;
-
-			unsigned int vertexShader, fragmentShader;
-
-			vertexShader = glCreateShader(GL_VERTEX_SHADER);
-			glShaderSource(vertexShader, 1, &vertexSource, NULL);
-			glCompileShader(vertexShader);
-			checkCompileErrors(vertexShader, TYPE_VERTEX_SHDER);
-
-			fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-			glCompileShader(fragmentShader);
-			checkCompileErrors(fragmentShader, TYPE_FRAMENT_SHDER);
-
-			ID = glCreateProgram();
-			glAttachShader(ID, vertexShader);
-			glAttachShader(ID, fragmentShader);
-			glLinkProgram(ID);
-			checkCompileErrors(ID, TYPE_PROGRAM);
-
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
+			
 		}
 		catch (const std::exception& ex)
 		{
@@ -83,21 +66,49 @@ public:
 
 
 	};
-	enum SlotType
+
+
+	void InitShader() 
 	{
-		DIFFUSE,
-		SPECULAR,
-	};
-	std::string vertexString;
-	std::string fragmentString;
-	const char* vertexSource;
-	const char* fragmentSource;
-	const std::string TYPE_VERTEX_SHDER= "VERTEX_SHDER";
-	const std::string TYPE_FRAMENT_SHDER = "FRAGMENT_SHDER";
-	const std::string TYPE_PROGRAM = "PROGRAM";
-	unsigned int ID;   //shader program ID
+		
+
+		const char* vertexSource = this->Unhandled_vertext_source.c_str();
+		const char* fragmentSource = this->Unhandled_fragment_source.c_str();
+
+
+
+		cout << "vertex shader source code: \n" << vertexSource << endl;
+		cout << "-------------------------------------------------------" << endl;
+		cout << "fragment shader source code: \n" << fragmentSource << endl;
+
+		unsigned int vertexShader, fragmentShader;
+
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertexShader, 1, &vertexSource, NULL);
+		glCompileShader(vertexShader);
+		checkCompileErrors(vertexShader, TYPE_VERTEX_SHDER);
+
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
+		glCompileShader(fragmentShader);
+		checkCompileErrors(fragmentShader, TYPE_FRAMENT_SHDER);
+
+		ID = glCreateProgram();
+		glAttachShader(ID, vertexShader);
+		glAttachShader(ID, fragmentShader);
+		glLinkProgram(ID);
+		checkCompileErrors(ID, TYPE_PROGRAM);
+
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+
+		
+	}
+
+	
 	void use()
 	{
+		Shader* test = this;
 		glUseProgram(ID);
 	};
 	void SetUniform3fByVec3(const char* paramNameString, glm::vec3 param)

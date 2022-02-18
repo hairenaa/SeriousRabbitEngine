@@ -21,6 +21,21 @@
     <ClCompile Include="..\..\..\OpenGL\glad\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GameFinder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultGameObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -54,6 +69,69 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoadUtil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Single.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstValues.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturePoolSinglton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderFileUtil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DestroyBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputInWindows.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WinApiUtil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTestScript.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScript.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScriptAdapter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultGameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFinder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerGameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,8 +170,31 @@
     <Image Include="texture_default_specular.png">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="down.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="back.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="bottom.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="front.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="left.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="right.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="top.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="SkyboxFragment.frag" />
+    <None Include="SkyBoxVertex.vert" />
   </ItemGroup>
 </Project>

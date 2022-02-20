@@ -33,5 +33,17 @@ public:
 	
 	};
 
+	virtual void Enable() 
+	{
+		this->isEnabled = true;
+		this->OnEnable();
+	};
+
+	virtual void Disable() 
+	{
+		this->isEnabled = false;
+		this->OnDisable();
+	}
+
 };
 

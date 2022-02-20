@@ -10,6 +10,12 @@ public:
 		id++;
 		this->name = _name;
 	};
+
+	Object() 
+	{
+		id++;
+		this->name = "";
+	}
 };
 
 

@@ -21,9 +21,6 @@
     <ClCompile Include="..\..\..\OpenGL\glad\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="GameFinder.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="SceneLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -34,6 +31,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GameHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,9 +75,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="TextureLoadUtil.h">
@@ -128,10 +131,13 @@
     <ClInclude Include="DefaultGameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="GameFinder.h">
+    <ClInclude Include="ManagerGameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ManagerGameObject.h">
+    <ClInclude Include="Cube.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHelper.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

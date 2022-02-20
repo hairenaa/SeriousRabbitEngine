@@ -4,7 +4,7 @@
 #include<glm/gtc/type_ptr.hpp>
 #include "Camera.h"
 #include "DestroyBase.h"
-#include "GameFinder.h"
+#include "GameHelper.h"
 
 class PhysicsObject
 {
@@ -19,7 +19,7 @@ public:
 
 	PhysicsObject()
 	{
-		this->camera = GameFinder::GetMainCamera();
+		this->camera = GameHelper::GetMainCamera();
 	}
 
 	

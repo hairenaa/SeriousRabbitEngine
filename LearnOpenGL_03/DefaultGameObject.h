@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Shader.h"
 #include <string>
-#include "GameFinder.h"
+#include "GameHelper.h"
 #include "ConstValues.h"
 
 class SceneLoader;

@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 
-Scene::Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height, std::string targetPath) :Object(_name)
+Scene::Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height, std::string targetPath) :GameScript(_name)
 {
 	this->window = window;
 	this->input = new InputInWindows(window);
@@ -11,7 +11,7 @@ Scene::Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned
 
 }
 
-Scene::Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height) :Object(_name)
+Scene::Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height) :GameScript(_name)
 {
 	this->window = window;
 	this->input = new InputInWindows(window);
@@ -65,8 +65,7 @@ void Scene::Init()
 	mainCamera = new Camera("MainCamera", mainShader, Width, Height, glm::vec3(0, 10.0f, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
 	PushGameObject(mainCamera);
 
-	Shader* skyShader = new Shader("SkyBoxVertex.vert", "SkyboxFragment.frag", SKYBOX_SHADER_DEFAULT_NAME, Shader::SKYBOX_SHADER);
-	PushShader(skyShader);
+	
 	
 
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
@@ -208,4 +207,17 @@ GameObject* Scene::GetGameObjectByName(std::string _name)
 		}
 	}
 	return nullptr;
+}
+
+GameScript * Scene::GetGameScriptByName(std::string _name)
+{
+
+	for (unsigned int i = 0; i < shaderVec.size(); i++)
+	{
+		GameScript* s = gameScriptVec[i];
+		if (s->name == _name)
+		{
+			return s;
+		}
+	}
 }

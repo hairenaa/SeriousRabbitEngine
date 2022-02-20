@@ -15,7 +15,7 @@
 #include "GameScript.h"
 
 
-class Scene:public Object,public GameScript
+class Scene:public GameScript
 {
 
 protected:
@@ -69,18 +69,8 @@ public:
 	
 	GameObject* GetGameObjectByName(std::string _name);
 
-	//GameScript* GetGameScriptByName(std::string _name)
-	//{
-	//
-	//	for (unsigned int i = 0; i < shaderVec.size(); i++)
-	//	{
-	//		GameScript* s = gameScriptVec[i];
-	//		if (s->name == _name)
-	//		{
-	//			return s;
-	//		}
-	//	}
-	//}
+	GameScript* GetGameScriptByName(std::string _name);
+	
 
 
 };

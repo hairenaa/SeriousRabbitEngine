@@ -19,7 +19,7 @@ SceneLoader::SceneLoader(GLFWwindow* window, unsigned int width, unsigned int he
 	this->Height = height;
 	this->Width = width;
 	this->TargetPath = targetPath;
-	NewSceneInstance("DefaultScene");
+	NewSceneInstance(SCENE_DEFAULT_NAME);
 	instance = this;
 }
 SceneLoader::~SceneLoader()

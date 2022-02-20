@@ -94,6 +94,16 @@ void SetInputMode(GLFWwindow* window)
 
 #pragma endregion
 
+
+//c++ 11
+int test() {
+	//func();
+	int x = __cplusplus;
+	cout << x << endl;
+	return 0;
+}
+
+
 int main(int argc,char* argv[])
 {
 	cout << argv[0]<<endl;
@@ -138,7 +148,7 @@ int main(int argc,char* argv[])
 
 #pragma region  Init SceneLoader
 
-		 sceneLoader = new SceneLoader(window, WIDTH, HEIGHT,debugPath);
+		 sceneLoader = new SceneLoader(window, WIDTH, HEIGHT,"");
 		 sceneLoader->GetCurrentScene()->input->RegisterCursorPosCallBack(mouse_callback);
 		 sceneLoader->GetCurrentScene()->input->RegisterInputModeGroup(SetInputMode);
 		 sceneLoader->GetCurrentScene()->input->RegisterToUpdate(processInput);
@@ -192,7 +202,9 @@ int main(int argc,char* argv[])
 	//Exit Programe 
 	glfwTerminate();
 	
+	sceneLoader->GetCurrentScene()->OnDestroy();
 	sceneLoader->Destroy(sceneLoader);
+
 	return 0;
 
 }

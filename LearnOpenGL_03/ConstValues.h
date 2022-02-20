@@ -1,5 +1,8 @@
 #pragma once
 
+
+static const char* SCENE_DEFAULT_NAME = "DefaultScene";
+
 static const char* TEXTURE_DEFAULT_DIFFUSE_PATH ="texture_default_diffuse.png";
 static const char* TEXTURE_DEFAULT_SPECULAR_PATH ="texture_default_specular.png";
 
@@ -8,6 +11,10 @@ static const char* SKYBOX_SHADER_DEFAULT_NAME = "skyBoxShader";
 
 static const char* SHADER_DEFAULT_FILE_FRAGMENT = "fragmentSource.frag";
 static const char* SHADER_DEFAULT_FILE_VERTEX = "vertexSource.vert";
+static const char* SHADER_SKYBOX_FILE_FRAGMENT = "SkyboxFragment.frag";
+static const char* SHADER_SKYBOX_FILE_VERTEX = "SkyBoxVertex.vert";
+
+
 
 static const char* FRAGMENT_SHADER_VAR_MATERIAL ="material";
 static const char* FRAGMENT_SHADER_VAR_CAMERA_POS ="cameraPos";

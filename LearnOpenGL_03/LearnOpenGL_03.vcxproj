@@ -130,10 +130,12 @@
     <ClCompile Include="..\..\..\OpenGL\glad\src\glad.c" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DefaultGameObject.cpp" />
-    <ClCompile Include="GameFinder.cpp" />
+    <ClCompile Include="GameHelper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DefaultGameObject.h" />
@@ -141,7 +143,7 @@
     <ClInclude Include="ConstValues.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DestroyBase.h" />
-    <ClInclude Include="GameFinder.h" />
+    <ClInclude Include="GameHelper.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScript.h" />
     <ClInclude Include="GameScriptAdapter.h" />

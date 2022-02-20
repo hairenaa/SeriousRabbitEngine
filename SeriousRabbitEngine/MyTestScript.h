@@ -70,8 +70,8 @@ public:
 	
 		GameScript* s = GameHelper::GetGameScript("MyTestScript");
 		MyTestScript* o = (MyTestScript*)s;
+		//o->cube->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
 		o->cube->Scale(glm::vec3(2.0f, 2.0f, 2.0f));
-
 	};
 
 	//脚本启用时发生
@@ -83,9 +83,12 @@ public:
 	//更新函数
 	virtual void Update() 
 	{
-		model->Rotate(0.5f, glm::vec3(0, 1.0f, 0));
-		cube->Rotate(0.5f, glm::vec3(1.0f, 1.0f, 0));
-		cube->Translate(glm::vec3(0.01f, 0, 0));
+		//glm::vec3 a = model->GetAngles() + glm::vec3(0.0f, 0.0f, 0.5f);
+		//model->SetAngles(a);
+		model->Rotate(glm::vec3(0, 0.5f, 0));
+		cube->Rotate( glm::vec3(0.5f, 0.5f, 0));
+		//cube->SetPosition(glm::vec3(0.01f, 0.01f, 0)+ cube->GetPosition());
+		cube->Translate(glm::vec3(0.01f, 0.01f, 0));
 	};
 
 	//当脚本被禁用事发生

@@ -71,7 +71,11 @@ void Scene::Init()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->Init();
+		if (script->isEnabled) 
+		{
+			script->Init();
+		}
+		
 
 	}
 
@@ -83,32 +87,39 @@ void Scene::Init()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->Awake();
+		if (script->isEnabled) 
+		{
+			script->Awake();
+		}
+		
 	}
 
 	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 	{
 		GameObject* obj = gameObjectVec[i];
-		ManagerGameObject* mana = dynamic_cast<ManagerGameObject*>(obj);
-		if (mana != nullptr)
+		if (obj != nullptr) 
 		{
-			Shader* sha = mana->shader;
-			if (mana->handleType == ManagerGameObject::HANDLE_FRAGMENT)
+			ManagerGameObject* mana = dynamic_cast<ManagerGameObject*>(obj);
+			if (mana != nullptr)
 			{
-				sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
+				Shader* sha = mana->shader;
+				if (mana->handleType == ManagerGameObject::HANDLE_FRAGMENT)
+				{
+					sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
+				}
+				else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX)
+				{
+					sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
+				}
+				else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX_FRAGMENT)
+				{
+					sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
+					sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
+				}
+				/*std::cout << "////////////////////////////////////////"<<std::endl;
+				std:: cout << sha->Unhandled_fragment_source << endl;
+				std::cout << "////////////////////////////////////////"<<std::endl;*/
 			}
-			else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX)
-			{
-				sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
-			}
-			else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX_FRAGMENT)
-			{
-				sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
-				sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
-			}
-			std::cout << "////////////////////////////////////////"<<std::endl;
-			std:: cout << sha->Unhandled_fragment_source << endl;
-			std::cout << "////////////////////////////////////////"<<std::endl;
 		}
 
 	}
@@ -116,6 +127,7 @@ void Scene::Init()
 	//init shader
 	for (unsigned int i = 0; i < shaderVec.size(); i++)
 	{
+		
 		shaderVec[i]->InitShader();
 
 	}
@@ -125,7 +137,11 @@ void Scene::OnEnable()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->OnEnable();
+		if (script->isEnabled) 
+		{
+			script->OnEnable();
+		}
+		
 	}
 };
 void Scene::Update()
@@ -133,12 +149,20 @@ void Scene::Update()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->Update();
+		if (script->isEnabled) 
+		{
+			script->Update();
+		}
+		
 	}
 	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 	{
 		GameObject* obj = gameObjectVec[i];
-		obj->Draw();
+		if (obj != nullptr) 
+		{
+			obj->Draw();
+		}
+		
 		glDepthFunc(GL_LESS);
 	}
 };
@@ -147,7 +171,11 @@ void Scene::OnDisable()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->OnDisable();
+		if (script->isEnabled) 
+		{
+			script->OnDisable();
+		}
+		
 	}
 };
 void Scene::OnDestroy()

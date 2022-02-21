@@ -67,27 +67,41 @@ public:
 		cube = new Cube("cube1", "awesomeface.png");
 		model = new Model("model1", modelPath);
 		SkyBox* skybox = new SkyBox("skybox", GameHelper::FindShader(SKYBOX_SHADER_DEFAULT_NAME), texturePath);
-	
+		cube->Destroy(cube);
+		//根据脚本名获取脚本
 		GameScript* s = GameHelper::GetGameScript("MyTestScript");
 		MyTestScript* o = (MyTestScript*)s;
+		//禁用这个脚本
+		//o->Disable();
+		//设置scale ：不要放在update中
 		//o->cube->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
-		o->cube->Scale(glm::vec3(2.0f, 2.0f, 2.0f));
+
+		//缩放此物体  ：不要放在update中
+		//o->cube->Scale(glm::vec3(2.0f, 2.0f, 2.0f));
+
+		
 	};
 
 	//脚本启用时发生
 	virtual void OnEnable() 
 	{
 		std::cout << "OnEnable()" << endl;
+		
 	};
 
 	//更新函数
 	virtual void Update() 
 	{
+		//设置position
 		//glm::vec3 a = model->GetAngles() + glm::vec3(0.0f, 0.0f, 0.5f);
+		//设置angles
 		//model->SetAngles(a);
+
+		//旋转此物体
 		model->Rotate(glm::vec3(0, 0.5f, 0));
 		cube->Rotate( glm::vec3(0.5f, 0.5f, 0));
 		//cube->SetPosition(glm::vec3(0.01f, 0.01f, 0)+ cube->GetPosition());
+		//移动此物体
 		cube->Translate(glm::vec3(0.01f, 0.01f, 0));
 	};
 

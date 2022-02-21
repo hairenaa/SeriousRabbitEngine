@@ -33,19 +33,28 @@ std::string  GameHelper::GetTargetPath()
 
 void GameHelper::PushShaderToCurrentScene(Shader* shader)
 {
-	/*Shader* skyShader = new Shader(SHADER_SKYBOX_FILE_VERTEX, SHADER_SKYBOX_FILE_FRAGMENT, SKYBOX_SHADER_DEFAULT_NAME, Shader::SKYBOX_SHADER);
-	PushShader(skyShader);*/
-	SceneLoader::Instance()->GetCurrentScene()->PushShader(shader);
+	if (shader != nullptr) 
+	{
+		SceneLoader::Instance()->GetCurrentScene()->PushShader(shader);
+	}
+	
 }
 
 void GameHelper::PushGameObjectToCurrentScene(GameObject * obj)
 {
+	if (obj != nullptr) 
+	{
 	SceneLoader::Instance()->GetCurrentScene()->PushGameObject(obj);
+	}
 }
 
 void GameHelper::PushGameScriptToCurrentScene(GameScript * script)
 {
-	SceneLoader::Instance()->GetCurrentScene()->PushScript(script);
+	if (script != nullptr) 
+	{
+		SceneLoader::Instance()->GetCurrentScene()->PushScript(script);
+	}
+	
 }
 
 GameScript * GameHelper::GetGameScript(std::string _name)

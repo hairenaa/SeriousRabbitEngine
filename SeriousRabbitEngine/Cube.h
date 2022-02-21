@@ -142,12 +142,12 @@ public:
 	{
 		if (this->mesh!=nullptr) 
 		{
-			mesh->Destroy(mesh);
+			mesh->Delete<Mesh>(mesh);
 		}
 
 		if (this->material != nullptr) 
 		{
-			material->Destroy(material);
+			material->Delete<Material>(material);
 		}
 	}
 

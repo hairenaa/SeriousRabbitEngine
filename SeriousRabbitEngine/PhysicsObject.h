@@ -26,9 +26,16 @@ public:
 
 	PhysicsObject()
 	{
-		this->camera = GameHelper::GetMainCamera();
+		this->camera = GameHelper::GetMainCameraFromCurrentScene();
 	}
 
+	~PhysicsObject()
+	{
+		if (this->camera != nullptr) 
+		{
+			this->camera = nullptr;
+		}
+	}
 
 	void SetPosition(glm::vec3 pos)
 	{

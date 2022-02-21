@@ -35,13 +35,13 @@ public:
 
 	virtual void Enable() 
 	{
-		this->isEnabled = true;
+		EnableBase::Enable();
 		this->OnEnable();
 	};
 
 	virtual void Disable() 
 	{
-		this->isEnabled = false;
+		EnableBase::Disable();
 		this->OnDisable();
 	}
 

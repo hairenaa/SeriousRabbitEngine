@@ -7,12 +7,14 @@
 #include "DestroyBase.h"
 #include "Shader.h"
 #include "Object.h"
+#include "EnableBase.h"
 
-class GameObject:public Object,public DestroyBase
+class GameObject:public Object,public DestroyBase,public EnableBase
 {
 public:
 	
-	Shader* shader=nullptr;
+	 Shader* shader=nullptr;
+	
 
 	GameObject(std::string _name) :Object(_name)
 	{
@@ -26,13 +28,23 @@ public:
 		this->shader = _shader;
 	};
 	
-
 	
 	virtual void Draw() 
 	{
 		std::string s = this->name;
 		shader->use();
 	};
+
+	~GameObject()
+	{
+		if (shader != nullptr) 
+		{
+			shader = nullptr;
+		}
+	}
+
+	
+
 
 };
 

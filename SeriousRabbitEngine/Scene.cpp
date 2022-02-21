@@ -28,29 +28,23 @@ Scene::~Scene()
 	{
 		GameScript* script = gameScriptVec[i];
 		script->OnDestroy();
-		script->Destroy(script);
+		script->Delete<GameScript>(script);
 		
 	}
 
 	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 	{
 		GameObject* obj = gameObjectVec[i];
-		obj->Destroy(obj);
+		obj->Delete<GameObject>(obj);
 		
 	}
 
 	for (unsigned int i = 0; i < shaderVec.size(); i++)
 	{
 		Shader* obj = shaderVec[i];
-		obj->Destroy(obj);
+		obj->Delete<Shader>(obj);
 
 	}
-
-
-
-
-
-
 
 
 }
@@ -63,7 +57,8 @@ void Scene::Init()
 	PushShader(mainShader);
 
 	mainCamera = new Camera("MainCamera", mainShader, Width, Height, glm::vec3(0, 10.0f, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
-	PushGameObject(mainCamera);
+	GameObject* cobj = (GameObject*)mainCamera;
+	PushGameObject(cobj);
 
 	
 	
@@ -155,12 +150,28 @@ void Scene::Update()
 		}
 		
 	}
-	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
+	
+	for (std::vector<GameObject*>::iterator it = gameObjectVec.begin(); it != gameObjectVec.end();)
 	{
-		GameObject* obj = gameObjectVec[i];
+		GameObject* obj = *it;
+		
 		if (obj != nullptr) 
 		{
-			obj->Draw();
+			if (obj->isDestroyed)
+			{
+				it = gameObjectVec.erase(it);
+				obj->Delete<GameObject>(obj);
+			}
+			
+			else
+			{
+				if (obj->isEnabled)
+				{
+					obj->Draw();
+				}
+				++it;
+			}
+			
 		}
 		
 		glDepthFunc(GL_LESS);
@@ -189,17 +200,20 @@ void Scene::OnDestroy()
 
 
 
+
 void Scene::PushScript(GameScript* script)
 {
 	gameScriptVec.push_back(script);
 }
-void Scene::PushGameObject(GameObject* obj)
+
+
+void Scene::PushGameObject(GameObject* &obj)
 {
 	gameObjectVec.push_back(obj);
 }
 
 
-void Scene::PushShader(Shader* shader)
+void Scene::PushShader(Shader* &shader)
 {
 	shaderVec.push_back(shader);
 	if (shader != mainShader)
@@ -248,4 +262,9 @@ GameScript * Scene::GetGameScriptByName(std::string _name)
 			return s;
 		}
 	}
+}
+
+void Scene::BindInput(InputBase * &input)
+{
+	this->input = input;
 }

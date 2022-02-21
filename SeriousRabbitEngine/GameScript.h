@@ -1,9 +1,10 @@
 #pragma once
 #include "DestroyBase.h"
-class GameScript:public Object, public DestroyBase
+#include "EnableBase.h"
+class GameScript:public Object, public DestroyBase,public EnableBase
 {
 public:
-	bool isEnabled = true;
+	
 	
 	
 	GameScript(std::string _name) 
@@ -16,8 +17,7 @@ public:
 		
 	}
 
-	virtual void Enable() {};
-	virtual void Disable() {};
+	
 
 	virtual void Init() = 0;
 	virtual  void Awake() = 0;

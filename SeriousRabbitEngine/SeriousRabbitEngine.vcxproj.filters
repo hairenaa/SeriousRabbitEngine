@@ -30,9 +30,6 @@
     <ClCompile Include="DefaultGameObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -40,6 +37,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="GameHelper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -138,6 +138,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GameHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EnableBase.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

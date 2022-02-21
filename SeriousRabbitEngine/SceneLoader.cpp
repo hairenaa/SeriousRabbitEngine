@@ -27,7 +27,7 @@ SceneLoader::~SceneLoader()
 	for (unsigned int i = 0; i < scenes.size(); i++)
 	{
 		Scene* scene = scenes[i];
-		scene->Destroy(scene);
+		scene->Delete<Scene>(scene);
 	}
 }
 

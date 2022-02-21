@@ -50,7 +50,7 @@ public:
 	{
 		if (this->material != nullptr) 
 		{
-			material->Destroy(material);
+			material->Delete<Material>(material);
 		}
 		
 	}

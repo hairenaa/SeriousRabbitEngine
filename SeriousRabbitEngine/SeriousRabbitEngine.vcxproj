@@ -144,6 +144,7 @@
     <ClInclude Include="ConstValues.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DestroyBase.h" />
+    <ClInclude Include="EnableBase.h" />
     <ClInclude Include="GameHelper.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScript.h" />

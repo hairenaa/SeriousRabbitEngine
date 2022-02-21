@@ -5,23 +5,23 @@
 
 
 
- Shader*  GameHelper::FindShader(std::string _name)
+ Shader*  GameHelper::FindShaderFromCurrentScene(std::string _name)
 {
 	return SceneLoader::Instance()->GetCurrentScene()->GetShaderByName(_name);
 }
 
-GameObject * GameHelper::FindGameObject(std::string _name)
+GameObject * GameHelper::FindGameObjectFromCurrentScene(std::string _name)
 {
 	return SceneLoader::Instance()->GetCurrentScene()->GetGameObjectByName(_name);
 }
 
 
- Camera*  GameHelper::GetMainCamera()
+ Camera*  GameHelper::GetMainCameraFromCurrentScene()
 {
 	return SceneLoader::Instance()->GetCurrentScene()->mainCamera;
 }
 
- Shader*  GameHelper::GetMainShader()
+ Shader*  GameHelper::GetMainShaderFromCurrentScene()
 {
 	return SceneLoader::Instance()->GetCurrentScene()->mainShader;
 }
@@ -31,7 +31,7 @@ std::string  GameHelper::GetTargetPath()
 	return SceneLoader::Instance()->GetCurrentScene()->TargetPath;
 }
 
-void GameHelper::PushShaderToCurrentScene(Shader* shader)
+void GameHelper::PushShaderToCurrentScene(Shader* &shader)
 {
 	if (shader != nullptr) 
 	{
@@ -40,7 +40,7 @@ void GameHelper::PushShaderToCurrentScene(Shader* shader)
 	
 }
 
-void GameHelper::PushGameObjectToCurrentScene(GameObject * obj)
+void GameHelper::PushGameObjectToCurrentScene(GameObject * &obj)
 {
 	if (obj != nullptr) 
 	{
@@ -48,7 +48,7 @@ void GameHelper::PushGameObjectToCurrentScene(GameObject * obj)
 	}
 }
 
-void GameHelper::PushGameScriptToCurrentScene(GameScript * script)
+void GameHelper::PushGameScriptToCurrentScene(GameScript * &script)
 {
 	if (script != nullptr) 
 	{
@@ -57,7 +57,22 @@ void GameHelper::PushGameScriptToCurrentScene(GameScript * script)
 	
 }
 
-GameScript * GameHelper::GetGameScript(std::string _name)
+void GameHelper::SetInputFromCurrentScene(InputBase *& input)
+{
+	SceneLoader::Instance()->GetCurrentScene()->BindInput(input);
+}
+
+InputBase* GameHelper::GetInputFromCurrentScene()
+{
+	return SceneLoader::Instance()->GetCurrentScene()->input;
+}
+
+GLFWwindow * GameHelper::GetWindowFromCurrentScene()
+{
+	return SceneLoader::Instance()->GetCurrentScene()->window;
+}
+
+GameScript * GameHelper::GetGameScriptFromCurrentScene(std::string _name)
 {
 	return SceneLoader::Instance()->GetCurrentScene()->GetGameScriptByName(_name);
 }

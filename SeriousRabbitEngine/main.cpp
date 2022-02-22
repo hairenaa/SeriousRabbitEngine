@@ -12,15 +12,19 @@
 #include "SceneLoader.h"
 #include "Scene.h"
 
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 #pragma region Include Custom GameScript
 
 #include "MyTestScript.h"
 
 #pragma endregion
+
+
+
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+
 
 
 

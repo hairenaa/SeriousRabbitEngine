@@ -31,7 +31,7 @@ std::string  GameHelper::GetTargetPath()
 	return SceneLoader::Instance()->GetCurrentScene()->TargetPath;
 }
 
-void GameHelper::PushShaderToCurrentScene(Shader* &shader)
+void GameHelper::PushShaderToCurrentScene(Shader* shader)
 {
 	if (shader != nullptr) 
 	{
@@ -48,7 +48,7 @@ void GameHelper::PushGameObjectToCurrentScene(GameObject * &obj)
 	}
 }
 
-void GameHelper::PushGameScriptToCurrentScene(GameScript * &script)
+void GameHelper::PushGameScriptToCurrentScene(GameScript * script)
 {
 	if (script != nullptr) 
 	{
@@ -57,7 +57,7 @@ void GameHelper::PushGameScriptToCurrentScene(GameScript * &script)
 	
 }
 
-void GameHelper::SetInputFromCurrentScene(InputBase *& input)
+void GameHelper::SetInputFromCurrentScene(InputBase * input)
 {
 	SceneLoader::Instance()->GetCurrentScene()->BindInput(input);
 }
@@ -70,6 +70,11 @@ InputBase* GameHelper::GetInputFromCurrentScene()
 GLFWwindow * GameHelper::GetWindowFromCurrentScene()
 {
 	return SceneLoader::Instance()->GetCurrentScene()->window;
+}
+
+SceneLoader * GameHelper::GetSceneLoader()
+{
+	return SceneLoader::Instance();
 }
 
 GameScript * GameHelper::GetGameScriptFromCurrentScene(std::string _name)

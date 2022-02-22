@@ -26,17 +26,19 @@ public:
 
 	static std::string GetTargetPath();
 
-	static void PushShaderToCurrentScene(Shader* &shader);
+	static void PushShaderToCurrentScene(Shader* shader);
 
 	static void PushGameObjectToCurrentScene(GameObject* &obj);
 
-	static void PushGameScriptToCurrentScene(GameScript* &script);
+	static void PushGameScriptToCurrentScene(GameScript* script);
 	
-	static void SetInputFromCurrentScene(InputBase* &input);
+	static void SetInputFromCurrentScene(InputBase* input);
 
 	static InputBase* GetInputFromCurrentScene();
 
 	static GLFWwindow* GetWindowFromCurrentScene();
+
+	static SceneLoader* GetSceneLoader();
 };
 
 

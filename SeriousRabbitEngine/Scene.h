@@ -62,7 +62,7 @@ public:
 
 	void PushGameObject(GameObject* &obj);
 
-	void PushShader(Shader* &shader);
+	void PushShader(Shader* shader);
 
 	
 	Shader* GetShaderByName(std::string _name);

@@ -1,13 +1,24 @@
 #pragma once
 #include "GameScript.h"
-#include "SceneLoader.h"
 #include "Scene.h"
+#include "SceneLoader.h"
+
+
 
 class GameScriptAdapter:public GameScript
 {
 public:
 	
+	GameScriptAdapter(bool bindToCurrentScene) 
+	{
+		if (bindToCurrentScene) 
+		{
+			GameHelper::PushGameScriptToCurrentScene(this);
+		}
+		
+	}
 
+	
 	virtual void Init() 
 	{
 		

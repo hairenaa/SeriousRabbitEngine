@@ -149,6 +149,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScript.h" />
     <ClInclude Include="GameScriptAdapter.h" />
+    <ClInclude Include="GeometryObject.h" />
     <ClInclude Include="InputBase.h" />
     <ClInclude Include="InputInWindows.h" />
     <ClInclude Include="Light.h" />

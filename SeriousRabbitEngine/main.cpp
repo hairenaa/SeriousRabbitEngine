@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include <vector>
+//#include <unistd.h>
 
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
@@ -10,10 +11,17 @@
 
 #include "SceneLoader.h"
 #include "Scene.h"
-#include "MyTestScript.h"
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+
+#pragma region Include Custom GameScript
+
+#include "MyTestScript.h"
+
+#pragma endregion
+
 
 
 
@@ -21,15 +29,10 @@ using namespace std;
 
 int Object::id = 0;
 
-
-
-
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
 SceneLoader* sceneLoader;
-
-
 
 
 //c++ 11
@@ -46,7 +49,6 @@ int main(int argc,char* argv[])
 	cout << argv[0]<<endl;
 	std::string exePath = argv[0];
 
-	
 	std::string debugPath = exePath.substr(0, exePath.find_last_of('\\'));
 
 
@@ -90,9 +92,17 @@ int main(int argc,char* argv[])
 		
 #pragma endregion
 
-#pragma region SomeThing Init
+#pragma region Init Custom GameScript
 
-		sceneLoader->GetCurrentScene()->PushScript(new MyTestScript());
+		 MyTestScript* sc = new MyTestScript();
+
+#pragma endregion
+
+
+
+
+#pragma region Scene Init Awake OnEnable
+
 		sceneLoader->GetCurrentScene()->Init();
 		sceneLoader->GetCurrentScene()->Awake();
 		sceneLoader->GetCurrentScene()->OnEnable();

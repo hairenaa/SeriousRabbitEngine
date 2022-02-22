@@ -213,7 +213,7 @@ void Scene::PushGameObject(GameObject* &obj)
 }
 
 
-void Scene::PushShader(Shader* &shader)
+void Scene::PushShader(Shader* shader)
 {
 	shaderVec.push_back(shader);
 	if (shader != mainShader)

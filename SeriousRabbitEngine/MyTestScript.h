@@ -88,9 +88,13 @@ class MyTestScript:public GameScriptAdapter
 public:
 
 	//可以使用空参构造函数来给脚本命名，他的优先级最高，发生在场景加载器和当前场景构造完成后
-	MyTestScript() 
+	//:GameScriptAdapter(true) 参数为ture表示将自动将脚本注册到当前场景，否则不进行任何操作
+	MyTestScript() :GameScriptAdapter(false)
 	{
 		this->name = "MyTestScript";
+		//:GameScriptAdapter(true)使用false参数，并创建一个新场景，将此脚本加入到场景中，最后将场景从当前默认default场景到新场景
+		/*GameHelper::GetSceneLoader()->NewSceneInstance("scene01")->PushScript(this);
+		GameHelper::GetSceneLoader()->ChangeSceneNext();*/
 	}
 
 	Cube* cube;

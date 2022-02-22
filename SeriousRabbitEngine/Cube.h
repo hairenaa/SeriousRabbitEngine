@@ -6,28 +6,21 @@
 #include "TextureLoadUtil.h"
 #include "TexturePoolSinglton.h"
 #include "ConstValues.h"
-#include "PhysicsObject.h"
 #include "Camera.h"
-#include "DefaultGameObject.h"
+#include "GeometryObject.h"
 
-class Cube : public DefaultGameObject , public PhysicsObject
+class Cube : public GeometryObject
 {
 public:
-	Mesh* mesh;
-	Material* material;
-	const int GROUP_LEN = 11;
-	const std::string DIFF_PATH = TEXTURE_DEFAULT_DIFFUSE_PATH;
-	const std::string SPE_PATH = TEXTURE_DEFAULT_SPECULAR_PATH;
+	
 
-	Cube(std::string _name, Shader* _shader, std::vector<Texture> textureVec) :DefaultGameObject(_name, _shader), PhysicsObject()
+	Cube(std::string _name, Shader* _shader, std::vector<Texture> textureVec) :GeometryObject(_name,_shader)
 	{
-
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices, textureVec);
 	}
 
-	Cube(std::string _name, Shader* _shader) :DefaultGameObject(_name, _shader), PhysicsObject()
+	Cube(std::string _name, Shader* _shader) :GeometryObject(_name, _shader)
 	{
-
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
 		textureVec.push_back(TexturePoolSinglton::Instance()->CheckAndLoadTexture(DIFF_PATH, TEXTURE_DIFFUSE));
@@ -35,7 +28,7 @@ public:
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
-	Cube(std::string _name, Shader* _shader, const std::string _texture_diffuse_path) :DefaultGameObject(_name, _shader), PhysicsObject()
+	Cube(std::string _name, Shader* _shader, const std::string _texture_diffuse_path) :GeometryObject(_name, _shader)
 	{
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
@@ -44,7 +37,7 @@ public:
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
-	Cube(std::string _name, Shader* _shader, const std::string _texture_diffuse_path, const std::string _texture_specular_path) :DefaultGameObject(_name, _shader), PhysicsObject()
+	Cube(std::string _name, Shader* _shader, const std::string _texture_diffuse_path, const std::string _texture_specular_path) :GeometryObject(_name, _shader)
 	{
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
@@ -58,13 +51,13 @@ public:
 	}
 
 	//************************************************************************************
-	Cube(std::string _name, std::vector<Texture> textureVec) :DefaultGameObject(_name), PhysicsObject()
+	Cube(std::string _name, std::vector<Texture> textureVec) :GeometryObject(_name)
 	{
 
 		this->mesh = new Mesh(_name, this->shader, this->vertices, GROUP_LEN, this->indices, textureVec);
 	}
 
-	Cube(std::string _name) :DefaultGameObject(_name), PhysicsObject()
+	Cube(std::string _name) :GeometryObject(_name)
 	{
 
 		this->material = new Material(_name,this->shader);
@@ -74,7 +67,7 @@ public:
 		this->mesh = new Mesh(_name, this->shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
-	Cube(std::string _name,  const std::string _texture_diffuse_path) :DefaultGameObject(_name), PhysicsObject()
+	Cube(std::string _name,const std::string _texture_diffuse_path) :GeometryObject(_name)
 	{
 		this->material = new Material(_name, this->shader);
 		std::vector<Texture> textureVec;
@@ -83,7 +76,7 @@ public:
 		this->mesh = new Mesh(_name, this->shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
-	Cube(std::string _name,  const std::string _texture_diffuse_path, const std::string _texture_specular_path) :DefaultGameObject(_name), PhysicsObject()
+	Cube(std::string _name,  const std::string _texture_diffuse_path, const std::string _texture_specular_path) :GeometryObject(_name)
 	{
 		this->material = new Material(_name, this->shader);
 		std::vector<Texture> textureVec;
@@ -100,13 +93,13 @@ public:
 	//*******************************************************************************************
 
 
-	Cube(std::string _name, Shader* _shader, Camera* _camera,std::vector<Texture> textureVec) :DefaultGameObject(_name, _shader), PhysicsObject(_camera)
+	Cube(std::string _name, Shader* _shader, Camera* _camera,std::vector<Texture> textureVec) :GeometryObject(_name,_shader,_camera)
 	{
 		
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN,this->indices,textureVec);
 	}
 
-	Cube(std::string _name,Shader* _shader,Camera* _camera) :DefaultGameObject(_name,_shader),PhysicsObject(_camera)
+	Cube(std::string _name,Shader* _shader,Camera* _camera) :GeometryObject(_name, _shader, _camera)
 	{
 		
 		this->material = new Material(_name, _shader);
@@ -116,7 +109,7 @@ public:
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices, textureVec, this->material);
 	}
 
-	Cube(std::string _name, Shader* _shader, Camera* _camera,const std::string _texture_diffuse_path) :DefaultGameObject(_name, _shader), PhysicsObject(_camera)
+	Cube(std::string _name, Shader* _shader, Camera* _camera,const std::string _texture_diffuse_path) :GeometryObject(_name, _shader, _camera)
 	{
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;
@@ -125,7 +118,7 @@ public:
 		this->mesh = new Mesh(_name, _shader, this->vertices, GROUP_LEN, this->indices,textureVec, this->material);
 	}
 
-	Cube(std::string _name, Shader* _shader, Camera* _camera, const std::string _texture_diffuse_path, const std::string _texture_specular_path) :DefaultGameObject(_name, _shader), PhysicsObject(_camera)
+	Cube(std::string _name, Shader* _shader, Camera* _camera, const std::string _texture_diffuse_path, const std::string _texture_specular_path) :GeometryObject(_name, _shader, _camera)
 	{
 		this->material = new Material(_name, _shader);
 		std::vector<Texture> textureVec;

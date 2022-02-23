@@ -11,13 +11,12 @@
 
 #include "SceneLoader.h"
 #include "Scene.h"
+#include "ScriptRegister.h" 
 
-#pragma region Include Custom GameScript
-
-#include "MyTestScript.h"
-
-#pragma endregion
-
+//#pragma region Include Custom GameScript
+//
+//#pragma endregion
+//
 
 
 
@@ -96,9 +95,9 @@ int main(int argc,char* argv[])
 		
 #pragma endregion
 
-#pragma region Init Custom GameScript
+#pragma region Init Custom GameScript Register
 
-		 MyTestScript* sc = new MyTestScript();
+		 ScriptRegister* scriptRegister = new ScriptRegister();
 
 #pragma endregion
 

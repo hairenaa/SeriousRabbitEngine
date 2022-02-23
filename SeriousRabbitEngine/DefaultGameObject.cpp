@@ -5,12 +5,14 @@
 
 DefaultGameObject::DefaultGameObject(std::string _name, Shader* _shader) :GameObject(_name, _shader)
 {
-	GameHelper::PushGameObjectToCurrentScene(this);
+	GameObject* s = (GameObject*)this;
+	GameHelper::PushGameObjectToCurrentScene(s);
 }
 
 DefaultGameObject::DefaultGameObject(std::string _name) :GameObject(_name)
 {
-	this->shader = GameHelper::FindShader(MAIN_SHADER_DEFAULT_NAME);
-	GameHelper::PushGameObjectToCurrentScene(this);
+	this->shader = GameHelper::FindShaderFromCurrentScene(MAIN_SHADER_DEFAULT_NAME);
+	GameObject* s = (GameObject*)this;
+	GameHelper::PushGameObjectToCurrentScene(s);
 
 }

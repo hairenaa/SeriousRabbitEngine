@@ -2,11 +2,18 @@
 class DestroyBase
 {
 public:
-	virtual void Destroy(DestroyBase* obj_ptr)
+	bool isDestroyed = false;
+	template<class T>
+	void Delete(T* &obj_ptr)
 	{
+		isDestroyed = true;
 		delete obj_ptr;
 		obj_ptr = nullptr;
 	}
 
+	void Destroy() 
+	{
+		this->isDestroyed = true;
+	}
 };
 

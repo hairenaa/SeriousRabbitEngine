@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include <vector>
+//#include <unistd.h>
 
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
@@ -10,10 +11,20 @@
 
 #include "SceneLoader.h"
 #include "Scene.h"
-#include "MyTestScript.h"
+#include "ScriptRegister.h" 
+
+//#pragma region Include Custom GameScript
+//
+//#pragma endregion
+//
+
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+
+
+
 
 
 
@@ -21,78 +32,10 @@ using namespace std;
 
 int Object::id = 0;
 
-
-
-
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
 SceneLoader* sceneLoader;
-
-#pragma region Input Declare
-
-
-double lastX;
-double lastY;
-bool isFirstMouse = true;
-
-
-void processInput(GLFWwindow* window)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-	{
-		glfwSetWindowShouldClose(window, true);
-	}
-
-	//camera->ClearSpeed();
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		sceneLoader->GetCurrentScene()->mainCamera->MovInZAxias(20.0f);
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-	{
-		sceneLoader->GetCurrentScene()->mainCamera->MovInZAxias(-20.0f);
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		sceneLoader->GetCurrentScene()->mainCamera->MovInXAxias(-15.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		sceneLoader->GetCurrentScene()->mainCamera->MovInXAxias(15.0f);
-	}
-
-}
-
-void mouse_callback(GLFWwindow* window, double xPos, double yPos)
-{
-	if (isFirstMouse)
-	{
-		lastX = xPos;
-		lastY = yPos;
-		isFirstMouse = false;
-	}
-
-	double deltaX, deltaY;
-	deltaX = xPos - lastX;
-	deltaY = yPos - lastY;
-
-	lastX = xPos;
-	lastY = yPos;
-	double test = 1.44;
-	sceneLoader->GetCurrentScene()->mainCamera->ProcessMouseMovement(deltaX, deltaY);
-}
-
-
-void SetInputMode(GLFWwindow* window)
-{
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-}
-
-#pragma endregion
 
 
 //c++ 11
@@ -109,7 +52,6 @@ int main(int argc,char* argv[])
 	cout << argv[0]<<endl;
 	std::string exePath = argv[0];
 
-	
 	std::string debugPath = exePath.substr(0, exePath.find_last_of('\\'));
 
 
@@ -132,7 +74,7 @@ int main(int argc,char* argv[])
 		glfwMakeContextCurrent(window);
 
 		
-		//init glew
+		//init glad
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
 			std::cout << "Failed to initialize GLAD" << std::endl;
@@ -149,16 +91,21 @@ int main(int argc,char* argv[])
 #pragma region  Init SceneLoader
 
 		 sceneLoader = new SceneLoader(window, WIDTH, HEIGHT,"");
-		 sceneLoader->GetCurrentScene()->input->RegisterCursorPosCallBack(mouse_callback);
-		 sceneLoader->GetCurrentScene()->input->RegisterInputModeGroup(SetInputMode);
-		 sceneLoader->GetCurrentScene()->input->RegisterToUpdate(processInput);
+		
 		
 #pragma endregion
 
-#pragma region SomeThing Init
+#pragma region Init Custom GameScript Register
 
-		GameScript* myTestScript = new MyTestScript();
-		sceneLoader->GetCurrentScene()->PushScript(myTestScript);
+		 ScriptRegister* scriptRegister = new ScriptRegister();
+
+#pragma endregion
+
+
+
+
+#pragma region Scene Init Awake OnEnable
+
 		sceneLoader->GetCurrentScene()->Init();
 		sceneLoader->GetCurrentScene()->Awake();
 		sceneLoader->GetCurrentScene()->OnEnable();
@@ -172,7 +119,7 @@ int main(int argc,char* argv[])
 		//processInput
 		/*processInput(window);*/
 		
-		sceneLoader->GetCurrentScene()->input->UpdateInput();
+		
 
 		
 		//...render begin
@@ -203,7 +150,7 @@ int main(int argc,char* argv[])
 	glfwTerminate();
 	
 	sceneLoader->GetCurrentScene()->OnDestroy();
-	sceneLoader->Destroy(sceneLoader);
+	sceneLoader->Delete<SceneLoader>(sceneLoader);
 
 	return 0;
 

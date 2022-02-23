@@ -1,13 +1,24 @@
 #pragma once
 #include "GameScript.h"
-#include "SceneLoader.h"
 #include "Scene.h"
+#include "SceneLoader.h"
+
+
 
 class GameScriptAdapter:public GameScript
 {
 public:
 	
+	GameScriptAdapter(bool bindToCurrentScene) 
+	{
+		if (bindToCurrentScene) 
+		{
+			GameHelper::PushGameScriptToCurrentScene(this);
+		}
+		
+	}
 
+	
 	virtual void Init() 
 	{
 		
@@ -35,13 +46,13 @@ public:
 
 	virtual void Enable() 
 	{
-		this->isEnabled = true;
+		EnableBase::Enable();
 		this->OnEnable();
 	};
 
 	virtual void Disable() 
 	{
-		this->isEnabled = false;
+		EnableBase::Disable();
 		this->OnDisable();
 	}
 

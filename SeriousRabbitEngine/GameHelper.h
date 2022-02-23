@@ -5,33 +5,40 @@
 #include "Camera.h"
 #include "GameScript.h"
 #include "Shader.h"
+#include "InputBase.h"
 
 class SceneLoader;
 class Scene;
-
+class Camera;
 
 class GameHelper
 {
 public:
-	static Shader* FindShader(std::string _name);
-	static GameObject* FindGameObject(std::string _name);
-	static  GameScript* GetGameScript(std::string _name);
+	static Shader* FindShaderFromCurrentScene(std::string _name);
+	static GameObject* FindGameObjectFromCurrentScene(std::string _name);
+	static  GameScript* GetGameScriptFromCurrentScene(std::string _name);
 
-	static Shader*  GetMainShader();
+	static Shader*  GetMainShaderFromCurrentScene();
 
 	static Scene* GetCurrentScene();
 
-	static Camera* GetMainCamera();
+	static Camera* GetMainCameraFromCurrentScene();
 
 	static std::string GetTargetPath();
 
 	static void PushShaderToCurrentScene(Shader* shader);
 
-	static void PushGameObjectToCurrentScene(GameObject* obj);
+	static void PushGameObjectToCurrentScene(GameObject* &obj);
 
 	static void PushGameScriptToCurrentScene(GameScript* script);
 	
-	
+	static void SetInputFromCurrentScene(InputBase* input);
+
+	static InputBase* GetInputFromCurrentScene();
+
+	static GLFWwindow* GetWindowFromCurrentScene();
+
+	static SceneLoader* GetSceneLoader();
 };
 
 

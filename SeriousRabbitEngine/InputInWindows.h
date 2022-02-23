@@ -15,11 +15,11 @@ public:
 	{
 	}
 
-	virtual void RegisterToUpdate(void(*callback)(GLFWwindow*))
-	{
-		this->UpdateCallBack = callback;
-	}
-	virtual void RegisterCursorPosCallBack(void(*callback)(GLFWwindow* window, double xPos, double yPos))
+	//virtual void RegisterToUpdate(void(*callback)(GLFWwindow*))
+	//{
+	//	this->UpdateCallBack = callback;
+	//}
+	/*virtual void RegisterCursorPosCallBack(void(*callback)(GLFWwindow* window, double xPos, double yPos))
 	{
 		glfwSetCursorPosCallback(window, callback);
 	}
@@ -33,11 +33,11 @@ public:
 
 		glfwSetKeyCallback(window, callback);
 	}
-
-	virtual void RegisterInputModeGroup(void(*set_mode)(GLFWwindow* window))
+*/
+	/*virtual void RegisterInputModeGroup(void(*set_mode)(GLFWwindow* window))
 	{
 		set_mode(window);
-	}
+	}*/
 
 	
 };

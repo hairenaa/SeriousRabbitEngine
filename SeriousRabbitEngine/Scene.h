@@ -9,7 +9,8 @@
 #include "Camera.h"
 #include "GameObject.h"
 #include "ManagerGameObject.h"
-#include "InputInWindows.h"
+#include "InputBase.h"
+#include  "InputInWindows.h"
 #include "WinApiUtil.h"
 #include "Object.h"
 #include "GameScript.h"
@@ -24,7 +25,7 @@ protected:
 	std::vector<GameScript*> gameScriptVec;
 	std::vector<Shader*> shaderVec;
 	
-	GLFWwindow* window;
+	
 	unsigned int Width;
 	unsigned int Height;
 	
@@ -32,8 +33,8 @@ protected:
 	
 
 public:
-	
-	InputInWindows* input = nullptr;
+	GLFWwindow* window;
+	InputBase* input = nullptr;
 	Shader* mainShader = nullptr;
 	Camera* mainCamera = nullptr;
 	
@@ -41,7 +42,6 @@ public:
 
 	Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height, std::string targetPath);
 	Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height) ;
-	
 
 	~Scene();
 
@@ -59,7 +59,8 @@ public:
 
 	
 	void PushScript(GameScript* script);
-	void PushGameObject(GameObject* obj);
+
+	void PushGameObject(GameObject* &obj);
 
 	void PushShader(Shader* shader);
 
@@ -71,6 +72,9 @@ public:
 
 	GameScript* GetGameScriptByName(std::string _name);
 	
+
+	void BindInput(InputBase* &input);
+
 
 
 };

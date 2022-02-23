@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <direct.h>
+
+
 class WinApiUtil
 {
 public:
@@ -19,6 +21,12 @@ public:
 
 		
 	}
+
+	/*static bool ISBadPtr1(void* p)
+	{
+		return IsBadCodePtr(p);
+	}
+    */
 
 };
 

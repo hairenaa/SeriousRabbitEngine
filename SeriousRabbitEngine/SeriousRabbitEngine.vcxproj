@@ -144,10 +144,12 @@
     <ClInclude Include="ConstValues.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DestroyBase.h" />
+    <ClInclude Include="EnableBase.h" />
     <ClInclude Include="GameHelper.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScript.h" />
     <ClInclude Include="GameScriptAdapter.h" />
+    <ClInclude Include="GeometryObject.h" />
     <ClInclude Include="InputBase.h" />
     <ClInclude Include="InputInWindows.h" />
     <ClInclude Include="Light.h" />
@@ -163,6 +165,7 @@
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLoader.h" />
+    <ClInclude Include="ScriptRegister.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderFileUtil.h" />
     <ClInclude Include="Single.h" />

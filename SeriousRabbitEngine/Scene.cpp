@@ -28,29 +28,23 @@ Scene::~Scene()
 	{
 		GameScript* script = gameScriptVec[i];
 		script->OnDestroy();
-		script->Destroy(script);
+		script->Delete<GameScript>(script);
 		
 	}
 
 	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 	{
 		GameObject* obj = gameObjectVec[i];
-		obj->Destroy(obj);
+		obj->Delete<GameObject>(obj);
 		
 	}
 
 	for (unsigned int i = 0; i < shaderVec.size(); i++)
 	{
 		Shader* obj = shaderVec[i];
-		obj->Destroy(obj);
+		obj->Delete<Shader>(obj);
 
 	}
-
-
-
-
-
-
 
 
 }
@@ -63,7 +57,8 @@ void Scene::Init()
 	PushShader(mainShader);
 
 	mainCamera = new Camera("MainCamera", mainShader, Width, Height, glm::vec3(0, 10.0f, 200.0f), glm::radians(-2.3f), glm::radians(0.3f), glm::vec3(0, 1.0f, 0));
-	PushGameObject(mainCamera);
+	GameObject* cobj = (GameObject*)mainCamera;
+	PushGameObject(cobj);
 
 	
 	
@@ -71,7 +66,11 @@ void Scene::Init()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->Init();
+		if (script->isEnabled) 
+		{
+			script->Init();
+		}
+		
 
 	}
 
@@ -83,32 +82,39 @@ void Scene::Init()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->Awake();
+		if (script->isEnabled) 
+		{
+			script->Awake();
+		}
+		
 	}
 
 	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
 	{
 		GameObject* obj = gameObjectVec[i];
-		ManagerGameObject* mana = dynamic_cast<ManagerGameObject*>(obj);
-		if (mana != nullptr)
+		if (obj != nullptr) 
 		{
-			Shader* sha = mana->shader;
-			if (mana->handleType == ManagerGameObject::HANDLE_FRAGMENT)
+			ManagerGameObject* mana = dynamic_cast<ManagerGameObject*>(obj);
+			if (mana != nullptr)
 			{
-				sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
+				Shader* sha = mana->shader;
+				if (mana->handleType == ManagerGameObject::HANDLE_FRAGMENT)
+				{
+					sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
+				}
+				else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX)
+				{
+					sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
+				}
+				else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX_FRAGMENT)
+				{
+					sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
+					sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
+				}
+				/*std::cout << "////////////////////////////////////////"<<std::endl;
+				std:: cout << sha->Unhandled_fragment_source << endl;
+				std::cout << "////////////////////////////////////////"<<std::endl;*/
 			}
-			else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX)
-			{
-				sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
-			}
-			else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX_FRAGMENT)
-			{
-				sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
-				sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
-			}
-			std::cout << "////////////////////////////////////////"<<std::endl;
-			std:: cout << sha->Unhandled_fragment_source << endl;
-			std::cout << "////////////////////////////////////////"<<std::endl;
 		}
 
 	}
@@ -116,6 +122,7 @@ void Scene::Init()
 	//init shader
 	for (unsigned int i = 0; i < shaderVec.size(); i++)
 	{
+		
 		shaderVec[i]->InitShader();
 
 	}
@@ -125,7 +132,11 @@ void Scene::OnEnable()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->OnEnable();
+		if (script->isEnabled) 
+		{
+			script->OnEnable();
+		}
+		
 	}
 };
 void Scene::Update()
@@ -133,12 +144,36 @@ void Scene::Update()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->Update();
+		if (script->isEnabled) 
+		{
+			script->Update();
+		}
+		
 	}
-	for (unsigned int i = 0; i < gameObjectVec.size(); i++)
+	
+	for (std::vector<GameObject*>::iterator it = gameObjectVec.begin(); it != gameObjectVec.end();)
 	{
-		GameObject* obj = gameObjectVec[i];
-		obj->Draw();
+		GameObject* obj = *it;
+		
+		if (obj != nullptr) 
+		{
+			if (obj->isDestroyed)
+			{
+				it = gameObjectVec.erase(it);
+				obj->Delete<GameObject>(obj);
+			}
+			
+			else
+			{
+				if (obj->isEnabled)
+				{
+					obj->Draw();
+				}
+				++it;
+			}
+			
+		}
+		
 		glDepthFunc(GL_LESS);
 	}
 };
@@ -147,7 +182,11 @@ void Scene::OnDisable()
 	for (unsigned int i = 0; i < gameScriptVec.size(); i++)
 	{
 		GameScript* script = gameScriptVec[i];
-		script->OnDisable();
+		if (script->isEnabled) 
+		{
+			script->OnDisable();
+		}
+		
 	}
 };
 void Scene::OnDestroy()
@@ -161,11 +200,14 @@ void Scene::OnDestroy()
 
 
 
+
 void Scene::PushScript(GameScript* script)
 {
 	gameScriptVec.push_back(script);
 }
-void Scene::PushGameObject(GameObject* obj)
+
+
+void Scene::PushGameObject(GameObject* &obj)
 {
 	gameObjectVec.push_back(obj);
 }
@@ -220,4 +262,9 @@ GameScript * Scene::GetGameScriptByName(std::string _name)
 			return s;
 		}
 	}
+}
+
+void Scene::BindInput(InputBase * &input)
+{
+	this->input = input;
 }

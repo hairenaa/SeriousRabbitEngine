@@ -24,7 +24,7 @@ public:
 
 	static Camera* GetMainCameraFromCurrentScene();
 
-	static std::string GetTargetPath();
+	//static std::string GetTargetPath();
 
 	static void PushShaderToCurrentScene(Shader* shader);
 

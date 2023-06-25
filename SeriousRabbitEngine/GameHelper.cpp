@@ -26,10 +26,10 @@ GameObject * GameHelper::FindGameObjectFromCurrentScene(std::string _name)
 	return SceneLoader::Instance()->GetCurrentScene()->mainShader;
 }
 
-std::string  GameHelper::GetTargetPath()
-{
-	return SceneLoader::Instance()->GetCurrentScene()->TargetPath;
-}
+//std::string  GameHelper::GetTargetPath()
+//{
+//	return SceneLoader::Instance()->GetCurrentScene()->TargetPath;
+//}
 
 void GameHelper::PushShaderToCurrentScene(Shader* shader)
 {

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GameScriptAdapter.h"
 #include <glad/glad.h>
 #include<GLFW/glfw3.h>
@@ -12,7 +12,7 @@
 #include "InputBase.h"
 
 
-//ÒòÎªGlFwµÄÒ»Ğ©Ô­Òò£¬µ±Ç°Ö»ÄÜ½«InputµÄ´úÂëĞ´ÔÚÀàÍâ
+//å› ä¸ºGlFwçš„ä¸€äº›åŸå› ï¼Œå½“å‰åªèƒ½å°†Inputçš„ä»£ç å†™åœ¨ç±»å¤–
 
 #pragma region Input Declare
 
@@ -83,125 +83,122 @@ class MyTestScript:public GameScriptAdapter
 {
 
 
-	//×¢ÒâÊ¹ÓÃÖ¸ÕëĞÎÊ½´´½¨¶ÔÏó
+	//æ³¨æ„ä½¿ç”¨æŒ‡é’ˆå½¢å¼åˆ›å»ºå¯¹è±¡
 	//
 public:
 
-	//¿ÉÒÔÊ¹ÓÃ¿Õ²Î¹¹Ôìº¯ÊıÀ´¸ø½Å±¾ÃüÃû£¬ËûµÄÓÅÏÈ¼¶×î¸ß£¬·¢ÉúÔÚ³¡¾°¼ÓÔØÆ÷ºÍµ±Ç°³¡¾°¹¹ÔìÍê³Éºó
-	//:GameScriptAdapter(true) ²ÎÊıÎªture±íÊ¾½«×Ô¶¯½«½Å±¾×¢²áµ½µ±Ç°³¡¾°£¬·ñÔò²»½øĞĞÈÎºÎ²Ù×÷
+	//å¯ä»¥ä½¿ç”¨ç©ºå‚æ„é€ å‡½æ•°æ¥ç»™è„šæœ¬å‘½åï¼Œä»–çš„ä¼˜å…ˆçº§æœ€é«˜ï¼Œå‘ç”Ÿåœ¨åœºæ™¯åŠ è½½å™¨å’Œå½“å‰åœºæ™¯æ„é€ å®Œæˆå
+	//:GameScriptAdapter(true) å‚æ•°ä¸ºtureè¡¨ç¤ºå°†è‡ªåŠ¨å°†è„šæœ¬æ³¨å†Œåˆ°å½“å‰åœºæ™¯ï¼Œå¦åˆ™ä¸è¿›è¡Œä»»ä½•æ“ä½œ
 	MyTestScript() :GameScriptAdapter(true)
 	{
 		this->name = "MyTestScript";
-		//:GameScriptAdapter(true)Ê¹ÓÃfalse²ÎÊı£¬²¢´´½¨Ò»¸öĞÂ³¡¾°£¬½«´Ë½Å±¾¼ÓÈëµ½³¡¾°ÖĞ£¬×îºó½«³¡¾°´Óµ±Ç°Ä¬ÈÏdefault³¡¾°µ½ĞÂ³¡¾°
-		/*GameHelper::GetSceneLoader()->NewSceneInstance("scene01")->PushScript(this);
+		//:GameScriptAdapter(true)ä½¿ç”¨falseå‚æ•°ï¼Œå¹¶åˆ›å»ºä¸€ä¸ªæ–°åœºæ™¯ï¼Œå°†æ­¤è„šæœ¬åŠ å…¥åˆ°åœºæ™¯ä¸­ï¼Œæœ€åå°†åœºæ™¯ä»å½“å‰é»˜è®¤defaultåœºæ™¯åˆ°æ–°åœºæ™¯
+		/*GameHelper::GetSceneLoader()->NewSceneInstance("DefaultScene")->PushScript(this);
 		GameHelper::GetSceneLoader()->ChangeSceneNext();*/
 	}
 
 	Cube* cube;
 	Model* model;
 
-	//ÔÚ´Ëº¯ÊıÖĞ³õÊ¼»¯shader²¢Ê¹ÓÃGameHelper::PushShaderToCurrentScene¼ÓÈëµ½µ±Ç°³¡¾°ÖĞ
-	//×¢Òâ´´½¨GameObject¶ÔÏóÊÇÊÖ¶¯ÎŞĞè¼ÓÈë½«×Ô¶¯×¢²á£¬µ«shaderĞèÒª
-	//ÔÚÕâÀïÄã¿ÉÒÔĞ´Ò»Ğ©OpenGL´úÂë£¬Õâ½«»áÔÚÊÓ¿Ú´´½¨ºóÖ´ĞĞ
+	
+	//æ³¨æ„åˆ›å»ºGameObjectå¯¹è±¡æ˜¯æ‰‹åŠ¨æ— éœ€åŠ å…¥å°†è‡ªåŠ¨æ³¨å†Œ
+	//åœ¨è¿™é‡Œä½ å¯ä»¥å†™ä¸€äº›OpenGLä»£ç ï¼Œè¿™å°†ä¼šåœ¨è§†å£åˆ›å»ºåæ‰§è¡Œ
 	virtual void Init() 
 	{
-		//³¡¾°µÄÊäÈë
-		//×¢²áÊó±êÖ¸ÕëÒÆ¶¯ÊÂ¼ş
+		//åœºæ™¯çš„è¾“å…¥
+		//æ³¨å†Œé¼ æ ‡æŒ‡é’ˆç§»åŠ¨äº‹ä»¶
 		glfwSetCursorPosCallback(GameHelper::GetWindowFromCurrentScene(), mouse_callback);
-		//ÉèÖÃÊäÈëÄ£Ê½Îª²»ÏÔÊ¾Êó±êÖ¸Õë
+		//è®¾ç½®è¾“å…¥æ¨¡å¼ä¸ºä¸æ˜¾ç¤ºé¼ æ ‡æŒ‡é’ˆ
 		glfwSetInputMode(GameHelper::GetWindowFromCurrentScene(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		
-
-		//´´½¨Ìì¿ÕºĞshader ²¢¼ÓÈë³¡¾°ÖĞ
-		Shader* skyShader = new Shader(SHADER_SKYBOX_FILE_VERTEX, SHADER_SKYBOX_FILE_FRAGMENT, SKYBOX_SHADER_DEFAULT_NAME, Shader::SKYBOX_SHADER);
-		GameHelper::PushShaderToCurrentScene(skyShader);
 		std::cout << "Init()" << endl;
 	};
 
-	//½¨ÒéÔÚ´Ëº¯ÊıÖĞ³õÊ¼»¯GameObject
+	//å»ºè®®åœ¨æ­¤å‡½æ•°ä¸­åˆå§‹åŒ–GameObject
 	virtual  void Awake() 
 	{
 
 		std::cout << "Awake()" << endl;
 
-		//´´½¨Ö±ÉäµÆ¹â
+		//Lightç±»æœ€åä¸€ä¸ªå‚æ•°coloræ—¶ä¸€ä¸ªä¸‰ç»´åˆ†é‡ï¼Œæ¯ä¸€ç»´çš„æ•°å€¼éƒ½ä¸å…‰çš„å¼ºåº¦æœ‰å…³
+		//åˆ›å»ºç›´å°„ç¯å…‰
 		Light* lightDirectional = new LightDirectional("lightDirectional", glm::vec3(9.2f, 3.0f, 40.0f),
-			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0),glm::vec3(1.0f,1.0f,1.0f));
-		//´´½¨µãµÆ¹â
+			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0),glm::vec3(1.0f,1.2f,1.0f));
+		//åˆ›å»ºç‚¹ç¯å…‰
 		Light* lightPoint0 = new LightPoint("lightP0", glm::vec3(3.0f, 0.0f, 0.0f),
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(1.0f, 0.0f, 0.0f));
 		Light* lightPoint1 = new LightPoint("lightP1", glm::vec3(0.0f, 3.0f, 0.0f),
 			glm::vec3(glm::radians(45.0f), glm::radians(45.0f), 0), glm::vec3(0.0f, 1.0f, 0.0f));
-		////´´½¨¾Û¹âµÆ¹â
+		//åˆ›å»ºèšå…‰ç¯å…‰
 		Light* lightSpot = new LightSpot("lightSpot", glm::vec3(0, 0, 4.0f),
 			glm::vec3(glm::radians(0.0f), glm::radians(0.0f), 0), glm::vec3(0.0f, 1.0f, 1.0f));
 
-		//GameHelper::GetTargetPath() »ñÈ¡µ±Ç°ÏîÄ¿Ä¿Â¼Â·¾¶»òÕßÊäÈë²ÎÊıÖĞµÄÄ¿Â¼Â·¾¶
-		std::string modelPath = GameHelper::GetTargetPath() + "\\model\\Crysis\\nanosuit.obj";
-		std::string texturePath = GameHelper::GetTargetPath() + "\\texture\\skybox\\default";
+		std::string rootDir = WinApiUtil::GetProjectRootPath();
+		std::string modelPath = rootDir + "\\model\\Crysis\\nanosuit.obj";
+		std::string texturePath = rootDir + "\\texture\\skybox\\default";
 		std::cout << "modelPath is :" << modelPath << endl;
 		std::cout << "texturePath is :" << texturePath << endl;
 
-		//´´½¨Ò»¸öÁ¢·½Ìå
+		//åˆ›å»ºä¸€ä¸ªç«‹æ–¹ä½“
 		cube = new Cube("cube1", "awesomeface.png");
-		//´´½¨Ò»¸öÄ£ĞÍ
+		//åˆ›å»ºä¸€ä¸ªæ¨¡å‹
 		model = new Model("model1", modelPath);
-		//GameHelper::FindShader ¸ù¾İÃû³Æ»ñÈ¡shader
-		//´´½¨Ìì¿ÕºĞ
-		SkyBox* skybox = new SkyBox("skybox", GameHelper::FindShaderFromCurrentScene(SKYBOX_SHADER_DEFAULT_NAME), texturePath);
-		//»áÔÚ¸üĞÂÊ±Ïú»ÙÕâ¸öÎïÌå »áÊÍ·ÅÄÚ´æ£¬²¢ÔÚÓÎÏ·ÎïÌåÁĞ±íÖĞÒÆ³ı
+		//GameHelper::FindShader æ ¹æ®åç§°è·å–shader
+		//åˆ›å»ºå¤©ç©ºç›’
+		SkyBox* skybox = new SkyBox("skybox", texturePath);
+		//ä¼šåœ¨æ›´æ–°æ—¶é”€æ¯è¿™ä¸ªç‰©ä½“ ä¼šé‡Šæ”¾å†…å­˜ï¼Œå¹¶åœ¨æ¸¸æˆç‰©ä½“åˆ—è¡¨ä¸­ç§»é™¤
 		//cube->Destroy();
-		//»áÔÚ¸üĞÂÊ±½ûÓÃ´ËÎïÌå µ«²»»áÊÍ·ÅÄÚ´æ
+		//ä¼šåœ¨æ›´æ–°æ—¶ç¦ç”¨æ­¤ç‰©ä½“ ä½†ä¸ä¼šé‡Šæ”¾å†…å­˜
 		//cube->Disable();
-		//¸ù¾İ½Å±¾Ãû»ñÈ¡½Å±¾
+		//æ ¹æ®è„šæœ¬åè·å–è„šæœ¬
 		GameScript* s = GameHelper::GetGameScriptFromCurrentScene("MyTestScript");
 		MyTestScript* o = (MyTestScript*)s;
-		//½ûÓÃÕâ¸ö½Å±¾
+		//ç¦ç”¨è¿™ä¸ªè„šæœ¬
 		//o->Disable();
-		//ÉèÖÃscale £º²»Òª·ÅÔÚupdateÖĞ
+		//è®¾ç½®scale ï¼šä¸è¦æ”¾åœ¨updateä¸­
 		//o->cube->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
 
-		//Ëõ·Å´ËÎïÌå  £º²»Òª·ÅÔÚupdateÖĞ
+		//ç¼©æ”¾æ­¤ç‰©ä½“  ï¼šä¸è¦æ”¾åœ¨updateä¸­
 		//o->cube->Scale(glm::vec3(2.0f, 2.0f, 2.0f));
 
-		//ÖØĞÂÆôÓÃ´ËÎïÌå
+		//é‡æ–°å¯ç”¨æ­¤ç‰©ä½“
 		//cube->Enable();
 
 	};
 
-	//½Å±¾ÆôÓÃÊ±·¢Éú
+	//è„šæœ¬å¯ç”¨æ—¶å‘ç”Ÿ
 	virtual void OnEnable() 
 	{
 		std::cout << "OnEnable()" << endl;
 		
 	};
 
-	//¸üĞÂº¯Êı
+	//æ›´æ–°å‡½æ•°
 	virtual void Update() 
 	{
-		//´¦Àí°´¼üÊäÈë
+		//å¤„ç†æŒ‰é”®è¾“å…¥
 		processInput(GameHelper::GetWindowFromCurrentScene());
 
-		//ÉèÖÃposition
+		//è®¾ç½®position
 		//glm::vec3 a = model->GetAngles() + glm::vec3(0.0f, 0.0f, 0.5f);
-		//ÉèÖÃangles
+		//è®¾ç½®angles
 		//model->SetAngles(a);
 		
-		//Ğı×ª´ËÎïÌå
+		//æ—‹è½¬æ­¤ç‰©ä½“
 		model->Rotate(glm::vec3(0, 0.5f, 0));
 		cube->Rotate( glm::vec3(0.5f, 0.5f, 0));
 		cube->SetPosition(glm::vec3(0.01f, 0.01f, 0)+ cube->GetPosition());
-		//ÒÆ¶¯´ËÎïÌå
+		//ç§»åŠ¨æ­¤ç‰©ä½“
 		cube->Translate(glm::vec3(0.01f, 0.01f, 0));
 	};
 
-	//µ±½Å±¾±»½ûÓÃÊÂ·¢Éú
+	//å½“è„šæœ¬è¢«ç¦ç”¨æ—¶å‘ç”Ÿ
 	virtual void OnDisable() 
 	{
 		std::cout << "OnDisable()" << endl;
 	};
 
-	//µ±½Å±¾±»Ïú»ÙÊ±·¢Éú£¬ÕâÍ¨³£·¢ÉúÔÚ³ÌĞò¹Ø±ÕÇ°£¬Ö®ºó½«ÓÉÒıÇæ¹ÜÀíÏú»ÙËùÓĞ¶ÔÏó
+	//å½“è„šæœ¬è¢«é”€æ¯æ—¶å‘ç”Ÿï¼Œè¿™é€šå¸¸å‘ç”Ÿåœ¨ç¨‹åºå…³é—­å‰ï¼Œä¹‹åå°†ç”±å¼•æ“ç®¡ç†é”€æ¯æ‰€æœ‰å¯¹è±¡
 	virtual void OnDestroy() 
 	{
 		std::cout << "OnDestroy()" << endl;

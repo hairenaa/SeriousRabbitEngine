@@ -1,24 +1,23 @@
 #include "Scene.h"
 
 
-Scene::Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height, std::string targetPath) :GameScript(_name)
-{
-	this->window = window;
-	this->input = new InputInWindows(window);
-	this->Width = width;
-	this->Height = height;
-	this->TargetPath = targetPath;
-
-}
-
 Scene::Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height) :GameScript(_name)
 {
 	this->window = window;
 	this->input = new InputInWindows(window);
 	this->Width = width;
 	this->Height = height;
-	this->TargetPath = WinApiUtil::GetDebugPath();
+
 }
+
+//Scene::Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height) :GameScript(_name)
+//{
+//	this->window = window;
+//	this->input = new InputInWindows(window);
+//	this->Width = width;
+//	this->Height = height;
+//	
+//}
 
 
 Scene::~Scene()
@@ -60,6 +59,8 @@ void Scene::Init()
 	GameObject* cobj = (GameObject*)mainCamera;
 	PushGameObject(cobj);
 
+	/*Shader* skyShader = new Shader(SHADER_SKYBOX_FILE_VERTEX, SHADER_SKYBOX_FILE_FRAGMENT, SKYBOX_SHADER_DEFAULT_NAME, Shader::SKYBOX_SHADER);
+	PushShader(skyShader);*/
 	
 	
 
@@ -94,19 +95,19 @@ void Scene::Init()
 		GameObject* obj = gameObjectVec[i];
 		if (obj != nullptr) 
 		{
-			ManagerGameObject* mana = dynamic_cast<ManagerGameObject*>(obj);
+			LightGameObject* mana = dynamic_cast<LightGameObject*>(obj);
 			if (mana != nullptr)
 			{
 				Shader* sha = mana->shader;
-				if (mana->handleType == ManagerGameObject::HANDLE_FRAGMENT)
+				if (mana->handleType == LightGameObject::HANDLE_FRAGMENT)
 				{
 					sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);
 				}
-				else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX)
+				else if (mana->handleType == LightGameObject::HANDLE_VERTEX)
 				{
 					sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
 				}
-				else if (mana->handleType == ManagerGameObject::HANDLE_VERTEX_FRAGMENT)
+				else if (mana->handleType == LightGameObject::HANDLE_VERTEX_FRAGMENT)
 				{
 					sha->Unhandled_vertext_source = mana->HandleShaderSource(sha->Unhandled_vertext_source);
 					sha->Unhandled_fragment_source = mana->HandleShaderSource(sha->Unhandled_fragment_source);

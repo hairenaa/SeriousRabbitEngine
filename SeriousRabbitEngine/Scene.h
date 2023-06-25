@@ -8,7 +8,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "GameObject.h"
-#include "ManagerGameObject.h"
+#include "LightGameObject.h"
 #include "InputBase.h"
 #include  "InputInWindows.h"
 #include "WinApiUtil.h"
@@ -38,9 +38,10 @@ public:
 	Shader* mainShader = nullptr;
 	Camera* mainCamera = nullptr;
 	
-	std::string TargetPath;
+	
+	
 
-	Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height, std::string targetPath);
+	/*Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height, std::string loadPath);*/
 	Scene(GLFWwindow* window, std::string _name, unsigned int width, unsigned int height) ;
 
 	~Scene();

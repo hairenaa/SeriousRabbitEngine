@@ -6,7 +6,7 @@
 class WinApiUtil
 {
 public:
-	static std::string GetDebugPath() 
+	static std::string GetProjectRootPath() 
 	{
 		char *buffer;
 		if ((buffer = _getcwd(NULL, 0)) == NULL)

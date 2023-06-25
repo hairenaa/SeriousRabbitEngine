@@ -90,7 +90,7 @@ int main(int argc,char* argv[])
 
 #pragma region  Init SceneLoader
 
-		 sceneLoader = new SceneLoader(window, WIDTH, HEIGHT,"");
+		 sceneLoader = new SceneLoader(window, WIDTH, HEIGHT);
 		
 		
 #pragma endregion

@@ -31,7 +31,7 @@ public:
 	
 	virtual void Draw() 
 	{
-		std::string s = this->name;
+		//td::string s = this->name;
 		shader->use();
 	};
 

@@ -60,6 +60,9 @@ static const char* VERTEX_SHADER_VAR_VIEW_MAT ="viewMat";
 static const char* VERTEX_SHADER_VAR_PROJECTION_MAT ="projectionMat";
 
 
+static const char* CONF_SETTINGS_FILE_NAME = "settings.json";
+static const char* CONF_SCENE_CURRENT_FILE_NAME_KEY = "SCENE_CURRENT_FILE_NAME_KEY";
+
 
 
 

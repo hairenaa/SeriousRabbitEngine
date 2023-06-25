@@ -7,18 +7,18 @@
 #include "Shader.h"
 #include "ShaderFileUtil.h"
 #include "ConstValues.h"
-#include "ManagerGameObject.h"
+#include "LightGameObject.h"
 
-class Light:public ManagerGameObject
+class Light:public LightGameObject
 {
 
 protected:
 	
 
 	Light(std::string _name, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color)
-		:ManagerGameObject(_name)
+		:LightGameObject(_name)
 	{
-		ManagerGameObject::handleType = HANDLE_FRAGMENT;
+		LightGameObject::handleType = HANDLE_FRAGMENT;
 		this->position = _position;
 		this->angles = _angles;
 		this->color = _color;
@@ -30,9 +30,9 @@ protected:
 
 	//***********************************************************************************
 	Light(std::string _name, Shader* _shader, glm::vec3 _position, glm::vec3 _angles, glm::vec3 _color)
-		:ManagerGameObject(_name, _shader)
+		:LightGameObject(_name, _shader)
 	{
-		ManagerGameObject::handleType = HANDLE_FRAGMENT;
+		LightGameObject::handleType = HANDLE_FRAGMENT;
 		this->position = _position;
 		this->angles = _angles;
 		this->color = _color;
